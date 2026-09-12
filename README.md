@@ -45,7 +45,7 @@ Sistema web para la administracion de un estudio de belleza. Permite gestionar c
 
 ## Requisitos
 
-- Python 3.10 o superior.
+- Python 3.12 recomendado.
 - MariaDB 10.4+ o MySQL compatible.
 - Git.
 - En Windows, XAMPP es una opcion practica para MariaDB/MySQL.
@@ -82,21 +82,26 @@ Sistema web para la administracion de un estudio de belleza. Permite gestionar c
    pip install -r requirements.txt
    ```
 
-4. Crea la base de datos y selecciona cada una antes de importar su dump:
+4. Configura las bases de datos.
+
+   La aplicacion usa dos esquemas en el mismo servidor: `seguridad` y `sac`. El esquema `sac` depende de `seguridad.usuario`.
 
    ```sql
    CREATE DATABASE seguridad CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish2_ci;
    CREATE DATABASE sac CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish2_ci;
    ```
 
-   Importa en este orden, seleccionando la base correspondiente en phpMyAdmin:
+   Importa los dumps en este orden:
 
    1. `seguridad hosting.sql` dentro de la base `seguridad`.
    2. `sac hosting.sql` dentro de la base `sac`.
 
-   Estos dumps no se incluyen en el repositorio publico porque contienen datos de ejemplo y registros potencialmente sensibles. Conserva copias locales o prepara dumps sanitizados antes de compartirlos.
+   - Primero `seguridad hosting.sql` dentro de `seguridad`.
+   - Despues `sac hosting.sql` dentro de `sac`.
 
-   `sac` depende de `seguridad.usuario`, por lo que el orden es importante. Si el servidor rechaza las instrucciones `DEFINER`, elimina `DEFINER=\`root\`@\`localhost\`` de los dumps antes de importarlos.
+   Los dumps no se incluyen en el repositorio publico porque contienen datos de ejemplo y registros potencialmente sensibles. Conserva copias locales o prepara dumps sanitizados antes de compartirlos.
+
+   `sac` depende de `seguridad.usuario`, por lo que el orden es obligatorio. Los dumps preparados para este proyecto no usan `root@localhost` y utilizan `//` como delimitador para procedimientos y triggers.
 
 5. Copia `.env.example` como `.env` y ajusta sus valores:
 
@@ -115,6 +120,18 @@ Sistema web para la administracion de un estudio de belleza. Permite gestionar c
 
    Ajusta los valores a tu instalacion. No publiques este archivo si contiene credenciales reales.
 
+## Acceso inicial
+
+Para una instalacion de demostracion que use los datos incluidos en el dump de seguridad:
+
+```text
+Usuario: 31117996
+Contraseña inicial: admin123
+Rol: administrador
+```
+
+Esta credencial solo sirve para el primer acceso. Cambiala inmediatamente en cualquier entorno publicado y no la reutilices en produccion.
+
 ## Ejecucion
 
 Desde la raiz del proyecto y con el entorno virtual activo:
@@ -131,16 +148,103 @@ http://127.0.0.1:5000
 
 ## Configuracion de base de datos
 
-La aplicacion lee `DB_HOST`, `DB_USER`, `DB_PASS` y `DB_NAME` desde `.env`. La base `seguridad` se consulta mediante nombres de tabla calificados, mientras que `DB_NAME` normalmente debe ser `sac`.
+La aplicacion lee la conexion desde variables de entorno:
+
+| Variable | Valor local | Valor Aiven/Render |
+| --- | --- | --- |
+| `DB_HOST` | `localhost` | Host de Aiven |
+| `DB_PORT` | `3306` | Puerto de Aiven |
+| `DB_USER` | `root` | `avnadmin` u otro usuario |
+| `DB_PASS` | Clave local | Variable secreta |
+| `DB_NAME` | `sac` | `sac` |
+| `DB_SECURITY_NAME` | `seguridad` | `seguridad` |
+| `DB_SSL_MODE` | `DISABLED` | `REQUIRED` |
+
+Aunque `DB_SECURITY_NAME` documenta el nombre del segundo esquema, el codigo usa referencias SQL explicitas como `seguridad.usuario`. Ambos esquemas deben existir en la misma instancia MySQL/MariaDB.
+
+## Crear base en Aiven
+
+1. Crea un servicio **MySQL** en [Aiven](https://aiven.io/).
+2. Espera a que el servicio este disponible.
+3. Copia del panel de Aiven estos datos: host, puerto, usuario, contraseña, nombre de base y modo SSL.
+4. Usa una herramienta compatible, como HeidiSQL, MySQL Workbench o el cliente `mysql`.
+5. Crea los dos esquemas si el usuario tiene permisos:
+
+    ```sql
+    CREATE DATABASE IF NOT EXISTS `seguridad`
+       CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish2_ci;
+    CREATE DATABASE IF NOT EXISTS `sac`
+       CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish2_ci;
+    ```
+
+6. Importa `seguridad hosting.sql` y despues `sac hosting.sql`.
+7. Verifica que existan las tablas:
+
+    ```sql
+    SHOW TABLES FROM seguridad;
+    SHOW TABLES FROM sac;
+    SELECT cedula FROM seguridad.usuario;
+    ```
+
+En Aiven el SSL suele ser obligatorio. Usa `DB_SSL_MODE=REQUIRED`. Si el proveedor entrega un certificado CA y exige validacion estricta, configura tambien el certificado segun la documentacion de Aiven.
+
+### Importacion con cliente mysql
+
+Con las credenciales configuradas y SSL requerido, el procedimiento general es:
+
+```bash
+mysql --ssl-mode=REQUIRED -h HOST_AIVEN -P PUERTO -u USUARIO -p seguridad < "seguridad hosting.sql"
+mysql --ssl-mode=REQUIRED -h HOST_AIVEN -P PUERTO -u USUARIO -p sac < sac.sql
+```
+
+El nombre `sac` del segundo comando debe coincidir con `DB_NAME`. No uses `root@localhost` en Aiven.
 
 ## Despliegue en Render
 
-Configura un Web Service conectado al repositorio y usa:
+### Opcion manual
+
+1. En Render selecciona **New > Web Service** y conecta el repositorio.
+2. Usa Python como entorno.
+3. Configura:
 
 - Build Command: `pip install -r requirements.txt`
 - Start Command: `gunicorn --bind 0.0.0.0:$PORT app:app`
 
-En Environment Variables define `DB_HOST`, `DB_PORT`, `DB_USER`, `DB_PASS`, `DB_NAME=sac`, `DB_SECURITY_NAME=seguridad`, `DB_SSL_MODE=REQUIRED`, `SECRET_KEY`, `SESSION_COOKIE_SECURE=1` y `FLASK_DEBUG=0`. La base de datos debe estar disponible desde Render, por ejemplo en Aiven, y los esquemas `sac` y `seguridad` deben existir en ese mismo servidor.
+No uses `gunicorn your_application.wsgi`: ese nombre es un ejemplo. El modulo real del proyecto es `app:app`, porque el archivo es `app.py` y la instancia Flask se llama `app`.
+
+4. En **Environment > Environment Variables** agrega:
+
+   ```text
+   DB_HOST=host-de-Aiven
+   DB_PORT=puerto-de-Aiven
+   DB_USER=avnadmin
+   DB_PASS=contraseña-de-Aiven
+   DB_NAME=sac
+   DB_SECURITY_NAME=seguridad
+   DB_SSL_MODE=REQUIRED
+   SECRET_KEY=clave-larga-aleatoria
+   SESSION_COOKIE_SECURE=1
+   FLASK_DEBUG=0
+   ```
+
+5. Guarda los cambios y ejecuta **Manual Deploy > Deploy latest commit**.
+
+### Opcion Blueprint
+
+El repositorio incluye `render.yaml`. Puedes crear el servicio desde **New > Blueprint** para que Render lea automaticamente el Build Command, el Start Command y las variables no secretas. Completa manualmente `DB_HOST`, `DB_PORT`, `DB_USER`, `DB_PASS` y `SECRET_KEY`.
+
+La base de datos debe ser accesible desde Render. Aiven y Render son servicios separados; comprueba que el servicio Aiven este activo y que sus reglas de acceso permitan la conexion.
+
+### Verificacion del despliegue
+
+Cuando Render indique **Live**, abre la URL publica y prueba:
+
+```text
+/
+/login
+```
+
+Si la aplicacion inicia pero no carga datos, revisa primero las variables `DB_HOST`, `DB_PORT`, `DB_PASS`, `DB_NAME` y `DB_SSL_MODE`. Si no inicia y aparece `No module named 'your_application'`, corrige el Start Command a `gunicorn --bind 0.0.0.0:$PORT app:app`.
 
 Los archivos SQL contienen procedimientos, funciones, vistas, triggers, datos iniciales y relaciones entre tablas. Se recomienda importar los dumps en bases nuevas para evitar conflictos con tablas u objetos existentes.
 
