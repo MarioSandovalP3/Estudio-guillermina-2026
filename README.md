@@ -194,7 +194,7 @@ Con las credenciales configuradas y SSL requerido, el procedimiento general es:
 
 ```bash
 mysql --ssl-mode=REQUIRED -h HOST_AIVEN -P PUERTO -u USUARIO -p seguridad < "seguridad hosting.sql"
-mysql --ssl-mode=REQUIRED -h HOST_AIVEN -P PUERTO -u USUARIO -p sac < sac.sql
+mysql --ssl-mode=REQUIRED -h HOST_AIVEN -P PUERTO -u USUARIO -p sac < "sac hosting.sql"
 ```
 
 El nombre `sac` del segundo comando debe coincidir con `DB_NAME`. No uses `root@localhost` en Aiven.
