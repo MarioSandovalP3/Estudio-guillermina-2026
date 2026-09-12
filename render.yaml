@@ -1,0 +1,27 @@
+services:
+  - type: web
+    name: estudio-guillermina-2026
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn --bind 0.0.0.0:$PORT app:app
+    envVars:
+      - key: DB_HOST
+        sync: false
+      - key: DB_PORT
+        sync: false
+      - key: DB_USER
+        sync: false
+      - key: DB_PASS
+        sync: false
+      - key: DB_NAME
+        value: sac
+      - key: DB_SECURITY_NAME
+        value: seguridad
+      - key: DB_SSL_MODE
+        value: REQUIRED
+      - key: SECRET_KEY
+        sync: false
+      - key: SESSION_COOKIE_SECURE
+        value: "1"
+      - key: FLASK_DEBUG
+        value: "0"
