@@ -1,0 +1,813 @@
+<div id="main">
+    <div class="page-heading">
+        <div class="page-title">
+            <div class="row">
+
+                <div class="col-12 col-md-6 order-md-1 order-last">
+                    <h3>Productos (Inventario)</h3>
+                </div>
+
+                <div class="col-12 col-md-6 order-md-2 order-first">
+                    <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"> <a href="/admin?ruta=inicio">Inicio</a></li>
+                            <li class="breadcrumb-item active">Productos</li>
+                        </ol>
+                    </nav>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- TABLA -->
+        <section class="section">
+            <div class="card">
+
+                <div class="card-header">
+                    <button class="btn btn-primary rounded-pill" data-bs-toggle="modal"
+                        data-bs-target="#modalRegistrar">
+                        Registrar Producto
+                    </button>
+                </div>
+
+                <div class="card-body">
+
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="table1">
+
+                            <thead>
+                                <tr>
+                                    <th>Código</th>
+                                    <th>Nombre</th>
+                                    <th>Marca</th>
+                                    <th>Categoría</th>
+                                    <th>Precio</th>
+                                    <th>Stock</th>
+                                    <th>Estado</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+
+                                {% for datos in productos %}
+                                {% if datos.status != 2 %}
+
+                                <tr>
+                                    <td>{{ datos.cod_producto }}</td>
+                                    <td>{{ datos.nombre_producto }}</td>
+                                    <td>{{ datos.nombre_marca }}</td>
+                                    <td>{{ datos.nombre_categoria }}</td>
+                                    <td>{{ datos.precio_producto }}</td>
+                                    <td>{{ datos.stock }}</td>
+
+                                    <td>
+                                        {% if datos.status == 1 %}
+                                        <span class="badge bg-success">Activo</span>
+                                        {% else %}
+                                        <span class="badge bg-danger">Inactivo</span>
+                                        {% endif %}
+                                    </td>
+
+                                    <td>
+                                        <div class="d-flex gap-2">
+
+                                            <!-- VER DETALLE -->
+                                            <button class="btn btn-primary btn-sm" data-bs-toggle="modal"
+                                                data-bs-target="#modalVer" data-nombre="{{ datos.nombre_producto }}"
+                                                data-marca="{{ datos.nombre_marca }}"
+                                                data-categoria="{{ datos.nombre_categoria }}"
+                                                data-unidad="{{ datos.nombre_unidad }}"
+                                                data-presentacion="{{ datos.nombre_presentacion }}"
+                                                data-medida="{{ datos.nombre_medida }}"
+                                                data-tipo="{{ datos.nombre_tipo_producto }}"
+                                                data-precio="{{ datos.precio_producto }}"
+                                                data-stock="{{ datos.stock }}">
+
+                                                <i class="bi bi-eye"></i>
+                                            </button>
+
+                                            <!-- EDITAR -->
+                                            <button class="btn btn-warning btn-sm" data-bs-toggle="modal"
+                                                data-bs-target="#modalEditar"
+                                                data-cod_producto="{{ datos.cod_producto }}"
+                                                data-nombre_producto="{{ datos.nombre_producto }}"
+                                                data-precio_producto="{{ datos.precio_producto }}"
+                                                data-stock="{{ datos.stock }}"
+                                                data-cod_categoria="{{ datos.cod_categoria }}"
+                                                data-cod_marca="{{ datos.cod_marca }}"
+                                                data-cod_unidad="{{ datos.cod_unidad }}"
+                                                data-cod_presentacion="{{ datos.cod_presentacion }}"
+                                                data-cod_medida="{{ datos.cod_medida }}"
+                                                data-fecha_vencimiento="{{ datos.fecha_vencimiento.strftime('%Y-%m-%d') if datos.fecha_vencimiento else '' }}"
+                                                data-cod_tipo_producto="{{ datos.cod_tipo_producto }}"
+                                                data-status="{{ datos.status }}">
+
+                                                <i class="bi bi-pencil"></i>
+                                            </button>
+
+                                            <!-- ELIMINAR -->
+                                            <button class="btn btn-danger btn-sm" data-bs-toggle="modal"
+                                                data-bs-target="#modalEliminar"
+                                                data-cod_producto="{{ datos.cod_producto }}">
+
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+
+                                        </div>
+                                    </td>
+
+                                </tr>
+
+                                {% endif %}
+                                {% endfor %}
+
+                            </tbody>
+
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- ========================= -->
+    <!-- MODAL VER DETALLE -->
+    <!-- ========================= -->
+    <div class="modal fade" id="modalVer" tabindex="-1">
+
+        <div class="modal-dialog modal-dialog-centered">
+
+            <div class="modal-content">
+
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title">Detalle Producto</h5>
+                </div>
+
+                <div class="modal-body">
+
+                    <h4 id="ver_nombre"></h4>
+
+                    <p><b>Marca:</b> <span id="ver_marca"></span></p>
+                    <p><b>Categoría:</b> <span id="ver_categoria"></span></p>
+                    <p><b>Unidad:</b> <span id="ver_unidad"></span></p>
+                    <p><b>Presentación:</b> <span id="ver_presentacion"></span></p>
+                    <p><b>Medida:</b> <span id="ver_medida"></span></p>
+                    <p><b>Tipo:</b> <span id="ver_tipo"></span></p>
+
+                    <p><b>Precio:</b> $<span id="ver_precio"></span></p>
+                    <p><b>Stock:</b> <span id="ver_stock"></span></p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ========================= -->
+    <!-- MODAL REGISTRAR -->
+    <!-- ========================= -->
+    <div class="modal fade" id="modalRegistrar" tabindex="-1" role="dialog"
+        aria-labelledby="modalRegistrarProductoLabel" aria-hidden="true">
+
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg" role="document">
+
+            <div class="modal-content">
+
+                <!-- ================= HEADER ================= -->
+                <div class="modal-header bg-primary">
+
+                    <h5 class="modal-title text-white" id="modalRegistrarProductoLabel">
+                        <i class="bi bi-box-seam"></i>
+                        Registrar Producto
+                    </h5>
+
+                    <button type="button" class="close text-white" data-bs-dismiss="modal" aria-label="Close"
+                        id="btnClose">
+
+                        <i data-feather="x"></i>
+
+                    </button>
+
+                </div>
+
+
+                <!-- ================= FORMULARIO ================= -->
+
+                <form id="formRegistrarProducto" method="post">
+
+                    <input type="hidden" name="registrar" value="1">
+
+
+                    <!-- ================= CUERPO ================= -->
+
+                    <div class="modal-body" style="
+                        max-height: 70vh;
+                        overflow-y: auto;
+                        overflow-x: hidden;
+                        scrollbar-width: thin;
+                        scrollbar-color: #007bff #f1f1f1;
+                    ">
+
+                        <div class="row">
+
+
+                            <!-- ================= NOMBRE ================= -->
+
+                            <div class="col-md-6 mb-3">
+
+                                <label for="nombre_producto" style="font-weight: bold;">
+
+                                    <i class="bi bi-box"></i>
+                                    Nombre
+
+                                    <span class="text-danger" style="font-size: 20px;">
+                                        *
+                                    </span>
+
+                                </label>
+
+                                <button type="button" class="btn btn-xs" data-toggle="tooltip" data-placement="top"
+                                    title="Ingrese el nombre del producto.">
+
+                                    <i class="fas fa-info-circle"></i>
+
+                                </button>
+
+                                <input type="text" name="nombre_producto" id="nombre_producto" class="form-control"
+                                    placeholder="Nombre del producto" required maxlength="18">
+
+                                <div class="invalid-feedback"></div>
+
+                            </div>
+
+
+                            <!-- ================= PRECIO ================= -->
+
+                            <div class="col-md-6 mb-3">
+
+                                <label for="precio_producto" style="font-weight: bold;">
+
+                                    <i class="bi bi-currency-dollar"></i>
+                                    Precio
+
+                                    <span class="text-danger" style="font-size: 20px;">
+                                        *
+                                    </span>
+
+                                </label>
+
+                                <button type="button" class="btn btn-xs" data-toggle="tooltip" data-placement="top"
+                                    title="Ingrese el precio del producto.">
+
+                                    <i class="fas fa-info-circle"></i>
+
+                                </button>
+
+                                <input type="text" name="precio_producto" id="precio_producto" class="form-control"
+                                    placeholder="Precio del producto" required maxlength="10">
+
+                                <div class="invalid-feedback"></div>
+
+                            </div>
+
+
+                            <!-- ================= STOCK ================= -->
+
+                            <div class="col-md-6 mb-3">
+
+                                <label for="stock" style="font-weight: bold;">
+                                    <i class="bi bi-boxes"></i>
+                                    Stock
+
+                                    <span class="text-danger" style="font-size: 20px;">
+                                        *
+                                    </span>
+                                </label>
+
+                                <button type="button" class="btn btn-xs" data-toggle="tooltip" data-placement="top"
+                                    title="Ingrese la cantidad disponible del producto.">
+
+                                    <i class="fas fa-info-circle"></i>
+
+                                </button>
+
+                                <input type="text" name="stock" id="stock" class="form-control"
+                                    placeholder="Cantidad disponible" inputmode="numeric" maxlength="3"
+                                    pattern="[0-9]{1,3}" required>
+                                <div class="invalid-feedback"></div>
+
+                            </div>
+
+
+                            <!-- ================= FECHA VENCIMIENTO ================= -->
+
+                            <div class="col-md-6 mb-3">
+
+                                <label for="fecha_vencimiento" style="font-weight: bold;">
+
+                                    <i class="bi bi-calendar-event"></i>
+                                    Fecha de Vencimiento
+
+                                </label>
+
+                                <button type="button" class="btn btn-xs" data-toggle="tooltip" data-placement="top"
+                                    title="Seleccione la fecha de vencimiento del producto.">
+
+                                    <i class="fas fa-info-circle"></i>
+
+                                </button>
+
+                                <input type="date" name="fecha_vencimiento" id="fecha_vencimiento" class="form-control">
+
+                                <div class="invalid-feedback"></div>
+
+                            </div>
+
+
+                            <!-- ================= MARCA ================= -->
+
+                            <div class="col-md-6 mb-3">
+
+                                <label for="cod_marca" style="font-weight: bold;">
+
+                                    <i class="bi bi-tag"></i>
+                                    Marca
+
+                                    <span class="text-danger" style="font-size: 20px;">
+                                        *
+                                    </span>
+
+                                </label>
+
+                                <button type="button" class="btn btn-xs" data-toggle="tooltip" data-placement="top"
+                                    title="Seleccione la marca del producto.">
+
+                                    <i class="fas fa-info-circle"></i>
+
+                                </button>
+
+                                <select name="cod_marca" id="cod_marca" class="form-control" required>
+
+                                    {% for m in marcas %}
+
+                                    <option value="{{ m.cod_marca }}">
+                                        {{ m.nombre_marca }}
+                                    </option>
+
+                                    {% endfor %}
+
+                                </select>
+
+                                <div class="invalid-feedback"></div>
+
+                            </div>
+
+
+                            <!-- ================= CATEGORÍA ================= -->
+
+                            <div class="col-md-6 mb-3">
+
+                                <label for="cod_categoria" style="font-weight: bold;">
+
+                                    <i class="bi bi-grid"></i>
+                                    Categoría
+
+                                    <span class="text-danger" style="font-size: 20px;">
+                                        *
+                                    </span>
+
+                                </label>
+
+                                <button type="button" class="btn btn-xs" data-toggle="tooltip" data-placement="top"
+                                    title="Seleccione la categoría del producto.">
+
+                                    <i class="fas fa-info-circle"></i>
+
+                                </button>
+
+                                <select name="cod_categoria" id="cod_categoria" class="form-control" required>
+
+                                    {% for c in categorias %}
+
+                                    <option value="{{ c.cod_categoria }}">
+                                        {{ c.nombre_categoria }}
+                                    </option>
+
+                                    {% endfor %}
+
+                                </select>
+
+                                <div class="invalid-feedback"></div>
+
+                            </div>
+
+
+                            <!-- ================= UNIDAD ================= -->
+
+                            <div class="col-md-6 mb-3">
+
+                                <label for="cod_unidad" style="font-weight: bold;">
+
+                                    <i class="bi bi-rulers"></i>
+                                    Unidad
+
+                                    <span class="text-danger" style="font-size: 20px;">
+                                        *
+                                    </span>
+
+                                </label>
+
+                                <button type="button" class="btn btn-xs" data-toggle="tooltip" data-placement="top"
+                                    title="Seleccione la unidad de medida del producto.">
+
+                                    <i class="fas fa-info-circle"></i>
+
+                                </button>
+
+                                <select name="cod_unidad" id="cod_unidad" class="form-control" required>
+
+                                    {% for u in unidades %}
+
+                                    <option value="{{ u.cod_unidad }}" data-cod_presentacion="{{ u.cod_presentacion }}"
+                                        data-cod_medida="{{ u.cod_medida }}">
+
+                                        {{ u.nombre_unidad }}
+
+                                    </option>
+
+                                    {% endfor %}
+
+                                </select>
+
+                                <div class="invalid-feedback"></div>
+
+                            </div>
+
+
+                            <!-- ================= PRESENTACIÓN ================= -->
+
+                            <div class="col-md-6 mb-3">
+
+                                <label for="cod_presentacion" style="font-weight: bold;">
+
+                                    <i class="bi bi-box2"></i>
+                                    Presentación
+
+                                    <span class="text-danger" style="font-size: 20px;">
+                                        *
+                                    </span>
+
+                                </label>
+
+                                <button type="button" class="btn btn-xs" data-toggle="tooltip" data-placement="top"
+                                    title="Seleccione la presentación del producto.">
+
+                                    <i class="fas fa-info-circle"></i>
+
+                                </button>
+
+                                <select name="cod_presentacion" id="cod_presentacion" class="form-control" required>
+
+                                    {% for p in presentaciones %}
+
+                                    <option value="{{ p.cod_presentacion }}">
+                                        {{ p.presentacion }}
+                                    </option>
+
+                                    {% endfor %}
+
+                                </select>
+
+                                <div class="invalid-feedback"></div>
+
+                            </div>
+
+
+                            <!-- ================= TIPO PRODUCTO ================= -->
+
+                            <div class="col-md-6 mb-3">
+
+                                <label for="cod_tipo_producto" style="font-weight: bold;">
+
+                                    <i class="bi bi-layers"></i>
+                                    Tipo de Producto
+
+                                    <span class="text-danger" style="font-size: 20px;">
+                                        *
+                                    </span>
+
+                                </label>
+
+                                <button type="button" class="btn btn-xs" data-toggle="tooltip" data-placement="top"
+                                    title="Seleccione el tipo de producto.">
+
+                                    <i class="fas fa-info-circle"></i>
+
+                                </button>
+
+                                <select name="cod_tipo_producto" id="cod_tipo_producto" class="form-control" required>
+
+                                    {% for t in tipos_producto %}
+
+                                    <option value="{{ t.cod_tipo_producto }}">
+
+                                        {{ t.nombre_tipo_producto }}
+
+                                    </option>
+
+                                    {% endfor %}
+
+                                </select>
+
+                                <div class="invalid-feedback"></div>
+
+                            </div>
+
+
+                            <!-- ================= MEDIDA ================= -->
+
+                            <div class="col-md-6 mb-3">
+
+                                <label for="cod_medida" style="font-weight: bold;">
+
+                                    <i class="bi bi-rulers"></i>
+                                    Medida
+
+                                    <span class="text-danger" style="font-size: 20px;">
+                                        *
+                                    </span>
+
+                                </label>
+
+                                <button type="button" class="btn btn-xs" data-toggle="tooltip" data-placement="top"
+                                    title="Seleccione la medida del producto.">
+
+                                    <i class="fas fa-info-circle"></i>
+
+                                </button>
+
+                                <select name="cod_medida" id="cod_medida" class="form-control" required>
+
+                                    {% for m in medidas %}
+
+                                    <option value="{{ m.cod_medida }}">
+                                        {{ m.medida }}
+                                    </option>
+
+                                    {% endfor %}
+
+                                </select>
+
+                                <div class="invalid-feedback"></div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- ================= MENSAJE ================= -->
+
+                    <div class="alert alert-light d-flex align-items-center mb-0" style="font-weight: bold;"
+                        role="alert">
+
+                        <i class="fas fa-exclamation-triangle mr-2"></i>
+
+                        <span>
+                            Todos los campos marcados con (*)
+                            son obligatorios
+                        </span>
+
+                    </div>
+
+
+                    <!-- ================= FOOTER ================= -->
+
+                    <div class="modal-footer" style="
+                        position: sticky;
+                        bottom: 0;
+                        background: #fff;
+                        z-index: 10;
+                        box-shadow: 0 -2px 8px rgba(0,0,0,0.1);
+                    ">
+
+                        <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal"
+                            id="btnCerrarModal">
+
+                            <i class="bx bx-x d-block d-sm-none"></i>
+                            Cerrar
+
+                        </button>
+
+
+                        <button type="submit" class="btn btn-primary">
+
+                            <i class="bx bx-check d-block d-sm-none"></i>
+                            Guardar
+
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ========================= -->
+<!-- MODAL EDITAR -->
+<!-- ========================= -->
+<div class="modal fade" id="modalEditar" tabindex="-1">
+
+    <div class="modal-dialog modal-lg">
+
+        <div class="modal-content">
+
+            <div class="modal-header bg-warning text-dark">
+                <h5 class="modal-title">Editar Producto</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <form id="formEditarProducto" method="post">
+
+                <input type="hidden" name="actualizar" value="1">
+                <input type="hidden" name="cod_producto" id="edit_cod_producto">
+                <input type="hidden" id="edit_fecha_vencimiento_original">
+
+                <div class="modal-body">
+
+                    <div class="row">
+
+                        <div class="col-md-6">
+                            <i class="bi bi-box"></i>
+
+                            <label>Nombre</label>
+                            <input type="text" name="nombre_producto" id="edit_nombre_producto" class="form-control">
+                        </div>
+
+                        <div class="col-md-6">
+                            <i class="bi bi-currency-dollar"></i>
+
+                            <label>Precio</label>
+                            <input type="text" name="precio_producto" id="edit_precio_producto" class="form-control">
+                        </div>
+
+                        <div class="col-md-6">
+                            <i class="bi bi-boxes"></i>
+
+                            <label>Stock</label>
+                            <input type="number" name="stock" id="edit_stock" class="form-control">
+                        </div>
+
+                        <div class="col-md-6">
+                            <i class="bi bi-calendar-event"></i>
+
+                            <label>Fecha de Vencimiento</label>
+                            <input type="date" name="fecha_vencimiento" id="edit_fecha_vencimiento"
+                                class="form-control">
+                        </div>
+
+                        <!-- MARCA -->
+                        <div class="col-md-6">
+                            <i class="bi bi-tag"></i>
+
+                            <label>Marca</label>
+                            <select name="cod_marca" id="edit_cod_marca" class="form-control">
+                                {% for m in marcas %}
+                                <option value="{{ m.cod_marca }}">{{ m.nombre_marca }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <!-- CATEGORIA -->
+                        <div class="col-md-6">
+                            <i class="bi bi-grid"></i>
+
+                            <label>Categoría</label>
+                            <select name="cod_categoria" id="edit_cod_categoria" class="form-control">
+                                {% for c in categorias %}
+                                <option value="{{ c.cod_categoria }}">{{ c.nombre_categoria }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <!-- UNIDAD -->
+                        <div class="col-md-6">
+                            <i class="bi bi-rulers"></i>
+
+                            <label>Unidad</label>
+                            <select name="cod_unidad" id="edit_cod_unidad" class="form-control">
+                                {% for u in unidades %}
+                                <option value="{{ u.cod_unidad }}" data-cod_presentacion="{{ u.cod_presentacion }}"
+                                    data-cod_medida="{{ u.cod_medida }}">
+                                    {{ u.nombre_unidad }}
+                                </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <!-- PRESENTACION -->
+                        <div class="col-md-6">
+                            <i class="bi bi-box2"></i>
+
+                            <label>Presentación</label>
+                            <select name="cod_presentacion" id="edit_cod_presentacion" class="form-control">
+                                {% for p in presentaciones %}
+                                <option value="{{ p.cod_presentacion }}">{{ p.presentacion }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <!-- TIPO PRODUCTO -->
+                        <div class="col-md-6">
+                            <i class="bi bi-layers"></i>
+
+                            <label>Tipo de Producto</label>
+                            <select name="cod_tipo_producto" id="edit_cod_tipo_producto" class="form-control">
+                                {% for t in tipos_producto %}
+                                <option value="{{ t.cod_tipo_producto }}">
+                                    {{ t.nombre_tipo_producto }}
+                                </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <!-- MEDIDA -->
+                        <div class="col-md-6">
+                            <i class="bi bi-rulers"></i>
+
+                            <label>Medida</label>
+                            <select name="cod_medida" id="edit_cod_medida" class="form-control">
+                                {% for m in medidas %}
+                                <option value="{{ m.cod_medida }}">{{ m.medida }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label>Estado</label>
+                            <select name="status" id="edit_status" class="form-control">
+                                <option value="1">Activo</option>
+                                <option value="0">Inactivo</option>
+                            </select>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-warning">Actualizar</button>
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- ========================= -->
+<!-- MODAL ELIMINAR -->
+<!-- ========================= -->
+<div class="modal fade" id="modalEliminar">
+
+    <div class="modal-dialog modal-dialog-centered">
+
+        <div class="modal-content">
+
+            <div class="modal-header bg-danger text-white">
+                <h5>Eliminar Producto</h5>
+            </div>
+
+            <form id="formEliminarProducto">
+
+                <input type="hidden" name="eliminar" value="1">
+                <input type="hidden" name="cod_producto" id="delete_cod_producto">
+
+                <div class="modal-body">
+                    ¿Desea eliminar este producto?
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                    <button class="btn btn-danger">Sí</button>
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+<script src="{{ url_for('static', filename='/assets/js/modulos-js/productos.js') }}"></script>
+</div>

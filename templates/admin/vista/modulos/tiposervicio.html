@@ -1,0 +1,337 @@
+<div id="main">
+    <div class="page-heading">
+        <div class="page-title">
+            <div class="row">
+                <div class="col-12 col-md-6 order-md-1 order-last">
+                    <h3>Tipos de servicios</h3>
+                </div>
+
+                <div class="col-12 col-md-6 order-md-2 order-first">
+                    <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"> <a href="/admin?ruta=inicio">Inicio</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Tipos de servicios</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========================= -->
+        <!-- TABLA PRINCIPAL -->
+        <!-- ========================= -->
+        <section class="section">
+            <div class="card">
+                <div class="card-header">
+                    <button type="button" class="btn btn-primary rounded-pill" data-bs-toggle="modal"
+                        data-bs-target="#primary">
+                        Registrar tipo de servicio
+                    </button>
+                </div>
+
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered mb-0" id="table1">
+                            <thead>
+                                <tr>
+                                    <th>Código</th>
+                                    <th>Nombre</th>
+                                    <th>Precio</th>
+                                    <th>Estado</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                {% for datos in tiposervicios %}
+                                {% if datos.status != 2 %}
+                                <tr>
+                                    <td>{{ datos.cod_tipo_servicio }}</td>
+                                    <td>{{ datos.nombre_servicio }}</td>
+                                    <td>${{ '%.2f'|format(datos.precio) }}</td>
+
+                                    <td>
+                                        {% if datos.status == 1 %}
+                                        <span class="badge bg-success">Activo</span>
+                                        {% else %}
+                                        <span class="badge bg-danger">Inactivo</span>
+                                        {% endif %}
+                                    </td>
+
+                                    <td>
+                                        <div class="d-flex gap-2">
+
+                                            <!-- EDITAR -->
+                                            <button class="btn btn-primary btn-sm btn-editar" data-bs-toggle="modal"
+                                                data-bs-target="#modalEditar"
+                                                data-cod_tipo_servicio="{{ datos.cod_tipo_servicio }}"
+                                                data-nombre_servicio="{{ datos.nombre_servicio }}"
+                                                data-precio="{{ datos.precio }}" data-status="{{ datos.status }}"
+                                                title="Editar">
+                                                <i class="bi bi-pencil"></i>
+                                            </button>
+
+                                            <!-- ELIMINAR -->
+                                            <button class="btn btn-danger btn-sm btn-eliminar" data-bs-toggle="modal"
+                                                data-bs-target="#modalEliminartiposervicio"
+                                                data-cod_tipo_servicio="{{ datos.cod_tipo_servicio }}" title="Eliminar">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endif %}
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- ========================= -->
+    <!-- MODAL REGISTRAR -->
+    <!-- ========================= -->
+    <div class="modal fade text-left" id="primary" tabindex="-1" role="dialog"
+        aria-labelledby="modalRegistrarTipoServicioLabel" aria-hidden="true">
+
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+
+            <div class="modal-content">
+
+                <!-- HEADER -->
+                <div class="modal-header bg-primary">
+                    <h5 class="modal-title text-white" id="modalRegistrarTipoServicioLabel">
+                        Registrar Tipo de Servicio
+                    </h5>
+
+                    <button type="button" class="close text-white" data-bs-dismiss="modal" aria-label="Close"
+                        id="btnCloseTipoServicio">
+
+                        <i data-feather="x"></i>
+                    </button>
+                </div>
+
+                <!-- FORMULARIO -->
+                <form id="formRegistrartiposservicios" method="POST" data-parsley-validate>
+
+                    <input type="hidden" name="registrar" value="1">
+
+                    <!-- CUERPO SCROLLEABLE -->
+                    <div class="modal-body" style="max-height: 70vh;
+                           overflow-y: auto;
+                           overflow-x: hidden;
+                           scrollbar-width: thin;
+                           scrollbar-color: #007bff #f1f1f1;">
+
+                        <!-- TIPO DE SERVICIO -->
+                        <div class="row mb-3">
+
+                            <div class="col-12">
+
+                                <label for="nombre_servicio" style="font-weight: bold;">
+
+                                    <i class="bi bi-scissors"></i>
+                                    Tipo de servicio
+
+                                    <span class="text-danger" style="font-size: 20px;">
+                                        *
+                                    </span>
+
+                                </label>
+
+                                <!-- BOTÓN INFORMACIÓN -->
+                                <button type="button" class="btn btn-xs" data-toggle="tooltip" data-placement="top"
+                                    title="Ingrese el nombre del tipo de servicio.">
+
+                                    <i class="fas fa-info-circle"></i>
+
+                                </button>
+
+                                <input type="text" class="form-control" name="nombre_servicio" id="nombre_servicio"
+                                    placeholder="Tipo de servicio" required
+                                    data-parsley-required-message="Este campo es obligatorio.">
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- PRECIO -->
+                        <div class="row mb-3">
+
+                            <div class="col-12">
+
+                                <label for="precio" style="font-weight: bold;">
+
+                                    <i class="bi bi-cash-coin"></i>
+                                    Precio
+
+                                    <span class="text-danger" style="font-size: 20px;">
+                                        *
+                                    </span>
+
+                                </label>
+
+                                <!-- BOTÓN INFORMACIÓN -->
+                                <button type="button" class="btn btn-xs" data-toggle="tooltip" data-placement="top"
+                                    title="Ingrese el precio del tipo de servicio.">
+
+                                    <i class="fas fa-info-circle"></i>
+
+                                </button>
+
+                                <input type="text" class="form-control" name="precio" id="precio" placeholder="Precio"
+                                    required data-parsley-required-message="Este campo es obligatorio.">
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- ALERTA -->
+                    <div class="alert alert-light d-flex align-items-center mb-0" style="font-weight: bold;"
+                        role="alert">
+
+                        <i class="fas fa-exclamation-triangle mr-2"></i>
+
+                        <span>
+                            Todos los campos marcados con (*) son obligatorios
+                        </span>
+
+                    </div>
+
+
+                    <!-- FOOTER FIJO -->
+                    <div class="modal-footer" style="position: sticky;
+                           bottom: 0;
+                           background: #fff;
+                           z-index: 10;
+                           box-shadow: 0 -2px 8px rgba(0,0,0,0.1);">
+
+                        <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal"
+                            id="btnCerrarModalTipoServicio">
+
+                            <i class="bx bx-x d-block d-sm-none"></i>
+                            Cerrar
+
+                        </button>
+
+                        <button type="submit" class="btn btn-primary ms-1">
+
+                            <i class="bx bx-check d-block d-sm-none"></i>
+                            Guardar
+
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ========================= -->
+    <!-- MODAL EDITAR -->
+    <!-- ========================= -->
+    <div class="modal fade" id="modalEditar" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title">Editar tipo de servicio</h5>
+                    <button type="button" class="close text-white" data-bs-dismiss="modal" id="btnClose">
+                        <i data-feather="x"></i>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <form id="formEditarTiposervicio" method="post">
+
+                        <input type="hidden" name="cod_tipo_servicio" id="edit_cod_tipo_servicio">
+                        <input type="hidden" name="actualizar" value="1">
+
+                        <div class="form-group mb-3">
+                              <i class="bi bi-scissors"></i>
+                            <label>Tipo de servicio</label>
+                            <input type="text" class="form-control" name="nombre_servicio" id="edit_nombre_servicio">
+                        </div>
+
+                        <div class="form-group mb-3">
+                              <i class="bi bi-cash-coin"></i>
+                            <label>Precio</label>
+                            <input type="text" class="form-control" name="precio" id="edit_precio">
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label>Estado</label>
+                            <select name="status" id="edit_estado" class="form-select">
+                                <option value="1">Activo</option>
+                                <option value="0">Inactivo</option>
+                            </select>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                Cerrar
+                            </button>
+
+                            <button type="submit" class="btn btn-primary">
+                                Editar
+                            </button>
+                        </div>
+
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================= -->
+    <!-- MODAL ELIMINAR -->
+    <!-- ========================= -->
+    <div class="modal fade" id="modalEliminartiposervicio" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title">Eliminar tipo de servicio</h5>
+                    <button type="button" class="close text-white" data-bs-dismiss="modal">
+                        <i data-feather="x"></i>
+                    </button>
+                </div>
+
+                <form id="formEliminartiposervicio" method="post">
+                    <input type="hidden" name="eliminar" value="1">
+
+                    <div class="modal-body">
+                        <p>¿Desea eliminar este tipo de servicio?</p>
+                        <input type="hidden" name="cod_tipo_servicio" id="delete_cod_tipo_servicio">
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                            No
+                        </button>
+
+                        <button type="submit" class="btn btn-danger">
+                            Eliminar
+                        </button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- JS -->
+    <script src="{{ url_for('static', filename='assets/js/modulos-js/tiposervicio.js') }}"></script>
+</div>

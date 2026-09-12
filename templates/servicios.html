@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+       <link rel="icon" type="image/png" href="{{ url_for('static', filename='imagenes/logo.png') }}">
+
+    <title>Estudio de belleza Guillermina</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/stylo33.css') }}">
+
+ <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap-/css/bootstrap.min.css') }}">
+    <script src="{{ url_for('static', filename='bootstrap-/js/bootstrap.bundle.min.js') }}"></script>
+
+</head>
+
+<body>
+
+    <!-- ================= NAVBAR  ================= -->
+
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top menu-principal">
+
+        <div class="container">
+
+         <!-- LOGO -->
+            <a class="navbar-brand" href="{{ url_for('inicio') }}">
+                <img src="{{ url_for('static', filename='imagenes/logo.png') }}" class="logo" alt="Estudio MT">
+            </a>
+
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive">
+
+                <span class="navbar-toggler-icon"></span>
+
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+
+                <ul class="navbar-nav ms-auto">
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('inicio') }}">
+                            Inicio
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('quienesomos') }}">
+                            Quiénes Somos
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{ url_for('servicios') }}">
+                            Servicios
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('promociones') }}">
+                            Promociones
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+
+                        <a class="btn-login" href="{{ url_for('acceder') }}">
+
+                            <i class="bi bi-person-circle"></i>
+
+                            Iniciar sesión
+
+                        </a>
+
+                    </li>
+
+                </ul>
+
+            </div>
+
+        </div>
+
+    </nav>
+
+
+
+    <!-- ================= HERO ================= -->
+
+    <section class="hero-servicios">
+
+        <div class="hero-overlay"></div>
+
+        <div class="container">
+
+            <div class="hero-servicios-contenido">
+
+                <span>
+                    ESTUDIO DE BELLEZA GUILLERMINA
+                </span>
+
+                <h1>
+
+                    Servicios Profesionales
+
+                </h1>
+
+                <p>
+
+                    Vive una experiencia de belleza diseñada para resaltar
+                    tu estilo, cuidar tu imagen y hacerte sentir única en
+                    cada visita.
+
+                </p>
+
+                <div class="hero-botones">
+
+                    <a href="#catalogo" class="btn-dorado">
+
+                        Ver Servicios
+
+                    </a>
+
+                    <a href="{{ url_for('acceder') }}" class="btn-negro">
+
+                        Reservar Cita
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ================= INTRO ================= -->
+
+    <section class="intro-servicios">
+
+        <div class="container">
+
+            <div class="titulo-seccion">
+
+                <span>
+
+                    Nuestra experiencia
+
+                </span>
+
+                <h2>
+
+                    Belleza, Elegancia y Profesionalismo
+
+                </h2>
+
+            </div>
+
+            <div class="row align-items-center gy-5">
+
+                <div class="col-lg-6">
+
+                    <div class="intro-imagen">
+
+                        <img src="{{ url_for('static', filename='imagenes/peluquera.jpg') }}" alt="Servicios">
+
+                    </div>
+
+                </div>
+
+                <div class="col-lg-6">
+
+                    <div class="intro-contenido">
+
+                        <p>
+
+                            En Estudio de Belleza Guillermina ofrecemos servicios
+                            especializados para el cuidado integral de tu
+                            imagen utilizando productos profesionales,
+                            técnicas modernas y una atención totalmente
+                            personalizada.
+
+                        </p>
+
+                        <p>
+
+                            Nuestro compromiso es brindar resultados
+                            excepcionales en un ambiente cómodo,
+                            elegante y diseñado para que disfrutes cada
+                            momento.
+
+                        </p>
+
+                        <div class="estadisticas-servicios">
+
+                            <div class="item-estadistica">
+
+                                <h3>27+</h3>
+
+                                <span>
+
+                                    Años de experiencia
+
+                                </span>
+
+                            </div>
+
+                            <div class="item-estadistica">
+
+                                <h3>100%</h3>
+
+                                <span>
+
+                                    Clientes satisfechos
+
+                                </span>
+
+                            </div>
+
+                            <div class="item-estadistica">
+
+                                <h3>Premium</h3>
+
+                                <span>
+
+                                    Productos profesionales
+
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ================= SERVICIOS ================= -->
+
+    <section id="catalogo" class="catalogo-servicios">
+
+        <div class="container">
+
+            <div class="titulo-seccion">
+
+                <span>
+
+                    Catálogo
+
+                </span>
+
+                <h2>
+
+                    Nuestros Servicios
+
+                </h2>
+
+            </div>
+
+            <div class="row g-4">
+
+
+                <div class="col-lg-4 col-md-6">
+                    <div class="card-servicio-premium">
+                        <div class="imagen-servicio">
+                            <img src="{{ url_for('static', filename='imagenes/corte.jpg') }}" alt="Corte de Cabello">
+                            <span class="precio">$5+</span>
+                        </div>
+
+                        <div class="contenido-servicio">
+                            <h3>Corte de Cabello</h3>
+
+                            <p>
+                                Cortes modernos y personalizados para resaltar tu estilo,
+                                incluyendo lavado, asesoría y secado profesional.
+                            </p>
+
+                            <ul>
+                                <li><i class="bi bi-check-circle-fill"></i> Corte personalizado</li>
+                                <li><i class="bi bi-check-circle-fill"></i> Lavado</li>
+                                <li><i class="bi bi-check-circle-fill"></i> Secado profesional</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6">
+                    <div class="card-servicio-premium">
+                        <div class="imagen-servicio">
+                            <img src="{{ url_for('static', filename='imagenes/mechas.jpg') }}" alt="Coloración">
+                            <span class="precio">Desde $30</span>
+                        </div>
+
+                        <div class="contenido-servicio">
+                            <h3>Coloración y Mechas</h3>
+
+                            <p>
+                                Técnicas modernas como Balayage, reflejos y coloraciones
+                                utilizando productos profesionales.
+                            </p>
+
+                            <ul>
+                                <li><i class="bi bi-check-circle-fill"></i> Balayage</li>
+                                <li><i class="bi bi-check-circle-fill"></i> Reflejos</li>
+                                <li><i class="bi bi-check-circle-fill"></i> Retoque de raíz</li>
+                                <li><i class="bi bi-check-circle-fill"></i> Color completo</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6">
+                    <div class="card-servicio-premium">
+                        <div class="imagen-servicio">
+                            <img src="{{ url_for('static', filename='imagenes/alisado.jpg') }}" alt="Tratamientos">
+                            <span class="precio">Desde $20</span>
+                        </div>
+
+                        <div class="contenido-servicio">
+                            <h3>Tratamientos Capilares</h3>
+
+                            <p>
+                                Recupera el brillo y la vitalidad de tu cabello con
+                                tratamientos de hidratación y keratina.
+                            </p>
+
+                            <ul>
+                                <li><i class="bi bi-check-circle-fill"></i> Hidratación profunda</li>
+                                <li><i class="bi bi-check-circle-fill"></i> Keratina</li>
+                                <li><i class="bi bi-check-circle-fill"></i> Anti frizz</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6">
+                    <div class="card-servicio-premium">
+                        <div class="imagen-servicio">
+                            <img src="{{ url_for('static', filename='imagenes/uñas.jpg') }}" alt="Manicura">
+                            <span class="precio">Desde $6</span>
+                        </div>
+
+                        <div class="contenido-servicio">
+                            <h3>Manicura Profesional</h3>
+
+                            <p>
+                                Diseños modernos y elegantes con acabados duraderos para
+                                realzar la belleza de tus manos.
+                            </p>
+
+                            <ul>
+                                <li><i class="bi bi-check-circle-fill"></i> Semipermanente</li>
+                                <li><i class="bi bi-check-circle-fill"></i> Acrílicas</li>
+                                <li><i class="bi bi-check-circle-fill"></i> Diseños personalizados</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6">
+                    <div class="card-servicio-premium">
+                        <div class="imagen-servicio">
+                            <img src="{{ url_for('static', filename='imagenes/pedi.jpg') }}" alt="Pedicure">
+                            <span class="precio">Desde $8</span>
+                        </div>
+
+                        <div class="contenido-servicio">
+                            <h3>Pedicure Spa</h3>
+
+                            <p>
+                                Cuidado completo para tus pies con tratamientos relajantes
+                                y acabados profesionales.
+                            </p>
+
+                            <ul>
+                                <li><i class="bi bi-check-circle-fill"></i> Spa relajante</li>
+                                <li><i class="bi bi-check-circle-fill"></i> Esmaltado</li>
+                                <li><i class="bi bi-check-circle-fill"></i> Polygel</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section class="porque-elegirnos">
+        <div class="container">
+
+            <div class="titulo-seccion">
+                <span>¿Por qué elegirnos?</span>
+                <h2>La diferencia está en los detalles</h2>
+            </div>
+
+            <div class="row g-4">
+
+                <div class="col-lg-4">
+                    <div class="ventaja-card">
+                        <i class="bi bi-award-fill"></i>
+                        <h3>Calidad Premium</h3>
+                        <p>Trabajamos con productos profesionales para garantizar resultados duraderos.</p>
+                    </div>
+                </div>
+
+                <div class="col-lg-4">
+                    <div class="ventaja-card">
+                        <i class="bi bi-heart-fill"></i>
+                        <h3>Atención Personalizada</h3>
+                        <p>Cada cliente recibe asesoría y un servicio adaptado a sus necesidades.</p>
+                    </div>
+                </div>
+
+                <div class="col-lg-4">
+                    <div class="ventaja-card">
+                        <i class="bi bi-stars"></i>
+                        <h3>Resultados Profesionales</h3>
+                        <p>Experiencia, innovación y pasión por la belleza en cada servicio.</p>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+    <!-- ================= GALERÍA ================= -->
+
+    <section class="galeria-premium">
+
+        <div class="container">
+
+            <div class="titulo-seccion">
+                <span>Nuestros trabajos</span>
+                <h2>Galería de Inspiración</h2>
+            </div>
+
+            <div class="grid-galeria">
+
+                <div class="galeria-item">
+                    <img src="{{ url_for('static', filename='imagenes/pelu.jpg') }}" alt="Trabajo 1">
+                    <div class="overlay-galeria">
+                        <h4>Coloración</h4>
+                    </div>
+                </div>
+
+                <div class="galeria-item">
+                    <img src="{{ url_for('static', filename='imagenes/cortes.jpg') }}" alt="Trabajo 2">
+                    <div class="overlay-galeria">
+                        <h4>Corte Profesional</h4>
+                    </div>
+                </div>
+
+                <div class="galeria-item">
+                    <img src="{{ url_for('static', filename='imagenes/cabello.jpg') }}" alt="Trabajo 3">
+                    <div class="overlay-galeria">
+                        <h4>Tratamiento</h4>
+                    </div>
+                </div>
+
+                <div class="galeria-item">
+                    <img src="{{ url_for('static', filename='imagenes/mariposa.jpg') }}" alt="Trabajo 4">
+                    <div class="overlay-galeria">
+                        <h4>Nail Art</h4>
+                    </div>
+                </div>
+
+                <div class="galeria-item">
+                    <img src="{{ url_for('static', filename='imagenes/uña.jpg') }}" alt="Trabajo 5">
+                    <div class="overlay-galeria">
+                        <h4>Manicura</h4>
+                    </div>
+                </div>
+
+                <div class="galeria-item">
+                    <img src="{{ url_for('static', filename='imagenes/semi.jpg') }}" alt="Trabajo 6">
+                    <div class="overlay-galeria">
+                        <h4>Semipermanente</h4>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- ================= CTA ================= -->
+
+    <section class="cta-reserva">
+
+        <div class="container">
+
+            <div class="cta-box">
+
+                <span>Estudio de Belleza Guillermina</span>
+
+                <h2>Tu belleza merece un cuidado profesional</h2>
+
+                <p>
+                    Agenda tu cita y disfruta de una experiencia diseñada para
+                    resaltar tu estilo, cuidar tu imagen y hacerte sentir única.
+                </p>
+
+                <a href="{{ url_for('acceder') }}" class="btn-reservar">
+                    Reservar Cita
+                </a>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    </main>
+
+    <!-- ================= WHATSAPP ================= -->
+
+
+    <a href="https://wa.me/584289236" target="_blank" class="whatsapp-flotante">
+
+        <i class="bi bi-whatsapp"></i>
+
+    </a>
+    <!-- ================= FOOTER ================= -->
+
+
+    <footer class="footer-mt">
+
+
+        <div class="container">
+
+
+            <div class="row gy-5">
+
+                <!-- LOGO Y DESCRIPCIÓN -->
+
+                <div class="col-lg-4 col-md-6">
+
+
+                    <div class="footer-logo">
+
+
+                        <img src="{{ url_for('static',
+                    filename='imagenes/logo.png') }}" alt="Estudio Guillermina">
+
+
+                    </div>
+
+                    <p class="footer-text">
+
+                        Estudio de Belleza Guillermina, un espacio dedicado
+                        a resaltar tu belleza con servicios profesionales,
+                        calidad y atención personalizada.
+
+                    </p>
+
+                    <div class="copyright">
+
+                        © 2026 Estudio de Belleza Guillermina.
+                        Todos los derechos reservados.
+
+                    </div>
+                </div>
+                <!-- INFORMACIÓN -->
+
+                <div class="col-lg-3 col-md-6">
+
+                    <h4>
+                        Información
+                    </h4>
+
+                    <ul class="footer-links">
+
+
+                        <li>
+                            <a href="{{ url_for('inicio') }}">
+                                Inicio
+                            </a>
+                        </li>
+
+
+
+                        <li>
+                            <a href="{{ url_for('quienesomos') }}">
+                                Quiénes somos
+                            </a>
+                        </li>
+
+
+
+                        <li>
+                            <a href="{{ url_for('servicios') }}">
+                                Servicios
+                            </a>
+                        </li>
+
+
+
+                        <li>
+                            <a href="{{ url_for('promociones') }}">
+                                Promociones
+                            </a>
+                        </li>
+
+
+                    </ul>
+
+
+
+                </div>
+                <!-- HORARIOS -->
+
+
+                <div class="col-lg-2 col-md-6">
+
+
+                    <h4>
+                        Horarios
+                    </h4>
+
+                    <ul class="footer-info">
+
+
+                        <li>
+                            <i class="bi bi-calendar"></i>
+
+                            Lunes a Domingo
+
+                        </li>
+
+                        <li>
+                            <i class="bi bi-clock"></i>
+
+                            6:00 AM - 8:00 PM
+
+                        </li>
+
+                    </ul>
+
+
+                </div>
+
+
+                <!-- CONTACTO -->
+
+                <div class="col-lg-3 col-md-6">
+
+
+                    <h4>
+                        Contáctanos
+                    </h4>
+
+                    <ul class="footer-info">
+
+
+                        <li>
+
+                            <i class="bi bi-telephone"></i>
+
+                            +58 489339373
+
+                        </li>
+
+                        <li>
+
+                            <i class="bi bi-envelope"></i>
+
+                          Guillermina@gmail.com
+
+                        </li>
+
+                        <li>
+
+                            <i class="bi bi-geo-alt"></i>
+
+                            Estudio de Belleza Guillermina
+
+                        </li>
+
+
+                    </ul>
+
+
+                    <div class="redes-sociales">
+
+
+                        <a href="https://wa.me/584289236" target="_blank">
+
+                            <i class="bi bi-whatsapp"></i>
+
+                        </a>
+
+
+                        <a href="https://www.instagram.com/tu_usuario" target="_blank">
+
+                            <i class="bi bi-instagram"></i>
+
+                        </a>
+
+
+                    </div>
+
+
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+    </footer>
+
+
+
+
+    <script>
+        const elementos = document.querySelectorAll(
+            '.card-servicio-premium,.ventaja-card,.galeria-item,.cta-box'
+        );
+
+        function revelar() {
+            elementos.forEach(el => {
+                const top = el.getBoundingClientRect().top;
+                if (top < window.innerHeight - 100) {
+                    el.classList.add('animar');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', revelar);
+        revelar();
+    </script>
+
+
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+</body>
+
+</html>

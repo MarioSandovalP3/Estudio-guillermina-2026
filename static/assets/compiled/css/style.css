@@ -1,0 +1,328 @@
+/* =============================
+CSS GENERAL mazer 
+============================= */
+
+
+.header-estilo {
+    border-radius: 10px;
+    padding: 10px;
+    /* Controla el espacio interno del header */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 70px;
+    /* Ajusta la altura del header */
+}
+
+
+
+.menu-ayuda {
+    min-width: 130px;
+    /* Ajusta a 50px para hacerlo mucho más pequeño */
+    width: auto;
+    padding: 0;
+    /* Elimina cualquier relleno extra */
+}
+
+.menu-ayuda .dropdown-item {
+    text-align: left;
+    /* Alinea el texto a la izquierda */
+    padding: 10px 18px;
+    /* Relleno muy pequeño para el ítem */
+    font-size: 12px;
+    /* Tamaño de fuente más pequeño */
+}
+
+
+
+.icono-usuario-verde i {
+    color: rgb(16, 60, 255);
+    /* Color del icono */
+}
+
+
+.header-estilo>div {
+    display: flex;
+
+}
+
+.header-estilo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    /* Espacia entre el botón y el centro */
+    width: 100%;
+    background-color: white;
+    padding: 0 1rem;
+    /* Opcional: para un poco de espacio a los lados */
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+}
+
+.header-center {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex-grow: 1;
+}
+
+
+.calendario-responsivo {
+    width: 100%; /* Cambiado a un 80% del contenedor padre */
+    max-width: 1500px; /* Ancho máximo para pantallas grandes */
+    height: auto;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: none; /* Sin sombra */
+    padding: 20px;
+    overflow: hidden; /* Asegura que el contenido no sobresalga */
+    margin: 0 auto; /* Centra el calendario horizontalmente */
+}
+
+.fc-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.titulo-calendario {
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+.boton-calendario {
+    font-size: 0.9em;
+    padding: 6px 12px;
+    border-radius: 4px;
+    background-color: #f1f1f1;
+    border: none;
+    cursor: pointer;
+}
+
+.boton-calendario:hover {
+    background-color: #e6e6e6;
+}
+
+@media (max-width: 768px) {
+    .calendario-responsivo {
+        font-size: 0.9em;
+        height: 400px;
+        width: 90%; /* Aumenta la anchura en pantallas medianas */
+        max-width: 100%; /* Mantiene la responsividad */
+        padding: 15px;
+    }
+
+    .titulo-calendario {
+        font-size: 1em;
+    }
+
+    .boton-calendario {
+        font-size: 0.8em;
+        padding: 5px 10px;
+    }
+}
+
+@media (max-width: 576px) {
+    .calendario-responsivo {
+        font-size: 0.8em;
+        height: 500px;
+        width: 95%; /* Aumenta la anchura en pantallas pequeñas */
+        max-width: 100%; /* Mantiene la responsividad */
+        padding: 10px;
+    }
+
+    .titulo-calendario {
+        font-size: 0.9em;
+    }
+
+    .boton-calendario {
+        font-size: 0.7em;
+        padding: 4px 8px;
+    }
+}
+
+
+
+/* FOOTER*/
+.footer-container {
+  
+    border-radius: 12px;
+    padding: rem;
+    margin: 1rem;
+    margin-left: 305px;
+    box-shadow: 0 4px 8px rgba(233, 233, 233, 0.05);
+    min-height: 90px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    transition: all 0.3s ease-in-out;
+}
+
+
+.footer-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.footer-text {
+    margin: 0;
+    font-size: 1rem;
+    color: #333;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.footer-text a {
+   
+    text-decoration: none;
+}
+
+.footer-text a:hover {
+    text-decoration: underline;
+}
+
+/* =============================
+RESPONSIVE
+============================= */
+
+/* Pantallas medianas: tablets */
+@media (max-width: 1024px) {
+    .sidebar {
+        width: 200px;
+    }
+
+    .footer-container {
+        margin-left: 2rem;
+        margin-right: 2rem;
+    }
+}
+
+/* Pantallas pequeñas: móviles */
+@media (max-width: 880px) {
+
+
+    .sidebar {
+        width: 100%;
+        height: auto;
+        box-shadow: none;
+        padding: 1rem 0.5rem;
+    }
+
+
+
+
+    .footer-container {
+        margin-left: 1rem;
+        margin-right: 1rem;
+        padding: 1.5rem;
+        min-height: auto;
+    }
+
+    .footer-content {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .footer-text {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+/* login */
+
+.login-container-custom {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.auth-box-custom {
+    background-color: #f9f9f9;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    max-width: 450px;
+    width: 100%;
+}
+
+.auth-title-custom {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
+.auth-box-custom p {
+    text-align: center;
+    color: #555;
+}
+
+.form-group-custom {
+    position: relative;
+    margin-bottom: 25px;
+}
+
+.form-control-custom {
+    width: 100%;
+    padding: 12px 12px 12px 52px; /* Espacio para el ícono a la izquierda */
+    font-size: 16px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    line-height: 1.5;
+}
+
+.form-control-icon-custom {
+    position: absolute;
+    top: 0;
+    bottom: 1;
+    left: 14px;
+    align-items: center;
+    font-size: 24px;
+    color: #888;
+    pointer-events: none;
+}
+
+.toggle-password-custom {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #aaa; /* Color del ícono */
+    cursor: pointer; /* Cambiar el cursor al pasar sobre el ícono */
+}
+
+
+
+/* REGISTRO  */
+  #auth {
+        height: 100vh;
+        background-color: #f0f2f5;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    #auth-left {
+        padding: 2rem;
+    }
+
+    #auth-right {
+        background-color:rgb(18, 39, 171);
+        /* Azul fuerte */
+        height: 100%;
+        width: 100%;
+        padding: 0;
+        margin: 0;
+        border: none;
+        border-radius: 0;
+    }

@@ -1,0 +1,133 @@
+<div id="main">
+
+    <div class="page-heading">
+
+        <div class="page-title">
+            <div class="row">
+
+                <div class="col-12 col-md-6 order-md-1 order-last">
+                    <h3>Bitácora</h3>
+                </div>
+
+                <div class="col-12 col-md-6 order-md-2 order-first">
+                    <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+                        <ol class="breadcrumb">
+                                                        <li class="breadcrumb-item"> <a href="/admin?ruta=inicio">Inicio</a></li>
+
+                            <li class="breadcrumb-item active" aria-current="page">
+                                Bitácora
+                            </li>
+                        </ol>
+                    </nav>
+                </div>
+
+            </div>
+        </div>
+
+        <section class="section">
+
+            <div class="card">
+
+                <div class="card-header d-flex justify-content-between align-items-center">
+
+                    <h5 class="card-title mb-0">
+                        📋 Historial de movimientos
+                    </h5>
+
+                    <div class="d-flex gap-2 align-items-center flex-wrap">
+
+                        <!-- Fecha -->
+                        <input
+                            type="date"
+                            class="form-control form-control-sm"
+                            id="filtro_fecha"
+                            style="width: 170px;">
+
+                        <!-- Año -->
+                        <select
+                            class="form-select form-select-sm"
+                            id="filtro_anio"
+                            style="width: 120px;">
+
+                            <option value="">Año</option>
+
+                            <option value="2026">2026</option>
+                            <option value="2025">2025</option>
+                            <option value="2024">2024</option>
+
+                        </select>
+
+                        <!-- Filtrar -->
+                        <button
+                            class="btn btn-primary btn-sm d-flex align-items-center gap-1"
+                            id="btnFiltrar">
+
+                            <i class="fas fa-filter"></i>
+                            Filtrar
+
+                        </button>
+
+                        <!-- Limpiar -->
+                        <button
+                            class="btn btn-outline-secondary btn-sm"
+                            id="btnLimpiar">
+
+                            Limpiar
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+                <div class="card-body">
+
+                    <div class="table-responsive">
+
+                        <table
+                            class="table table-striped table-hover"
+                            id="table1">
+
+                            <thead>
+
+                                <tr>
+                                    <th>Usuario</th>
+                                    <th>Rol</th>
+                                    <th>Cédula</th>
+                                    <th>Fecha</th>
+                                    <th>Hora</th>
+                                    <th>Acción</th>
+                                </tr>
+
+                            </thead>
+
+                            <tbody>
+                                {% for b in bitacora %}
+                                <tr>
+                                    <td>{{ b.usuario }}</td>
+                                    <td>{{ b.rol or 'Sin rol' }}</td>
+                                    <td>{{ b.cedula }}</td>
+                                    <td>{{ b.fecha }}</td>
+                                    <td>{{ b.hora }}</td>
+                                    <td>{{ b.movimiento }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </div>
+
+</div>
+
+<script src="{{ url_for('static', filename='assets/js/modulos-js/bitacora.js') }}"></script>
+
+</div>

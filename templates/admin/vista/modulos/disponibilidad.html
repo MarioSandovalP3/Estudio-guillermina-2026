@@ -1,0 +1,318 @@
+<div id="main">
+    <div class="page-heading">
+        <div class="page-title">
+            <div class="row">
+                <div class="col-12 col-md-6 order-md-1 order-last">
+                    <h3>Disponibilidad Especialista</h3>
+                </div>
+                <div class="col-12 col-md-6 order-md-2 order-first">
+                    <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"> <a href="/admin?ruta=inicio">Inicio</a></li>
+
+                            <li class="breadcrumb-item active" aria-current="page">
+                                Especialista
+                            </li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sección principal -->
+        <section class="section">
+            <div class="card">
+                <div class="card-header">
+
+                </div>
+                <div class="card-body">
+                    <ul class="nav nav-tabs" id="especialistasTab" role="tablist">
+
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link active" id="tab-estilistas" data-bs-toggle="tab" href="#estilistas"
+                                role="tab" aria-controls="estilistas" aria-selected="true">
+                                Estilistas
+                            </a>
+                        </li>
+
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link" id="tab-manicuristas" data-bs-toggle="tab" href="#manicuristas"
+                                role="tab" aria-controls="manicuristas" aria-selected="false">
+                                Manicuristas
+                            </a>
+                        </li>
+
+                    </ul>
+
+                    <div class="tab-content" id="especialistasTabContent">
+
+                        <!-- ===================== -->
+                        <!-- ESTILISTAS -->
+                        <!-- ===================== -->
+                        <div class="tab-pane fade show active" id="estilistas" role="tabpanel"
+                            aria-labelledby="tab-estilistas">
+
+                            <div class="table-responsive">
+
+                                <table class="table table-bordered mb-0" id="table1">
+
+                                    <thead>
+                                        <tr>
+                                            <th>Cédula</th>
+                                            <th>Especialista</th>
+                                            <th>Nombre</th>
+                                            <th>Fecha</th>
+                                            <th>Hora</th>
+                                            <th>Status</th>
+
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        {% for datos in estilistas %}
+                                        <tr>
+                                            <td>{{ datos.cedula_especialista }}</td>
+                                            <td>{{ datos.especialista }}</td>
+                                            <td>{{ datos.nombre_usuario }}</td>
+                                            <td>{{ datos.fecha_disponibilidad }}</td>
+                                            <td>{{ datos.hora_disponibilidad }}</td>
+
+                                            <td>
+                                                <span
+                                                    class="badge {{ 'bg-success' if datos.status|int == 1 else 'bg-danger' }}">
+                                                    {{ 'Ocupada' if datos.status|int == 1 else 'Cancelado' }}
+                                                </span>
+                                            </td>
+
+
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+
+                                </table>
+
+                            </div>
+                        </div>
+
+                        <!-- ===================== -->
+                        <!-- MANICURISTAS -->
+                        <!-- ===================== -->
+                        <div class="tab-pane fade" id="manicuristas" role="tabpanel" aria-labelledby="tab-manicuristas">
+
+                            <div class="table-responsive">
+
+                                <table class="table table-bordered mb-0" id="table2">
+
+                                    <thead>
+                                        <tr>
+                                            <th>Cédula</th>
+                                            <th>Especialista</th>
+                                            <th>Nombre</th>
+                                            <th>Fecha</th>
+                                            <th>Hora</th>
+                                            <th>Status</th>
+
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        {% for datos in manicuristas %}
+                                        <tr>
+                                            <td>{{ datos.cedula_especialista }}</td>
+                                            <td>{{ datos.especialista }}</td>
+                                            <td>{{ datos.nombre_usuario }}</td>
+                                            <td>{{ datos.fecha_disponibilidad }}</td>
+                                            <td>{{ datos.hora_disponibilidad }}</td>
+
+                                            <td>
+                                                <span
+                                                    class="badge {{ 'bg-success' if datos.status|int == 1 else 'bg-danger' }}">
+                                                    {{ 'Ocupada' if datos.status|int == 1 else 'Cancelada' }}
+                                                </span>
+                                            </td>
+
+
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+
+                                </table>
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- Modal para registrar Especialista -->
+
+                    <div class="modal fade text-left" id="primary" tabindex="-1" role="dialog"
+                        aria-labelledby="myModalLabel160" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header bg-primary">
+                                    <h5 class="modal-title white" id="myModalLabel160">Registrar Especialista</h5>
+                                    <button type="button" class="close text-white" data-bs-dismiss="modal"
+                                        aria-label="Close">
+                                        <i data-feather="x"></i>
+                                    </button>
+                                </div>
+
+                                <div class="modal-body">
+                                    <form id="especialidad" method="post" data-parsley-validate
+                                        style="font-weight: bold;">
+                                        <!-- Campo oculto para AJAX -->
+                                        <input type="hidden" name="registrar" value="1">
+
+                                        <!-- Campo Especialista -->
+                                        <div class="form-group mb-3">
+                                            <label for="especialista">
+                                                <i data-feather="edit-3"></i> Especialista <span class="text-danger"
+                                                    style="font-size: 20px;"> *</span>
+                                            </label>
+                                            <button class="btn btn-xs" data-toggle="tooltip" data-placement="top"
+                                                title="Ingrese el nombre de la especialidad">
+                                                <i class="fas fa-info-circle"></i>
+                                            </button>
+                                            <input type="text" class="form-control" placeholder="Especialista"
+                                                id="especialista" name="especialista" required
+                                                data-parsley-pattern="^[a-zA-ZÁÉÍÓÚáéíóúÑñ\s]+$"
+                                                data-parsley-pattern-message="Este campo solo permite letras."
+                                                data-parsley-required-message="Este campo es obligatorio.">
+                                        </div>
+
+                                        <!-- Campo Cédula -->
+                                        <div class="form-group mb-3">
+                                            <label for="cedula_reg">
+                                                <i class="bi bi-person-lines-fill"></i> Cédula <span class="text-danger"
+                                                    style="font-size: 20px;"> *</span>
+                                            </label>
+                                            <button class="btn btn-xs" data-toggle="tooltip" data-placement="top"
+                                                title="Cédula del personal">
+                                                <i class="fas fa-info-circle"></i>
+                                            </button>
+                                            <input type="text" id="searchCedula" class="form-control"
+                                                placeholder="Buscar cédula..." onkeyup="filterFunction()" required
+                                                data-parsley-required-message="La cédula es obligatoria.">
+                                            <select class="form-select mt-2" id="cedula_reg" name="cedula" required
+                                                size="5" style="display:none;">
+                                                <option value="" selected disabled>Seleccione una opción</option>
+                                                {% for usuario in usuarios %}
+
+                                                <option value="{{ usuario.cedula }}">
+                                                    {{ usuario.cedula }} - {{ usuario.nombre_usuario }}
+                                                </option>
+
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+
+                                        <div class="alert alert-light d-flex align-items-center" role="alert">
+                                            <i class="fas fa-exclamation-triangle mr-2"></i>
+                                            <span>Todos los campos marcados con (*) son obligatorios</span>
+                                        </div>
+
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-light-secondary"
+                                                data-bs-dismiss="modal">Cerrar</button>
+                                            <button type="submit" class="btn btn-primary ms-1">Guardar</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Modal para editar Especialista -->
+                    <div class="modal fade text-left" id="editModal" tabindex="-1" role="dialog"
+                        aria-labelledby="editModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header bg-primary text-white">
+                                    <h5 class="modal-title white" id="labelEditar">Editar Especialista</h5>
+                                    <button type="button" class="close text-white" data-bs-dismiss="modal"
+                                        aria-label="Close">
+                                        <i data-feather="x"></i>
+                                    </button>
+                                </div>
+
+                                <div class="modal-body">
+                                    <form id="formEditEspecialidad" method="post" data-parsley-validate
+                                        style="font-weight: bold;">
+                                        <!-- Campo oculto para AJAX -->
+                                        <input type="hidden" name="actualizar" value="1">
+                                        <input type="hidden" name="cedula" id="edit_cedula">
+
+                                        <div class="form-group mb-3">
+                                            <label for="edit_especialista">
+                                                <i data-feather="edit-3"></i> Especialista
+                                            </label>
+                                            <input type="text" class="form-control" placeholder="Especialista"
+                                                id="edit_especialista" name="especialista" required
+                                                data-parsley-pattern="/^[a-zA-ZÁÉÍÓÚáéíóúÑñ\s]+$/"
+                                                data-parsley-pattern-message="En este campo solo se permiten letras."
+                                                data-parsley-required-message="Este campo es obligatorio.">
+                                        </div>
+
+                                        <div class="form-group mb-3">
+                                            <label for="edit_estado"><i class="bi bi-toggle-on"></i> Estado </label>
+                                            <select name="status" id="edit_estado" class="form-select" required>
+                                                <option value="">Seleccione un estado</option>
+                                                <option value="1">Activo</option>
+                                                <option value="0">Inactivo</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-light-secondary"
+                                                data-bs-dismiss="modal">Cerrar</button>
+                                            <button type="submit" class="btn btn-primary ms-1">Editar</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Modal para eliminar Especialista -->
+                    <div class="modal fade text-left" id="deleteModal" tabindex="-1" role="dialog"
+                        aria-labelledby="deleteModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header bg-danger">
+                                    <h5 class="modal-title white" id="deleteModalLabel">Confirmar Eliminación</h5>
+                                    <button type="button" class="close text-white" data-bs-dismiss="modal"
+                                        aria-label="Close">
+                                        <i data-feather="x"></i>
+                                    </button>
+                                </div>
+                                <form id="elimodal" method="post">
+                                    <!-- Campo oculto para AJAX -->
+                                    <input type="hidden" name="eliminar" value="1">
+                                    <input type="hidden" id="especialidadCodigo" name="cedula">
+
+                                    <div class="modal-body">
+                                        <p class="mb-0">¿Desea eliminar este especialista <strong
+                                                id="nombreEliminar"></strong>?</p>
+                                    </div>
+
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-light-secondary"
+                                            data-bs-dismiss="modal">No</button>
+                                        <button type="submit" class="btn btn-danger ms-1">Eliminar</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- eliminar especilidad -->
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+
+    <script src="{{ url_for('static', filename='/assets/js/modulos-js/especialista.js') }}"></script>
+
+
+</div>

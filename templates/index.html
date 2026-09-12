@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='imagenes/logo.png') }}">
+
+    <title>Estudio de belleza Guillermina</title>
+
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/stylo11.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styloia.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap-/css/bootstrap.min.css') }}">
+    <script src="{{ url_for('static', filename='bootstrap-/js/bootstrap.bundle.min.js') }}"></script>
+
+</head>
+
+<body>
+    <!-- ================= NAVBAR MODERNA ================= -->
+
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top menu-principal">
+        <div class="container">
+
+            <!-- LOGO -->
+            <a class="navbar-brand" href="{{ url_for('inicio') }}">
+                <img src="{{ url_for('static', filename='imagenes/logo.png') }}" class="logo" alt="Estudio MT">
+            </a>
+
+
+            <!-- BOTÓN MÓVIL -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menuPrincipal">
+
+                <span class="navbar-toggler-icon"></span>
+
+            </button>
+
+
+            <!-- OPCIONES -->
+            <div class="collapse navbar-collapse" id="menuPrincipal">
+
+                <ul class="navbar-nav ms-auto align-items-center">
+
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('inicio') }}">
+                            Inicio
+                        </a>
+                    </li>
+
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('quienesomos') }}">
+                            Nosotros
+                        </a>
+                    </li>
+
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('servicios') }}">
+                            Servicios
+                        </a>
+                    </li>
+
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('promociones') }}">
+                            Promociones
+                        </a>
+                    </li>
+
+
+                    <li class="nav-item ms-lg-3">
+
+                        <a class="btn-login" href="{{ url_for('acceder') }}">
+
+                            <i class="bi bi-person-circle"></i>
+                            Iniciar sesión
+
+                        </a>
+
+                    </li>
+
+
+                </ul>
+
+            </div>
+
+        </div>
+
+    </nav>
+
+    <!-- ================= HERO PRINCIPAL ================= -->
+
+
+    <section class="hero">
+
+        <div class="hero-overlay"></div>
+
+        <div class="hero-contenido" style="position:relative;">
+
+            <h1>
+                Estudio de Belleza Guillermina
+            </h1>
+
+          
+
+
+            <p>
+                Realzamos tu belleza con estilo,
+                elegancia y profesionalismo.
+            </p>
+
+
+
+            <div class="hero-botones">
+
+                <a href="{{ url_for('servicios') }}" class="btn btn-light">
+
+                    Ver servicios
+
+                </a>
+
+
+                <a href="{{ url_for('acceder') }}" class="btn btn-outline-light">
+
+                    Reservar cita
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </section>
+    <!-- ================= SERVICIOS ================= -->
+
+
+    <section class="servicios-seccion">
+
+
+        <div class="container">
+
+            <div class="titulo-seccion">
+
+                <span>
+                    Lo que ofrecemos
+                </span>
+
+                <h2>
+                    Nuestros Servicios
+                </h2>
+
+                <p>
+                    Tratamientos profesionales diseñados
+                    para cuidar tu imagen y estilo.
+                </p>
+
+            </div>
+
+            <div class="row g-4">
+
+                <!-- SERVICIO 1 -->
+
+                <div class="col-lg-4 col-md-6">
+
+
+                    <div class="card-servicio">
+
+
+                        <img src="{{ url_for('static',
+filename='imagenes/corte.jpg') }}" alt="Corte de cabello">
+
+
+                        <div class="servicio-info">
+
+
+                            <h3>
+                                Corte de Cabello
+                            </h3>
+
+
+                            <p>
+                                Diseños personalizados adaptados
+                                a tu rostro y personalidad.
+                            </p>
+
+
+
+                            <a href="{{ url_for('servicios') }}" class="btn-servicio">
+
+                                Conocer más
+
+                            </a>
+
+
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+
+                <!-- SERVICIO 2 -->
+
+
+                <div class="col-lg-4 col-md-6">
+
+
+                    <div class="card-servicio">
+
+
+                        <img src="{{ url_for('static',
+filename='imagenes/mechas.jpg') }}" alt="Coloración">
+
+
+                        <div class="servicio-info">
+
+
+                            <h3>
+                                Coloración y Mechas
+                            </h3>
+
+
+                            <p>
+                                Técnicas modernas con productos
+                                profesionales para tu cabello.
+                            </p>
+
+
+
+                            <a href="{{ url_for('servicios') }}" class="btn-servicio">
+
+                                Conocer más
+
+                            </a>
+
+
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+
+                <!-- SERVICIO 3 -->
+
+
+                <div class="col-lg-4 col-md-6">
+
+
+                    <div class="card-servicio">
+
+
+                        <img src="{{ url_for('static',
+filename='imagenes/alisado.jpg') }}" alt="Tratamientos">
+
+
+                        <div class="servicio-info">
+
+
+                            <h3>
+                                Tratamientos Capilares
+                            </h3>
+
+
+                            <p>
+                                Hidratación, nutrición y reparación
+                                para un cabello saludable.
+                            </p>
+
+
+
+                            <a href="{{ url_for('servicios') }}" class="btn-servicio">
+
+                                Conocer más
+
+                            </a>
+
+
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+    </section>
+    <!-- ================= QUIÉNES SOMOS ================= -->
+    <section class="nosotros-seccion">
+
+        <div class="container-fluid">
+
+            <div class="row align-items-center">
+                <!-- IMAGEN -->
+
+                <div class="col-lg-6 imagen-nosotros">
+
+
+                    <img src="{{ url_for('static',
+                    filename='imagenes/peluquera.jpg') }}" alt="Estudio de belleza MT">
+
+
+                </div>
+                <!-- TEXTO -->
+
+                <div class="col-lg-6 contenido-nosotros">
+
+
+                    <span>
+                        Nuestra historia
+                    </span>
+
+                    <h2>
+                        ¿Quiénes somos?
+                    </h2>
+                    <p>
+
+                        Estudio de Belleza Guillermina es un espacio creado para
+                        resaltar tu belleza y brindarte una experiencia
+                        única de cuidado personal.
+
+                    </p>
+
+                    <p>
+
+                        Con años de experiencia en el mundo de la estética,
+                        ofrecemos servicios profesionales combinando
+                        técnicas modernas, atención personalizada y un
+                        ambiente cómodo para nuestros clientes.
+
+                    </p>
+                    <p>
+
+                        Nuestro objetivo es que cada visita sea un momento
+                        especial donde la confianza, elegancia y calidad
+                        sean protagonistas.
+
+                    </p>
+
+                    <a href="{{ url_for('quienesomos') }}" class="btn-nosotros">
+
+                        Conoce más sobre nosotros
+
+                    </a>
+                </div>
+            </div>
+
+
+        </div>
+
+
+    </section>
+
+    <!-- ================= EXPERIENCIA ================= -->
+    <section class="experiencia">
+
+
+        <div class="container">
+
+
+            <div class="row text-center">
+
+
+
+                <div class="col-md-4">
+
+
+                    <div class="experiencia-box">
+
+
+                        <i class="bi bi-award"></i>
+
+
+                        <h3>
+                            Experiencia
+                        </h3>
+
+
+                        <p>
+                            Profesionales capacitados para ofrecer
+                            resultados de alta calidad.
+                        </p>
+
+
+                    </div>
+
+
+                </div>
+
+
+
+
+
+
+
+                <div class="col-md-4">
+
+
+                    <div class="experiencia-box">
+
+
+                        <i class="bi bi-heart"></i>
+
+
+                        <h3>
+                            Atención personalizada
+                        </h3>
+
+
+                        <p>
+                            Cada cliente recibe un servicio adaptado
+                            a sus necesidades.
+                        </p>
+
+
+                    </div>
+
+
+                </div>
+
+
+
+
+
+
+
+                <div class="col-md-4">
+
+
+                    <div class="experiencia-box">
+
+
+                        <i class="bi bi-stars"></i>
+
+
+                        <h3>
+                            Estilo y belleza
+                        </h3>
+
+
+                        <p>
+                            Creamos tendencias para destacar
+                            tu imagen personal.
+                        </p>
+
+
+                    </div>
+
+
+                </div>
+
+
+
+            </div>
+
+
+        </div>
+
+
+    </section>
+
+
+    <!-- ================= RESERVA ONLINE ================= -->
+    <section class="reserva-banner">
+
+        <div class="reserva-overlay"></div>
+
+        <div class="reserva-contenido">
+
+            <h2>
+                Reserva tu cita online
+            </h2>
+
+
+
+            <p>
+
+                Agenda tu servicio favorito de forma rápida,
+                segura y sencilla.
+
+            </p>
+
+
+
+
+            <a href="{{ url_for('acceder') }}" class="btn-reserva">
+
+                Reservar ahora
+
+            </a>
+
+
+
+        </div>
+
+
+
+
+    </section>
+
+
+    <!-- ================= WHATSAPP FLOTANTE ================= -->
+
+    <a href="https://wa.me/584289236" target="_blank" class="whatsapp-flotante">
+
+        <i class="bi bi-whatsapp"></i>
+
+    </a>
+    <!-- ================= FOOTER MODERNO ================= -->
+
+
+    <footer class="footer-mt">
+
+
+        <div class="container">
+
+
+            <div class="row gy-5">
+
+                <!-- LOGO Y DESCRIPCIÓN -->
+
+                <div class="col-lg-4 col-md-6">
+
+
+                    <div class="footer-logo">
+
+
+                        <img src="{{ url_for('static',
+                        filename='imagenes/logo.png') }}" alt="Estudio Guillermina">
+
+
+                    </div>
+
+                    <p class="footer-text">
+
+                        Estudio de Belleza Guillermina, un espacio dedicado
+                        a resaltar tu belleza con servicios profesionales,
+                        calidad y atención personalizada.
+
+                    </p>
+
+                    <div class="copyright">
+
+                        © 2026 Estudio de Belleza Guillermina.
+                        Todos los derechos reservados.
+
+                    </div>
+                </div>
+                <!-- INFORMACIÓN -->
+
+                <div class="col-lg-3 col-md-6">
+
+                    <h4>
+                        Información
+                    </h4>
+
+                    <ul class="footer-links">
+
+
+                        <li>
+                            <a href="{{ url_for('inicio') }}">
+                                Inicio
+                            </a>
+                        </li>
+
+
+
+                        <li>
+                            <a href="{{ url_for('quienesomos') }}">
+                                Quiénes somos
+                            </a>
+                        </li>
+
+
+
+                        <li>
+                            <a href="{{ url_for('servicios') }}">
+                                Servicios
+                            </a>
+                        </li>
+
+
+
+                        <li>
+                            <a href="{{ url_for('promociones') }}">
+                                Promociones
+                            </a>
+                        </li>
+
+
+                    </ul>
+
+
+
+                </div>
+                <!-- HORARIOS -->
+
+
+                <div class="col-lg-2 col-md-6">
+
+
+                    <h4>
+                        Horarios
+                    </h4>
+
+                    <ul class="footer-info">
+
+
+                        <li>
+                            <i class="bi bi-calendar"></i>
+
+                            Lunes a Domingo
+
+                        </li>
+
+                        <li>
+                            <i class="bi bi-clock"></i>
+
+                            6:00 AM - 8:00 PM
+
+                        </li>
+
+                    </ul>
+
+
+                </div>
+
+
+                <!-- CONTACTO -->
+
+                <div class="col-lg-3 col-md-6">
+
+
+                    <h4>
+                        Contáctanos
+                    </h4>
+
+                    <ul class="footer-info">
+
+
+                        <li>
+
+                            <i class="bi bi-telephone"></i>
+
+                            +58 489339373
+
+                        </li>
+
+                        <li>
+
+                            <i class="bi bi-envelope"></i>
+
+                            Guillermina@gmail.com
+
+                        </li>
+
+                        <li>
+
+                            <i class="bi bi-geo-alt"></i>
+
+                            Estudio de Belleza Guillermina
+
+                        </li>
+
+
+                    </ul>
+
+
+                    <div class="redes-sociales">
+
+
+                        <a href="https://wa.me/584289236" target="_blank">
+
+                            <i class="bi bi-whatsapp"></i>
+
+                        </a>
+
+
+                        <a href="https://www.instagram.com/tu_usuario" target="_blank">
+
+                            <i class="bi bi-instagram"></i>
+
+                        </a>
+
+
+                    </div>
+
+
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+    </footer>
+
+    <!-- ================= SCRIPTS ================= -->
+
+    <script>
+
+
+        // Animación al aparecer elementos
+
+        const elementos =
+            document.querySelectorAll(".card-servicio, .experiencia-box");
+
+
+
+        const mostrarElementos = () => {
+
+
+            elementos.forEach(elemento => {
+
+
+                const posicion =
+                    elemento.getBoundingClientRect().top;
+
+
+
+                if (posicion < window.innerHeight - 80) {
+
+                    elemento.classList.add("mostrar");
+
+                }
+
+
+            });
+
+
+        };
+
+
+
+        window.addEventListener(
+            "scroll",
+            mostrarElementos
+        );
+
+
+
+        mostrarElementos();
+
+
+
+    </script>
+
+
+    <!-- Iconos Bootstrap -->
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+
+    <script src="{{ url_for('static', filename='/assets/js/modulos-js/asistenteia.js') }}"></script>
+
+</body>
+
+
+
+</html>

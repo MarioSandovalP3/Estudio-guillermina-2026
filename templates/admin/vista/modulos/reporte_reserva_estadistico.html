@@ -1,0 +1,719 @@
+<div id="main">
+
+    <div class="page-heading">
+
+        <div class="page-title">
+
+            <div class="row align-items-center">
+
+                <div class="col-12 col-md-8">
+
+                    <h3 class="fw-bold mb-1">
+                        <i class="bi bi-bar-chart-line-fill me-2"></i>
+                        Reporte Estadístico de Reservas
+                    </h3>
+
+                    <p class="text-muted mb-0">
+                        Análisis general y estadístico de las reservas.
+                    </p>
+
+                </div>
+
+                <div class="col-12 col-md-4 d-flex justify-content-md-end mt-3 mt-md-0">
+
+                    <a href="/admin?ruta=reporte_reserva" class="btn btn-primary btn-sm rounded-3 px-3" title="Volver">
+                        <i class="bi bi-arrow-left me-1"></i>
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <section class="section">
+
+        <div class="card border-0 shadow-sm rounded-4">
+
+            <div class="card-header bg-white border-0 p-4">
+
+                <div class="row align-items-center g-3">
+
+                    <div class="col-12 col-xl-4">
+
+                        <div class="d-flex align-items-center">
+
+                            <div class="rounded-circle bg-primary bg-opacity-10
+                                d-flex align-items-center justify-content-center me-3" style="width:45px;height:45px;">
+                                <i class="bi bi-file-earmark-bar-graph text-primary fs-5"></i>
+                            </div>
+
+                            <div>
+
+                                <h5 class="fw-bold mb-1">
+                                    Reportes
+                                </h5>
+
+                                <small class="text-muted">
+                                    Exportación y consultas
+                                </small>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-12 col-xl-8">
+
+                        <div class="d-flex justify-content-xl-end gap-2 flex-wrap">
+
+                            <form id="formPDF" action="/admin?ruta=reporte_reserva_estadistico" method="post"
+                                target="_blank" class="d-inline">
+
+                                <input type="hidden" name="pdf" value="1">
+
+                                <input type="hidden" name="desde" id="pdf_desde" value="{{ filtros.desde }}">
+
+                                <input type="hidden" name="hasta" id="pdf_hasta" value="{{ filtros.hasta }}">
+
+                                <input type="hidden" name="status" id="pdf_status" value="{{ filtros.status }}">
+
+                                <button type="submit" class="btn btn-danger btn-sm rounded-3 px-3">
+                                    <i class="bi bi-file-earmark-pdf me-1"></i>
+                                    Generar PDF
+                                </button>
+
+                            </form>
+
+
+                            <form id="formExcel" action="/admin?ruta=reporte_reserva_estadistico" method="post"
+                                class="d-inline">
+
+                                <input type="hidden" name="excel" value="1">
+
+                                <input type="hidden" name="desde" id="excel_desde" value="{{ filtros.desde }}">
+
+                                <input type="hidden" name="hasta" id="excel_hasta" value="{{ filtros.hasta }}">
+
+                                <input type="hidden" name="status" id="excel_status" value="{{ filtros.status }}">
+
+                                <button type="submit" class="btn btn-success btn-sm rounded-3 px-3">
+                                    <i class="bi bi-file-earmark-excel me-1"></i>
+                                    Generar Excel
+                                </button>
+
+                            </form>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="card-body px-4 pb-4">
+
+
+                <!-- FILTROS POR PERSONA -->
+
+                <div class="card border rounded-4 shadow-none mb-4">
+
+                    <div class="card-header bg-light border-0 rounded-top-4 py-3">
+
+                        <div class="d-flex align-items-center">
+
+                            <i class="bi bi-funnel-fill text-primary me-2"></i>
+
+                            <span class="fw-bold">
+                                Reportes por persona
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="card-body">
+
+                        <div class="row g-4">
+
+
+                            <!-- ESPECIALISTA -->
+
+                            <div class="col-12 col-lg-6">
+
+                                <label for="especialista_reporte" class="form-label fw-semibold">
+                                    <i class="bi bi-person-badge me-1"></i>
+                                    Especialista
+                                </label>
+
+                                <div class="row g-2">
+
+                                    <div class="col-12 col-md-7">
+
+                                        <select id="especialista_reporte" name="especialista_reporte"
+                                            class="form-select form-select-sm rounded-3">
+
+                                            <option value="">
+                                                Seleccione un especialista
+                                            </option>
+
+                                            {% for especialista in especialistasr %}
+
+                                            <option value="{{ especialista.cedula_especialista }}">
+                                                {{ especialista.especialista }}
+                                                —
+                                                {{ especialista.nombre_usuario }}
+                                                {{ especialista.apellido_usuario }}
+                                            </option>
+
+                                            {% endfor %}
+
+                                        </select>
+
+                                    </div>
+
+
+                                    <div class="col-12 col-md-5">
+
+                                        <form id="formPDFEspecialista" action="/admin?ruta=reporte_reserva"
+                                            method="post" target="_blank">
+
+                                            <input type="hidden" name="pdf_especialista" value="1">
+
+                                            <input type="hidden" name="especialista_reporte"
+                                                id="pdf_especialista_cedula" value="">
+
+                                            <button type="submit" class="btn btn-danger btn-sm rounded-3 w-100">
+                                                <i class="bi bi-file-earmark-pdf me-1"></i>
+                                                PDF
+                                            </button>
+
+                                        </form>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- CLIENTE -->
+
+                            <div class="col-12 col-lg-6">
+
+                                <label for="cliente_reporte" class="form-label fw-semibold">
+                                    <i class="bi bi-person me-1"></i>
+                                    Cliente
+                                </label>
+
+                                <div class="row g-2">
+
+                                    <div class="col-12 col-md-7">
+
+                                        <select id="cliente_reporte" name="cliente_reporte"
+                                            class="form-select form-select-sm rounded-3">
+
+                                            <option value="">
+                                                Seleccione un cliente
+                                            </option>
+
+                                            {% for cliente in clientes %}
+
+                                            <option value="{{ cliente.cedula }}">
+                                                {{ cliente.nombre_usuario }}
+                                                {{ cliente.apellido_usuario }}
+                                            </option>
+
+                                            {% endfor %}
+
+                                        </select>
+
+                                    </div>
+
+
+                                    <div class="col-12 col-md-5">
+
+                                        <form id="formPDFCliente" action="/admin?ruta=reporte_reserva_estadistico"
+                                            method="post" target="_blank">
+
+                                            <input type="hidden" name="pdf_cliente" value="1">
+
+                                            <input type="hidden" name="cliente_reporte" id="pdf_cliente_cedula"
+                                                value="">
+
+                                            <button type="submit" class="btn btn-danger btn-sm rounded-3 w-100">
+                                                <i class="bi bi-file-earmark-pdf me-1"></i>
+                                                PDF
+                                            </button>
+
+                                        </form>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- TABLAS ESTADÍSTICAS -->
+
+                <div class="row g-4">
+
+
+                    <!-- RESERVAS POR SERVICIO -->
+
+                    <div class="col-12 col-xl-6">
+
+                        <div class="card h-100 border shadow-none rounded-4">
+
+                            <div class="card-header bg-white border-0 py-3">
+
+                                <div class="d-flex align-items-center">
+
+                                    <i class="bi bi-scissors text-primary fs-5 me-2"></i>
+
+                                    <span class="fw-bold">
+                                        Reservas por servicio
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="card-body p-0">
+
+                                <div class="table-responsive">
+
+                                    <table class="table table-hover align-middle mb-0">
+
+                                        <thead class="table-light">
+
+                                            <tr>
+
+                                                <th class="px-3">
+                                                    Servicio
+                                                </th>
+
+                                                <th class="text-center">
+                                                    Total
+                                                </th>
+
+                                            </tr>
+
+                                        </thead>
+
+
+                                        <tbody>
+
+                                            {% for item in estadisticas.reservas_por_servicio %}
+
+                                            <tr>
+
+                                                <td class="px-3">
+                                                    {{ item.servicio }}
+                                                </td>
+
+                                                <td class="text-center fw-bold">
+                                                    {{ item.total_reservas }}
+                                                </td>
+
+                                            </tr>
+
+                                            {% endfor %}
+
+                                        </tbody>
+
+                                    </table>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- RESERVAS POR ESPECIALISTA -->
+
+                    <div class="col-12 col-xl-6">
+
+                        <div class="card h-100 border shadow-none rounded-4">
+
+                            <div class="card-header bg-white border-0 py-3">
+
+                                <div class="d-flex align-items-center">
+
+                                    <i class="bi bi-person-badge text-primary fs-5 me-2"></i>
+
+                                    <span class="fw-bold">
+                                        Reservas por especialista
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="card-body p-0">
+
+                                <div class="table-responsive">
+
+                                    <table class="table table-hover align-middle mb-0">
+
+                                        <thead class="table-light">
+
+                                            <tr>
+
+                                                <th class="px-3">
+                                                    Especialista
+                                                </th>
+
+                                                <th class="text-center">
+                                                    Total
+                                                </th>
+
+                                            </tr>
+
+                                        </thead>
+
+
+                                        <tbody>
+
+                                            {% for item in estadisticas.reservas_por_especialista %}
+
+                                            <tr>
+
+                                                <td class="px-3">
+                                                    {{ item.especialista }}
+                                                </td>
+
+                                                <td class="text-center fw-bold">
+                                                    {{ item.total_reservas }}
+                                                </td>
+
+                                            </tr>
+
+                                            {% endfor %}
+
+                                        </tbody>
+
+                                    </table>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- TOP CLIENTES -->
+
+                    <div class="col-12 col-xl-6">
+
+                        <div class="card h-100 border shadow-none rounded-4">
+
+                            <div class="card-header bg-white border-0 py-3">
+
+                                <div class="d-flex align-items-center">
+
+                                    <i class="bi bi-trophy-fill text-warning fs-5 me-2"></i>
+
+                                    <span class="fw-bold">
+                                        Top clientes
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="card-body p-0">
+
+                                <div class="table-responsive">
+
+                                    <table class="table table-hover align-middle mb-0">
+
+                                        <thead class="table-light">
+
+                                            <tr>
+
+                                                <th class="px-3">
+                                                    Cliente
+                                                </th>
+
+                                                <th class="text-center">
+                                                    Total
+                                                </th>
+
+                                            </tr>
+
+                                        </thead>
+
+
+                                        <tbody>
+
+                                            {% for item in estadisticas.top_clientes %}
+
+                                            <tr>
+
+                                                <td class="px-3">
+                                                    {{ item.cliente }}
+                                                </td>
+
+                                                <td class="text-center fw-bold">
+                                                    {{ item.total_reservas }}
+                                                </td>
+
+                                            </tr>
+
+                                            {% endfor %}
+
+                                        </tbody>
+
+                                    </table>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- ÚLTIMAS RESERVAS -->
+
+                    <div class="col-12 col-xl-6">
+
+                        <div class="card h-100 border shadow-none rounded-4">
+
+                            <div class="card-header bg-white border-0 py-3">
+
+                                <div class="d-flex align-items-center">
+
+                                    <i class="bi bi-clock-history text-primary fs-5 me-2"></i>
+
+                                    <span class="fw-bold">
+                                        Últimas reservas
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="card-body p-0">
+
+                                <div class="table-responsive">
+
+                                    <table class="table table-hover align-middle mb-0">
+
+                                        <thead class="table-light">
+
+                                            <tr>
+
+                                                <th class="px-3">
+                                                    Cliente
+                                                </th>
+
+                                                <th>
+                                                    Especialista
+                                                </th>
+
+                                                <th>
+                                                    Fecha
+                                                </th>
+
+                                                <th>
+                                                    Hora
+                                                </th>
+
+                                                <th>
+                                                    Estado
+                                                </th>
+
+                                            </tr>
+
+                                        </thead>
+
+
+                                        <tbody>
+
+                                            {% for item in estadisticas.ultimas_reservas %}
+
+                                            <tr>
+
+                                                <td class="px-3">
+                                                    {{ item.cliente }}
+                                                </td>
+
+                                                <td>
+                                                    {{ item.especialista }}
+                                                </td>
+
+                                                <td>
+                                                    {{ item.fecha_reserva }}
+                                                </td>
+
+                                                <td>
+                                                    {{ item.hora_reserva }}
+                                                </td>
+
+                                                <td>
+
+                                                    {% if item.status == 1 %}
+
+                                                    <span class="badge bg-success rounded-pill">
+                                                        Activo
+                                                    </span>
+
+                                                    {% else %}
+
+                                                    <span class="badge bg-danger rounded-pill">
+                                                        Cancelada
+                                                    </span>
+
+                                                    {% endif %}
+
+                                                </td>
+
+                                            </tr>
+
+                                            {% endfor %}
+
+                                        </tbody>
+
+                                    </table>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- GRÁFICAS ESTADÍSTICAS -->
+
+                <div class="row mt-4">
+
+
+                    <!-- Reservas por día -->
+
+                    <div class="col-md-6">
+
+                        <div class="card">
+
+                            <div class="card-header">
+                                Reservas por día de la semana
+                            </div>
+
+                            <div class="card-body grafico-pequeno">
+
+                                <canvas id="graficoDias"></canvas>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Horarios -->
+
+                    <div class="col-md-6">
+
+                        <div class="card">
+
+                            <div class="card-header">
+                                Horarios más solicitados
+                            </div>
+
+                            <div class="card-body grafico-pequeno">
+
+                                <canvas id="graficoHorarios"></canvas>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="row mt-4">
+
+
+                    <!-- Tendencia -->
+
+                    <div class="col-md-8">
+
+                        <div class="card">
+
+                            <div class="card-header">
+                                Tendencia mensual de reservas
+                            </div>
+
+                            <div class="card-body grafico-linea">
+
+                                <canvas id="graficoTendencia"></canvas>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <script>
+
+        const reservasDia = {{ reservas_dia | tojson }};
+
+        const reservasMes = {{ reservas_mes | tojson }};
+
+        const reservasHora = {{ reservas_hora | tojson }};
+
+        const estadisticas = {{ estadisticas | tojson }};
+
+
+    </script>
+
+
+    <script src="{{ url_for('static', filename='assets/js/librerias/chart.umd.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='/assets/js/modulos-js/reserva.js') }}"></script>
+
+    <script src="{{ url_for('static', filename='/assets/js/modulos-js/reportesreserva.js') }}"></script>
+
+</div>

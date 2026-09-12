@@ -1,0 +1,943 @@
+<div id="main">
+
+    <div class="page-heading">
+        <div class="page-title">
+            <div class="row">
+                <div class="col-12 col-md-6 order-md-1 order-last">
+                    <h3>Reservas </h3>
+                </div>
+                <div class="col-12 col-md-6 order-md-2 order-first">
+                    <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"> <a href="/admin?ruta=inicio">Inicio</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Reservas</li>
+                        </ol>
+                    </nav>
+                </div>
+
+                <!--
+               
+                <div class="d-flex justify-content-end mt-4" style="padding-right:120px;">
+                    <button id="btnAsesorIA" class="btn btn-ia" type="button">
+                        ✨ Asesor de Imagen IA
+                    </button>
+                </div>
+
+                <div id="iaChat" class="ia-chat hidden">
+                    <div class="ia-header">
+                        <div>
+                            <span>✨</span> Asesor de Imagen Inteligente
+                        </div>
+                        <span id="cerrarIA">✖</span>
+                    </div>
+
+                    <div class="ia-body" id="iaBody">
+                        <div class="ia-msg bot">
+                            👋 Hola, soy tu <strong>Asesor de Imagen Inteligente</strong>.<br><br>
+                            Puedo ayudarte a <strong>simular estilos</strong> mediante una imagen:
+                            <br><br>
+                            📸 Analizar tu imagen
+                            <br>💇 Simular cabello
+                            <br>🎨 Simular color de cabello
+                            <br>💅 Simular uñas
+                            <br>📅 Realizar una reserva
+                            <br><br>
+                            Para comenzar, puedes subir una fotografía.
+                        </div>
+
+                        <div class="ia-actions">
+                            <button type="button" class="ia-option" id="btnSubirImagen">
+                                📸 Analizar imagen
+                            </button>
+
+                            <button type="button" class="ia-option" id="btnIniciarReserva">
+                                📅 Realizar reserva
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="ia-footer">
+                        <input type="text" id="iaInput" placeholder="Escribe aquí..." autocomplete="off">
+                        <button id="iaSend" type="button">Enviar</button>
+                    </div>
+
+                    <input type="file" id="iaImagenInput" accept="image/*" hidden>
+                </div>
+
+                <div class="modal fade" id="modalSimulacionIA" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">
+                                    ✨ Simulación de Imagen
+                                </h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+
+                            <div class="modal-body">
+                                <div class="ia-preview-container">
+                                    <img id="imagenSimulacion" class="ia-preview-image" src=""
+                                        alt="Imagen para simulación">
+                                    <div id="efectoSimulacion" class="ia-effect"></div>
+                                </div>
+
+                                <div id="resultadoSimulacion" class="text-center mt-3 fw-bold">
+                                    Selecciona una opción para comenzar.
+                                </div>
+
+                                <div class="ia-simulation-buttons mt-3">
+                                    <button type="button" class="btn btn-outline-primary btn-simulacion"
+                                        data-tipo="cabello">
+                                        💇 Cabello
+                                    </button>
+
+                                    <button type="button" class="btn btn-outline-danger btn-simulacion"
+                                        data-tipo="color">
+                                        🎨 Colorimetría
+                                    </button>
+
+                                    <button type="button" class="btn btn-outline-success btn-simulacion"
+                                        data-tipo="unas">
+                                        💅 Uñas
+                                    </button>
+                                </div>
+
+                                <div id="opcionesCabello" class="ia-sub-options hidden">
+                                    <h6>💇 Simular cabello</h6>
+
+                                    <button type="button" class="btn btn-outline-primary opcion-simulacion"
+                                        data-efecto="cabello-corto">
+                                        Cabello corto
+                                    </button>
+
+                                    <button type="button" class="btn btn-outline-primary opcion-simulacion"
+                                        data-efecto="cabello-largo">
+                                        Cabello largo
+                                    </button>
+                                </div>
+
+                                <div id="opcionesColor" class="ia-sub-options hidden">
+                                    <h6>🎨 Simular color de cabello</h6>
+
+                                    <button type="button" class="btn btn-outline-danger opcion-simulacion"
+                                        data-efecto="rojo">
+                                        🔴 Rojo
+                                    </button>
+
+                                    <button type="button" class="btn btn-outline-warning opcion-simulacion"
+                                        data-efecto="amarillo">
+                                        🟡 Amarillo
+                                    </button>
+
+                                    <button type="button" class="btn btn-outline-secondary opcion-simulacion"
+                                        data-efecto="rosa">
+                                        🩷 Rosa
+                                    </button>
+                                </div>
+
+                                <div id="opcionesUnas" class="ia-sub-options hidden">
+                                    <h6>💅 Simular uñas</h6>
+
+                                    <button type="button" class="btn btn-outline-primary opcion-simulacion"
+                                        data-efecto="unas-largas">
+                                        📏 Uñas largas
+                                    </button>
+
+                                    <button type="button" class="btn btn-outline-primary opcion-simulacion"
+                                        data-efecto="unas-cortas">
+                                        📏 Uñas cortas
+                                    </button>
+
+                                    <button type="button" class="btn btn-outline-primary opcion-simulacion"
+                                        data-efecto="unas-rojas">
+                                        🔴 Uñas rojas
+                                    </button>
+
+                                    <button type="button" class="btn btn-outline-primary opcion-simulacion"
+                                        data-efecto="unas-rosas">
+                                        🩷 Uñas rosas
+                                    </button>
+
+                                    <button type="button" class="btn btn-outline-primary opcion-simulacion"
+                                        data-efecto="unas-cuadradas">
+                                        ▫️ Forma cuadrada
+                                    </button>
+
+                                    <button type="button" class="btn btn-outline-primary opcion-simulacion"
+                                        data-efecto="unas-almendra">
+                                        💅 Forma almendra
+                                    </button>
+                                </div>
+
+                                <div id="simulacionAcciones" class="text-center mt-4 hidden">
+                                    <button type="button" class="btn btn-success" id="btnUsarSimulacion">
+                                        📅 Reservar este servicio
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal fade" id="modalReservaIA" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">
+                                    📅 Reserva mediante Asesor IA
+                                </h5>
+
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+
+                            <div class="modal-body">
+                                <div id="reservaPaso1">
+                                    <h6 class="fw-bold mb-3">
+                                        👤 Datos del cliente
+                                    </h6>
+
+                                    <div class="row g-3">
+                                        <div class="col-md-6">
+                                            <label class="form-label">
+                                                Nombre
+                                            </label>
+
+                                            <input type="text" id="iaNombre" class="form-control" placeholder="Nombre">
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <label class="form-label">
+                                                Apellido
+                                            </label>
+
+                                            <input type="text" id="iaApellido" class="form-control"
+                                                placeholder="Apellido">
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <label class="form-label">
+                                                Cédula
+                                            </label>
+
+                                            <input type="text" id="iaCedula" class="form-control" placeholder="Cédula"
+                                                maxlength="8">
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <label class="form-label">
+                                                Servicio
+                                            </label>
+
+                                            <select id="iaServicio" class="form-select">
+                                                <option value="">Seleccione un servicio</option>
+                                                <option value="Corte de cabello">Corte de cabello</option>
+                                                <option value="Coloración">Coloración</option>
+                                                <option value="Manicure">Manicure</option>
+                                                <option value="Pedicure">Pedicure</option>
+                                                <option value="Diseño de uñas">Diseño de uñas</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <label class="form-label">
+                                                Fecha
+                                            </label>
+
+                                            <input type="date" id="iaFecha" class="form-control">
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <label class="form-label">
+                                                Hora
+                                            </label>
+
+                                            <select id="iaHora" class="form-select">
+                                                <option value="">Seleccione una hora</option>
+                                                <option value="09:00">09:00 AM</option>
+                                                <option value="10:00">10:00 AM</option>
+                                                <option value="11:00">11:00 AM</option>
+                                                <option value="12:00">12:00 PM</option>
+                                                <option value="02:00">02:00 PM</option>
+                                                <option value="03:00">03:00 PM</option>
+                                                <option value="04:00">04:00 PM</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="col-12">
+                                            <label class="form-label">
+                                                Especialista disponible
+                                            </label>
+
+                                            <select id="iaEspecialista" class="form-select">
+                                                <option value="">Seleccione especialista</option>
+                                                <option value="María González">
+                                                    María González
+                                                </option>
+                                                <option value="Ana Rodríguez">
+                                                    Ana Rodríguez
+                                                </option>
+                                                <option value="Laura Pérez">
+                                                    Laura Pérez
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div id="mensajeReservaIA" class="mt-3"></div>
+
+                                    <div class="text-end mt-4">
+                                        <button type="button" class="btn btn-primary" id="btnContinuarReserva">
+                                            Continuar →
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div id="reservaPaso2" class="hidden">
+                                    <div class="text-center">
+                                        <div class="ia-confirm-icon">
+                                            📋
+                                        </div>
+
+                                        <h5 class="fw-bold">
+                                            Confirmar reserva
+                                        </h5>
+
+                                        <p class="text-muted">
+                                            Revisa los datos antes de confirmar.
+                                        </p>
+                                    </div>
+
+                                    <div class="ia-resumen">
+                                        <div>
+                                            <strong>Cliente:</strong>
+                                            <span id="resumenCliente"></span>
+                                        </div>
+
+                                        <div>
+                                            <strong>Cédula:</strong>
+                                            <span id="resumenCedula"></span>
+                                        </div>
+
+                                        <div>
+                                            <strong>Servicio:</strong>
+                                            <span id="resumenServicio"></span>
+                                        </div>
+
+                                        <div>
+                                            <strong>Fecha:</strong>
+                                            <span id="resumenFecha"></span>
+                                        </div>
+
+                                        <div>
+                                            <strong>Hora:</strong>
+                                            <span id="resumenHora"></span>
+                                        </div>
+
+                                        <div>
+                                            <strong>Especialista:</strong>
+                                            <span id="resumenEspecialista"></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="d-flex gap-2 justify-content-end mt-4">
+                                        <button type="button" class="btn btn-secondary" id="btnEditarReserva">
+                                            ← Editar
+                                        </button>
+
+                                        <button type="button" class="btn btn-success" id="btnConfirmarReserva">
+                                            ✅ Confirmar reserva
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div id="reservaPaso3" class="hidden text-center">
+                                    <div class="ia-success-icon">
+                                        ✅
+                                    </div>
+
+                                    <h4 class="fw-bold">
+                                        ¡Reserva confirmada!
+                                    </h4>
+
+                                    <p class="text-muted">
+                                        Esta es una simulación. En la versión real,
+                                        la reserva será registrada en el sistema.
+                                    </p>
+
+                                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">
+                                        Finalizar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                -->
+
+            </div>
+
+
+            <!-- Sección principal -->
+            <section class="section">
+                <div class="card">
+                    <!-- NAV TABS -->
+                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link active" id="tab-activas" data-bs-toggle="tab" href="#activas" role="tab"
+                                aria-controls="activas" aria-selected="true">
+                                Todas las Reservas
+                            </a>
+                        </li>
+
+
+                    </ul>
+
+                    <div class="card-body" style="width: 100%;">
+                        <div class="tab-content">
+                            <a href="/admin?ruta=inicio" class="btn btn-primary rounded-pill">
+                                Registrar reserva
+                            </a>
+
+
+                            <!-- ======================= TODAS LAS RESERVAS ======================= -->
+
+                            <div class="tab-pane fade show active" id="activas" role="tabpanel"
+                                aria-labelledby="tab-activas">
+                                <div class="table-responsive mt-3">
+                                    <table class="table table-bordered mb-0" id="table1">
+                                        <thead>
+                                            <tr>
+                                                <th>Cédula Cliente</th>
+                                                <th>Nombre y Apellido Cliente</th>
+                                                <th>Servicios</th>
+                                                <th>Fecha Reserva</th>
+                                                <th>Hora Reserva</th>
+                                                <th>Status</th>
+                                                <th>Acciones</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            {% for datos in reservas %}
+                                            {% if datos.estado_reserva != 2 %}
+
+                                            <tr>
+
+                                                <td>{{ datos.cedula_cliente }}</td>
+                                                <td>{{ datos.nombre_cliente }} {{ datos.apellido_cliente }}</td>
+
+                                                <td>{{ datos.servicios }}</td>
+
+                                                <td>{{ datos.fecha_reserva }}</td>
+                                                <td>{{ datos.hora_reserva }}</td>
+
+                                                <td>
+                                                    {% if datos.estado_reserva == 1 %}
+                                                    <span class="badge bg-success">Activo</span>
+                                                    {% else %}
+                                                    <span class="badge bg-danger">Cancelada</span>
+                                                    {% endif %}
+                                                </td>
+
+                                                <td>
+                                                    <div class="buttons d-flex gap-2">
+
+                                                        <!-- ✏️ EDITAR: SOLO SI ESTÁ ACTIVA -->
+                                                        {% if datos.estado_reserva != 0 %}
+                                                        <button type="button" class="btn btn-primary"
+                                                            data-cod_servicio="{{ datos.cod_servicio }}"
+                                                            data-cedula_cliente="{{ datos.cedula_cliente }}"
+                                                            data-nombre_cliente="{{ datos.nombre_cliente }}"
+                                                            data-apellido_cliente="{{ datos.apellido_cliente }}"
+                                                            data-fecha_reserva="{{ datos.fecha_reserva }}"
+                                                            data-hora_reserva="{{ datos.hora_reserva }}"
+                                                            data-estado_reserva="{{ datos.estado_reserva }}"
+                                                            data-servicios="{{ datos.servicios }}"
+                                                            data-precios="{{ datos.precios }}" data-bs-toggle="modal"
+                                                            data-bs-target="#editModalReserva" title="Editar">
+
+                                                            <i class="bi bi-pencil"></i>
+                                                        </button>
+                                                        {% endif %}
+
+                                                        <!-- 🗑️ ELIMINAR -->
+                                                        <button type="button" class="btn btn-danger"
+                                                            data-cod_servicio="{{ datos.cod_servicio }}"
+                                                            data-nombre_cliente="{{ datos.nombre_cliente }}"
+                                                            data-apellido_cliente="{{ datos.apellido_cliente }}"
+                                                            data-bs-toggle="modal" data-bs-target="#deleteModalReservas"
+                                                            title="Eliminar">
+
+                                                            <i class="bi bi-trash"></i>
+                                                        </button>
+
+                                                    </div>
+                                                </td>
+
+                                            </tr>
+
+                                            {% endif %}
+                                            {% endfor %}
+                                        </tbody>
+
+                                    </table>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+
+            <!-- MODAL EDITAR RESERVA DE TODAS-->
+
+
+            <div class="modal fade" id="editModalReserva" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
+                    <div class="modal-content">
+                        <div class="modal-header bg-primary text-white">
+                            <h5 class="modal-title white">Editar Reserva</h5>
+                            <button type="button" class="close text-white" data-bs-dismiss="modal"><i
+                                    data-feather="x"></i></button>
+                        </div>
+
+                        <div class="modal-body">
+                            <form id="formEditReserva" method="post">
+                                <input type="hidden" name="cod_servicio" id="edit_cod_reserva">
+                                <input type="hidden" name="actualizar" value="1"><!-- campo oculto -->
+
+                                <!-- Datos del cliente, fecha, hora y estado -->
+                                <div class="row g-3 mb-3">
+                                    <div class="col-md-6 position-relative">
+                                        <label for="edit_cedula"><i class="bi bi-card-text"></i> Cédula</label>
+                                        <input type="text" class="form-control" id="edit_cedula" placeholder="Cédula"
+                                            required readonly disabled>
+                                    </div>
+                                    <div class="col-md-6 position-relative">
+                                        <label for="edit_nombre"><i class="bi bi-person"></i> Nombre del Cliente</label>
+                                        <input type="text" class="form-control" id="edit_nombre"
+                                            placeholder="Nombre completo" required readonly disabled>
+                                    </div>
+                                    <div class="col-md-6 position-relative">
+                                        <label for="edit_fecha">
+                                            <i class="bi bi-calendar"></i> Fecha
+                                        </label>
+
+                                        <input type="date" class="form-control" id="edit_fecha" name="fecha" required
+                                            readonly disabled>
+                                    </div>
+
+                                    <div class="col-md-6 position-relative">
+                                        <label for="edit_hora">
+                                            <i class="bi bi-clock"></i> Hora
+                                        </label>
+
+                                        <input type="text" class="form-control" name="hora" id="edit_hora"
+                                            placeholder="10:00 am" required maxlength="8"
+                                            pattern="^(0?[1-9]|1[0-2]):[0-5][0-9] (am|pm)$"
+                                            title="Ingrese la hora en formato 10:00 am o 10:00 pm">
+
+                                        <div id="mensajeHoraEdit" class="text-danger mt-1" style="display: none;">
+                                            Formato de hora inválido. Use 10:00 am o 10:00 pm.
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 position-relative">
+                                        <label for="status_edit"><i class="bi bi-toggle-on"></i> Estado</label>
+                                        <select class="form-select" id="status_edit" name="status">
+                                            <option value="1">Activo</option>
+                                            <option value="0">Cancelar</option>
+                                        </select>
+                                    </div>
+
+
+                                    <!-- Tabla de resumen de servicios -->
+                                    <div class="col-md-6 position-relative">
+                                        <div class="col-md-12">
+                                            <h5 class="fw-bold text-secondary mb-2">Resumen de Servicios</h5>
+                                            <table class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Tipo de Servicio</th>
+                                                        <th>Precio</th>
+
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="tablaServicios">
+                                                    <!-- Los tipos de servicios y precios se mostrarán aquí -->
+                                                </tbody>
+                                                <tfoot>
+                                                    <tr>
+                                                        <td><strong>Total</strong></td>
+                                                        <td id="totalPrecio">0</td>
+                                                        <td></td>
+                                                    </tr>
+                                                </tfoot>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-light-secondary"
+                                        data-bs-dismiss="modal">Cerrar</button>
+                                    <button type="submit" class="btn btn-primary">Editar</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <!-- MODAL ELIMINAR RESERVA DE TODAS  -->
+            <div class="modal fade" id="deleteModalReservas" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+
+                        <div class="modal-header bg-danger">
+                            <h5 class="modal-title text-white">Confirmar Eliminación</h5>
+                            <button type="button" class="close text-white" data-bs-dismiss="modal"><i
+                                    data-feather="x"></i></button>
+                        </div>
+                        <form id="formDeleteReserva" method="post">
+                            <div class="modal-body">
+                                <input type="hidden" name="eliminar" value="1"><!-- campo oculto-->
+                                <p>
+                                    ¿Desea eliminar la reserva de:
+                                    <strong id="nombreEliminar"></strong>?
+                                </p> <input type="hidden" id="cod_reserva_eliminar" name="cod_servicio" value="">
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-light-primary" data-bs-dismiss="modal">No</button>
+                                <button type="submit" class="btn btn-danger ms-1">Eliminar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+
+
+        </div>
+    </div>
+
+
+    <!--
+    <style>
+        .btn-ia {
+            background: linear-gradient(135deg, #6f42c1, #0d6efd);
+            color: #fff;
+            border: none;
+            border-radius: 25px;
+            padding: 10px 22px;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, .15);
+            transition: .3s
+        }
+
+        .btn-ia:hover {
+            color: #fff;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, .2)
+        }
+
+        body .ia-chat {
+            position: fixed !important;
+            right: 30px !important;
+            bottom: 30px !important;
+            width: 390px !important;
+            max-width: calc(100vw - 40px) !important;
+            height: 600px !important;
+            max-height: calc(100vh - 60px) !important;
+            background: #fff;
+            border-radius: 18px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, .25);
+            overflow: hidden !important;
+            z-index: 99999 !important;
+            display: flex;
+            flex-direction: column
+        }
+
+        body .ia-chat.hidden {
+            display: none !important
+        }
+
+        body .ia-header {
+            flex: 0 0 65px !important;
+            width: 100% !important;
+            height: 65px !important;
+            min-height: 65px !important;
+            max-height: 65px !important;
+            box-sizing: border-box;
+            padding: 15px 18px;
+            background: linear-gradient(135deg, #6f42c1, #0d6efd);
+            color: #fff;
+            display: flex !important;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600
+        }
+
+        #cerrarIA {
+            cursor: pointer;
+            font-size: 18px;
+            transition: .2s
+        }
+
+        #cerrarIA:hover {
+            transform: scale(1.2)
+        }
+
+        body .ia-body {
+            flex: 1 !important;
+            width: 100% !important;
+            height: auto !important;
+            min-height: 0 !important;
+            box-sizing: border-box;
+            padding: 18px;
+            overflow-y: auto !important;
+            overflow-x: hidden !important;
+            background: #f8f9fa
+        }
+
+        .ia-msg {
+            max-width: 90%;
+            padding: 12px 15px;
+            border-radius: 15px;
+            margin-bottom: 12px;
+            line-height: 1.5;
+            font-size: 14px;
+            box-sizing: border-box
+        }
+
+        .ia-msg.bot {
+            background: #fff;
+            border: 1px solid #e5e5e5;
+            margin-right: auto
+        }
+
+        .ia-msg.user {
+            background: #0d6efd;
+            color: #fff;
+            margin-left: auto
+        }
+
+        .ia-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 15px
+        }
+
+        .ia-option {
+            border: 1px solid #0d6efd;
+            background: #fff;
+            color: #0d6efd;
+            padding: 10px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: .2s
+        }
+
+        .ia-option:hover {
+            background: #0d6efd;
+            color: #fff
+        }
+
+        body .ia-footer {
+            flex: 0 0 auto !important;
+            width: 100% !important;
+            min-height: 65px !important;
+            box-sizing: border-box;
+            display: flex !important;
+            gap: 8px;
+            padding: 12px;
+            border-top: 1px solid #ddd;
+            background: #fff
+        }
+
+        .ia-footer input {
+            min-width: 0 !important;
+            width: auto !important;
+            flex: 1 !important;
+            border: 1px solid #ced4da;
+            border-radius: 20px;
+            padding: 9px 14px;
+            outline: none;
+            box-sizing: border-box
+        }
+
+        .ia-footer button {
+            flex: 0 0 auto !important;
+            width: auto !important;
+            border: none;
+            background: #0d6efd;
+            color: #fff;
+            border-radius: 20px;
+            padding: 0 17px
+        }
+
+        .ia-preview-container {
+            position: relative;
+            width: 100%;
+            height: 350px;
+            background: #f1f1f1;
+            border-radius: 15px;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center
+        }
+
+        .ia-preview-image {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            transition: .5s
+        }
+
+        .ia-effect {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            transition: .5s
+        }
+
+        .ia-simulation-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center
+        }
+
+        .ia-sub-options {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            background: #f8f9fa
+        }
+
+        .ia-sub-options.hidden {
+            display: none
+        }
+
+        .ia-sub-options h6 {
+            margin-bottom: 12px;
+            font-weight: 700
+        }
+
+        .opcion-simulacion {
+            margin: 3px
+        }
+
+        .ia-sub-options button.active {
+            background: #0d6efd;
+            color: #fff
+        }
+
+        .ia-resumen {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 18px;
+            margin-top: 20px
+        }
+
+        .ia-resumen div {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            padding: 9px 0;
+            border-bottom: 1px solid #ddd
+        }
+
+        .ia-resumen div:last-child {
+            border-bottom: none
+        }
+
+        .ia-confirm-icon,
+        .ia-success-icon {
+            font-size: 55px;
+            margin-bottom: 10px
+        }
+
+        .hidden {
+            display: none !important
+        }
+
+        #mensajeReservaIA .alert {
+            margin-bottom: 0
+        }
+
+        .efecto-cabello-corto {
+            filter: contrast(1.1) saturate(.8);
+            transform: scale(.95)
+        }
+
+        .efecto-cabello-largo {
+            filter: contrast(1.05) saturate(1.1);
+            transform: scale(1.05)
+        }
+
+        .efecto-rojo {
+            filter: sepia(.6) saturate(2.8) hue-rotate(315deg)
+        }
+
+        .efecto-amarillo {
+            filter: sepia(1) saturate(3) hue-rotate(5deg)
+        }
+
+        .efecto-rosa {
+            filter: sepia(.4) saturate(2.8) hue-rotate(290deg)
+        }
+
+        .efecto-unas-largas {
+            filter: saturate(1.15);
+            transform: scale(1.03)
+        }
+
+        .efecto-unas-cortas {
+            filter: saturate(.9);
+            transform: scale(.98)
+        }
+
+        .efecto-unas-rojas {
+            filter: sepia(.5) saturate(3) hue-rotate(315deg)
+        }
+
+        .efecto-unas-rosas {
+            filter: sepia(.4) saturate(2.5) hue-rotate(290deg)
+        }
+
+        .efecto-unas-cuadradas {
+            filter: contrast(1.1)
+        }
+
+        .efecto-unas-almendra {
+            filter: saturate(1.2)
+        }
+
+        @media(max-width:576px) {
+            body .ia-chat {
+                right: 10px !important;
+                bottom: 10px !important;
+                width: calc(100vw - 20px) !important;
+                max-width: calc(100vw - 20px) !important;
+                height: 80vh !important;
+                max-height: 80vh !important
+            }
+
+            .ia-preview-container {
+                height: 280px
+            }
+        }
+    </style>
+    -->
+
+
+    <script src="{{ url_for('static', filename='/assets/js/modulos-js/asistenteia.js') }}"></script>
+
+    <script src="{{ url_for('static', filename='/assets/js/modulos-js/reserva.js') }}"></script>
+
+</div>

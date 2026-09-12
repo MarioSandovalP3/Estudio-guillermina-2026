@@ -1,0 +1,16 @@
+<footer class="main-footer" style="width: 100%;">
+
+<div class="card footer-container">
+    <div class="card-body footer-content">
+        <p id="footerEmpresa" class="footer-text">
+
+            {% if session.get('n_empresa') %}
+                Copyright © 2026 {{ session.get('n_empresa') }}
+            {% else %}
+                Copyright © 2026
+            {% endif %}
+
+        </p>
+    </div>
+</div>
+</footer>

@@ -1,0 +1,140 @@
+
+    /* Estilo adicional para celdas redondeadas */
+    .table td {
+      border-radius: 10px;
+      /* Ajusta el valor según sea necesario */
+    }
+
+    /* ======== RESPONSIVE TABLETS ======== */
+    @media (max-width: 1024px) {
+      #calendar {
+        min-height: 450px;
+        padding: 0.8rem;
+      }
+
+      .fc-toolbar-title {
+        font-size: 1.2rem;
+      }
+
+      .fc-button {
+        font-size: 0.9rem !important;
+        padding: 0.35rem 0.7rem !important;
+      }
+    }
+
+    /* ======== MÓVILES GRANDES (Samsung Galaxy, iPhone Plus, etc.) ======== */
+    @media (max-width: 768px) {
+      #calendar {
+        min-height: 420px;
+        padding: 0.6rem;
+      }
+
+      .fc-toolbar {
+        flex-direction: column !important;
+        gap: 0.5rem;
+      }
+
+      .fc-toolbar-title {
+        font-size: 1.1rem;
+        text-align: center;
+      }
+
+      .fc-header-toolbar {
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .fc-button-group {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 0.4rem;
+      }
+
+      .fc-button {
+        font-size: 0.85rem !important;
+        padding: 0.3rem 0.6rem !important;
+      }
+    }
+
+    /* ======== TELÉFONOS PEQUEÑOS (iPhone SE, Galaxy A, etc.) ======== */
+    @media (max-width: 480px) {
+      #calendar {
+        min-height: 400px;
+        padding: 0.5rem;
+      }
+
+      .fc-toolbar {
+        flex-direction: column !important;
+        align-items: center;
+      }
+
+      .fc-toolbar-title {
+        font-size: 1rem;
+        margin-bottom: 0.4rem;
+      }
+
+      .fc-button {
+        font-size: 0.8rem !important;
+        padding: 0.25rem 0.5rem !important;
+      }
+
+      .fc-button-group {
+        gap: 0.3rem;
+      }
+
+      .fc-daygrid-day-number {
+        font-size: 0.8rem;
+      }
+
+      .fc-col-header-cell-cushion {
+        font-size: 0.8rem;
+      }
+    }
+
+    /* Mantener botones del modal siempre visibles */
+    .modal-content {
+      display: flex;
+      flex-direction: column;
+      max-height: 95vh;
+    }
+
+
+    /* Zona de contenido con scroll */
+    .modal-scroll-body {
+      overflow-y: auto;
+      flex: 1 1 auto;
+      max-height: calc(95vh - 160px);
+    }
+
+
+    /* Footer fijo */
+    .modal-footer-fixed {
+      flex-shrink: 0;
+      background: #fff;
+      border-top: 1px solid #dee2e6;
+      position: sticky;
+      bottom: 0;
+      z-index: 20;
+    }
+
+
+    /* Responsive móviles */
+    @media (max-width:768px) {
+
+      .modal-scroll-body {
+        max-height: calc(100vh - 220px);
+      }
+
+
+      .modal-footer-fixed {
+        flex-direction: column;
+        gap: 10px;
+      }
+
+
+      .modal-footer-fixed button {
+        width: 100%;
+      }
+
+    }

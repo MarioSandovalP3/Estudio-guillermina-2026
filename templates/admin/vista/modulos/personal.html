@@ -1,0 +1,335 @@
+<div id="main">
+    <div class="page-heading">
+        <div class="page-title">
+            <div class="row">
+                <div class="col-12 col-md-6 order-md-1 order-last">
+                    <h3>Personal</h3>
+                </div>
+                <div class="col-12 col-md-6 order-md-2 order-first">
+                    <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+                        <ol class="breadcrumb">
+                      <li class="breadcrumb-item"> <a href="/admin?ruta=inicio">Inicio</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Personal</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+
+        <section class="section">
+            <div class="card">
+                <div class="card-header">
+                    <button type="button" class="btn btn-primary rounded-pill" data-bs-toggle="modal"
+                        data-bs-target="#modalRegistrarPersonal">
+                        Registrar Personal
+                    </button>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered mb-0" id="table1">
+                            <thead>
+                                <tr>
+                                    <th>Cédula</th>
+                                    <th>Nombre</th>
+                                    <th>Apellido</th>
+                                    <th>Teléfono</th>
+                                    <th>Dirección</th>
+                                    <th>Correo</th>
+                                    <th>Status</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for datos in registro %}
+                                {% if datos.status != 2 %}
+                                <tr>
+                                    <td>{{ datos.cedula }}</td>
+                                    <td>{{ datos.nombre_usuario }}</td>
+                                    <td>{{ datos.apellido_usuario }}</td>
+                                    <td>{{ datos.telefono }}</td>
+                                    <td>{{ datos.direccion }}</td>
+                                    <td>{{ datos.correo }}</td>
+
+                                    <td data-status="{{ datos.status }}">
+                                        {% if datos.status == 1 %}
+                                        <span class="badge bg-success">Activo</span>
+                                        {% else %}
+                                        <span class="badge bg-danger">Inactivo</span>
+                                        {% endif %}
+                                    </td>
+
+                                    <td>
+                                        <div class="d-flex gap-2">
+                                            <button class="btn btn-primary btn-sm btn-editar" data-bs-toggle="modal"
+                                                data-bs-target="#modalEditar" data-rol="{{ datos.cod_rol }}"
+                                                title="Editar">
+                                                <i class="bi bi-pencil"></i>
+                                            </button>
+
+                                            <button class="btn btn-danger btn-sm btn-eliminar" data-bs-toggle="modal"
+                                                data-bs-target="#modalEliminarPersonal" data-cedula="{{ datos.cedula }}"
+                                                data-nombre="{{ datos.nombre_usuario }}" title="Eliminar">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endif %}
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <div class="modal fade text-left" id="modalRegistrarPersonal" tabindex="-1" role="dialog"
+        aria-labelledby="modalRegistrarPersonalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-primary">
+                    <h5 class="modal-title text-white" id="modalRegistrarPersonalLabel">Registrar Personal</h5>
+                    <button type="button" class="close text-white" data-bs-dismiss="modal" aria-label="Close"
+                        id="btnClose"><i data-feather="x"></i></button>
+                </div>
+
+                <form id="formRegistrarPersonal" method="POST" action="/admin?ruta=personal">
+                    <div class="modal-body"
+                        style="max-height: 70vh; overflow-y: auto; overflow-x: hidden; scrollbar-width: thin; scrollbar-color: #007bff #f1f1f1;">
+                        <input type="hidden" name="registrar" value="1">
+                        <input type="hidden" name="cod_rol" value="2">
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="cedula_reg" style="font-weight: bold;"><i class="bi bi-card-text"></i>
+                                    Cédula <span class="text-danger" style="font-size: 20px;"> *</span></label>
+                                <button type="button" class="btn btn-xs" data-toggle="tooltip" data-placement="top"
+                                    title="Ingrese la cédula de identidad.">
+                                    <i class="fas fa-info-circle"></i>
+                                </button>
+                                <input type="text" class="form-control" id="cedula_reg" name="cedula"
+                                    placeholder="Cédula de identidad" required data-parsley-pattern="^\d{1,10}$"
+                                    data-parsley-pattern-message="La cédula debe contener solo números."
+                                    data-parsley-required-message="Este campo es obligatorio.">
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="nombre_usuario_reg" style="font-weight: bold;"><i class="bi bi-person"></i>
+                                    Nombre<span class="text-danger" style="font-size: 20px;"> *</span></label>
+                                <button type="button" class="btn btn-xs" data-toggle="tooltip" data-placement="top"
+                                    title="Ingrese el nombre.">
+                                    <i class="fas fa-info-circle"></i>
+                                </button>
+                                <input type="text" class="form-control" id="nombre_usuario_reg" name="nombre_usuario"
+                                    placeholder="Nombre" required maxlength="15"
+                                    data-parsley-maxlength="15"
+                                    data-parsley-maxlength-message="Máximo 15 caracteres."
+                                    data-parsley-pattern="/^[a-zA-ZÁÉÍÓÚáéíóúÑñ\s]+$/"
+                                    data-parsley-pattern-message="En este campo solo se permiten letras."
+                                    data-parsley-required-message="Este campo es obligatorio.">
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="apellido_usuario_reg" style="font-weight: bold;"><i
+                                        class="bi bi-person-check"></i> Apellido<span class="text-danger"
+                                        style="font-size: 20px;"> *</span></label>
+                                <button type="button" class="btn btn-xs" data-toggle="tooltip" data-placement="top"
+                                    title="Ingrese el apellido.">
+                                    <i class="fas fa-info-circle"></i>
+                                </button>
+                                <input type="text" class="form-control" id="apellido_usuario_reg"
+                                    name="apellido_usuario" placeholder="Apellido" required maxlength="15"
+                                    data-parsley-maxlength="15"
+                                    data-parsley-maxlength-message="Máximo 15 caracteres."
+                                    data-parsley-pattern="/^[a-zA-ZÁÉÍÓÚáéíóúÑñ\s]+$/"
+                                    data-parsley-pattern-message="En este campo solo se permiten letras."
+                                    data-parsley-required-message="Este campo es obligatorio.">
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="telefono_reg" style="font-weight: bold;"><i class="bi bi-telephone"></i>
+                                    Teléfono<span class="text-danger" style="font-size: 20px;"> *</span></label>
+                                <button type="button" class="btn btn-xs" data-toggle="tooltip" data-placement="top"
+                                    title="Ingrese el número telefónico.">
+                                    <i class="fas fa-info-circle"></i>
+                                </button>
+                                <input type="text" class="form-control" id="telefono_reg" name="telefono"
+                                    placeholder="Número telefónico" required data-parsley-type="digits"
+                                    data-parsley-type-message="En este campo solo se permiten números."
+                                    data-parsley-required-message="Este campo es obligatorio.">
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="direccion_reg" style="font-weight: bold;"><i class="bi bi-house"></i>
+                                    Dirección<span class="text-danger" style="font-size: 20px;"> *</span></label>
+                                <button type="button" class="btn btn-xs" data-toggle="tooltip" data-placement="top"
+                                    title="Ingrese la dirección">
+                                    <i class="fas fa-info-circle"></i>
+                                </button>
+                                <input type="text" class="form-control" id="direccion_reg" name="direccion"
+                                    placeholder="Dirección" required
+                                    data-parsley-pattern="^[a-zA-Z0-9ÁÉÍÓÚáéíóúÑñ\s.,#\-\/()]+$"
+                                    data-parsley-pattern-message="Solo letras, números y signos básicos."
+                                    data-parsley-required-message="Este campo es obligatorio.">
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="correo_reg" style="font-weight: bold;"><i class="bi bi-envelope"></i>
+                                    Correo<span class="text-danger" style="font-size: 20px;"> *</span></label>
+                                <button type="button" class="btn btn-xs" data-toggle="tooltip" data-placement="top"
+                                    title="Ingrese el correo electrónico">
+                                    <i class="fas fa-info-circle"></i>
+                                </button>
+                                <input type="email" class="form-control" id="correo_reg" name="correo"
+                                    placeholder="Correo electrónico" required data-parsley-type="email"
+                                    data-parsley-required-message="Este campo es obligatorio."
+                                    data-parsley-type-message="Ingrese un correo válido.">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="alert alert-light d-flex align-items-center mb-0" style="font-weight: bold;"
+                        role="alert">
+                        <i class="fas fa-exclamation-triangle mr-2"></i>
+                        <span> Todos los campos marcados con (*) son obligatorios</span>
+                    </div>
+
+                    <div class="modal-footer"
+                        style="position: sticky; bottom: 0; background: #fff; z-index: 10; box-shadow: 0 -2px 8px rgba(0,0,0,0.1);">
+                        <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
+                             Cerrar
+                        </button>
+                        <button type="submit" class="btn btn-primary ms-1">
+                             Guardar
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para editar personal -->
+    <div class="modal fade text-left" id="modalEditar" tabindex="-1" role="dialog" aria-labelledby="modalEditarLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-primary">
+                    <h5 class="modal-title white" id="modalEditarLabel">Editar Personal</h5>
+                    <button type="button" class="close text-white" data-bs-dismiss="modal" aria-label="Close"
+                        id="btnClose"><i data-feather="x"></i></button>
+                </div>
+                <form id="formEditarPersonal" method="POST" action="/admin?ruta=personal">
+                    <div class="modal-body">
+                        <input type="hidden" name="actualizar" value="1">
+                        <input type="hidden" id="cod_rol_edit" name="cod_rol" required>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="cedula_edit"><i class="bi bi-card-text"></i> Cédula</label>
+                                <input type="text" class="form-control" id="cedula_edit" name="cedula"
+                                    placeholder="Cédula" readonly required>
+                                <div class="invalid-feedback"></div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="nombre_usuario_edit"><i class="bi bi-person"></i> Nombre</label>
+                                <input type="text" class="form-control" id="nombre_usuario_edit" name="nombre_usuario"
+                                    placeholder="Nombre" required maxlength="15"
+                                    data-parsley-maxlength="15"
+                                    data-parsley-maxlength-message="Máximo 15 caracteres."
+                                    data-parsley-pattern="/^[a-zA-ZÁÉÍÓÚáéíóúÑñ\s]+$/"
+                                    data-parsley-pattern-message="En este campo solo se permiten letras."
+                                    data-parsley-required-message="Este campo es obligatorio.">
+                                <div class="invalid-feedback"></div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="apellido_usuario_edit"><i class="bi bi-person-check"></i> Apellido</label>
+                                <input type="text" class="form-control" id="apellido_usuario_edit"
+                                    name="apellido_usuario" placeholder="Apellido" required maxlength="15"
+                                    data-parsley-maxlength="15"
+                                    data-parsley-maxlength-message="Máximo 15 caracteres."
+                                    data-parsley-pattern="/^[a-zA-ZÁÉÍÓÚáéíóúÑñ\s]+$/"
+                                    data-parsley-pattern-message="En este campo solo se permiten letras."
+                                    data-parsley-required-message="Este campo es obligatorio.">
+                                <div class="invalid-feedback"></div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="telefono_edit"><i class="bi bi-telephone"></i> Teléfono</label>
+                                <input type="text" class="form-control" id="telefono_edit" name="telefono"
+                                    placeholder="Número telefónico" required data-parsley-type="digits"
+                                    data-parsley-type-message="En este campo solo se permiten números.">
+                                <div class="invalid-feedback"></div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="direccion_edit"><i class="bi bi-house"></i> Dirección</label>
+                                <input type="text" class="form-control" id="direccion_edit" name="direccion"
+                                    placeholder="Dirección" required
+                                    data-parsley-pattern="^[a-zA-Z0-9ÁÉÍÓÚáéíóúÑñ\s.,#\-\/()]+$"
+                                    data-parsley-pattern-message="En este campo solo se permiten letras, números y signos básicos.">
+                                <div class="invalid-feedback"></div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="correo_edit"><i class="bi bi-envelope"></i> Correo</label>
+                                <input type="email" class="form-control" id="correo_edit" name="correo"
+                                    placeholder="Correo electrónico" required data-parsley-type="email"
+                                    data-parsley-type-message="Ingrese un correo válido.">
+                                <div class="invalid-feedback"></div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="status_edit"><i class="bi bi-toggle-on"></i> Estado</label>
+                                <select id="status_edit" class="form-select" name="status">
+                                    <option value="1">Activo</option>
+                                    <option value="0">Inactivo</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal"
+                            id="btnCerrar">
+                            <i class="bx bx-x d-block d-sm-none"></i>
+                            Cerrar
+                        </button>
+                        <button type="submit" class="btn btn-primary ms-1">
+                            <i class="bx bx-check d-block d-sm-none"></i>
+                            Editar
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade text-left" id="modalEliminarPersonal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-danger">
+                    <h5 class="modal-title white">Confirmar Eliminación</h5>
+                    <button type="button" class="close text-white" data-bs-dismiss="modal"><i data-feather="x"></i></button>
+                </div>
+                <form id="formEliminarPersonal" method="POST" action="/admin?ruta=personal">
+                    <div class="modal-body">
+                        <input type="hidden" name="eliminar" value="1">
+                        <input type="hidden" name="cedula" id="cedula_eliminar">
+                        <p>¿Desea eliminar este personal?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-light-primary" data-bs-dismiss="modal">No</button>
+                        <button type="submit" class="btn btn-danger ms-1">Eliminar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="{{ url_for('static', filename='/assets/js/modulos-js/personal.js') }}"></script>

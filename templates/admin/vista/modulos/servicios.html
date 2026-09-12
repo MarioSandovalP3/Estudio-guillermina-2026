@@ -1,0 +1,433 @@
+<?php require_once 'controlador/servicio.php'; ?>
+<div id="main">
+    <div class="page-heading">
+        <div class="page-title">
+            <div class="row">
+                <div class="col-12 col-md-6 order-md-1 order-last">
+                    <h3>Servicios</h3>
+                </div>
+                <div class="col-12 col-md-6 order-md-2 order-first">
+                    <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="inicio">Inicio</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Servicios</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+
+        <section class="section">
+            <div class="card">
+                <div class="card-header">
+                    <button type="button" class="btn btn-primary rounded-pill" data-bs-toggle="modal" data-bs-target="#primary">
+                        Registrar servicios
+                    </button>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered mb-0" id="table1">
+                            <thead>
+                                <tr>
+
+                                    <th>cedula</th>
+                                    <th>nombre</th>
+                                    <th>apellido</th>
+                                    <th>servicio</th>
+                                    <th>descripcion</th>
+                                    <th>Fecha</th>
+                                    <th>Monto</th>
+                                    <th>status</th>
+                                    <th>acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($registro as $datos) { ?>
+                                    <?php if ($datos['status'] != 2): ?>
+                                        <tr>
+                                            <td><?php echo $datos["cedula"] ?></td>
+                                            <td><?php echo $datos["nombre_usuario"] ?></td>
+                                            <td><?php echo $datos["apellido_usuario"] ?></td>
+                                            <td><?php echo $datos["nombre_servicio"] ?></td>
+                                            <td><?php echo $datos["descripcion"] ?></td>
+                                            <td><?php echo date_format(date_create($datos["fecha_pago"]), 'd/m/Y'); ?></td>
+                                            <td>
+                                                <?php
+                                                $monto = floatval(str_replace(',', '.', $datos["monto"]));
+                                                echo "$" . number_format($monto, 2, '.', ',');
+                                                ?>
+                                            </td>
+                                            <td>
+                                                <?php if ($datos['status'] == 1): ?>
+                                                    <span class="badge bg-success">Activo</span>
+                                                <?php else: ?>
+                                                    <span class="badge bg-danger">Cancelado</span>
+                                                <?php endif; ?>
+                                            </td>
+                                            <td>
+                                                <div>
+                                                    <a href="#"
+                                                        class="btn btn-sm btn-primary btn-generar-nota"
+                                                        data-cod_servicio="<?= htmlspecialchars($datos['cod_servicio']) ?>"
+                                                        target="_blank">
+                                                        <i class="bi bi-card-heading"></i>
+                                                    </a>
+
+
+                                                    <?php if ($datos['status'] == 1): ?>
+                                                        <a href="#"
+                                                            class="btn btn-danger btn-sm btn-cancelar-servicio"
+                                                            data-bs-toggle="modal"
+                                                            data-bs-target="#modalcancelarservicio"
+                                                            data-id="<?php echo $datos['cod_servicio']; ?>">
+                                                            <i class="bi bi-bag-x"></i>
+                                                        </a>
+                                                    <?php endif; ?>
+                                            </td>
+                    </div>
+                    </td>
+                    </tr>
+                <?php endif; ?>
+            <?php } ?>
+            </tbody>
+            </table>
+                </div>
+                <!-- MODAL PRINCIPAL: REGISTRAR SERVICIO -->
+                <div class="modal fade" id="primary" tabindex="-1" aria-labelledby="modalServicioLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header bg-primary text-white">
+                                <h5 class="modal-title text-white" id="modalServicioLabel">
+                                    <i class="bi bi-journal-plus me-2"></i> Registrar Servicio
+                                </h5>
+                                <button type="button" class="close text-white" data-bs-dismiss="modal"><i data-feather="x"></i></button>
+                            </div>
+
+                            <form id="formRegistrarservicio" method="post">
+                                <input type="hidden" name="registrar_servicio" value="1">
+                                <div class="modal-body">
+
+                                    <!-- Cliente y Nombre -->
+                                    <div class="row mb-3">
+                                        <div class="col-md-6">
+                                            <label for="cedula" class="form-label">
+                                                <i class="bi bi-person-vcard me-1"></i> Cédula del Cliente
+                                            </label>
+                                            <input type="text" placeholder="Cédula de identidad" class="form-control" id="cedula" name="cedula" required>
+                                            <div class="invalid-feedback">Por favor ingrese una cédula válida.</div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="nombre_usuario" class="form-label">
+                                                <i class="bi bi-person-badge me-1"></i> Nombre del Cliente
+                                            </label>
+                                            <input type="text" placeholder="Nombre" class="form-control" id="nombre_usuario" name="nombre_usuario" required readonly>
+                                        </div>
+                                    </div>
+
+                                    <div class="row mb-3">
+                                        <div class="col-md-6">
+                                            <label for="fecha_reserva" class="form-label">
+                                                <i class="bi bi-calendar-date me-1"></i> Fecha de la reserva
+                                            </label>
+                                            <input type="date" id="fecha_reserva" name="fecha" class="form-control">
+                                        </div>
+
+                                        <!-- Promoción -->
+                                        <div class="row mb-3">
+                                            <div class="col-md-12">
+                                                <label for="select_promocion" class="form-label">
+                                                    <i class="bi bi-ticket-detailed me-1"></i> Promoción
+                                                </label>
+                                                <select id="select_promocion" name="cod_promo" class="form-select">
+                                                    <option value="" data-desc="0">-- Sin promoción --</option>
+                                                    <?php if (!empty($promociones)): ?>
+                                                        <?php foreach ($promociones as $p): ?>
+                                                            <option value="<?= htmlspecialchars($p['cod_promo'] ?? $p['id'] ?? ''); ?>"
+                                                                data-desc="<?= htmlspecialchars($p['descuento'] ?? 0); ?>">
+                                                                <?= htmlspecialchars(($p['nombre_promo'] ?? $p['nombre'] ?? 'Promo') . ' - ' . intval($p['descuento'] ?? 0) . '%'); ?>
+                                                            </option>
+                                                        <?php endforeach; ?>
+                                                    <?php endif; ?>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <!-- Selección de servicios -->
+                                        <div class="row mb-3">
+                                            <div class="col-md-12">
+                                                <label for="select_servicios" class="form-label">
+                                                    <i class="bi bi-list-check me-1"></i> Seleccione los tipos de Servicios
+                                                    <small class="text-muted">(presione <strong>Ctrl</strong> + clic para seleccionar varios)</small>
+                                                </label>
+                                                <div class="input-group">
+                                                    <select class="form-select" id="select_servicios" name="servicios[]" multiple size="6" aria-label="Seleccione uno o varios servicios" title="Mantenga presionada la tecla Ctrl y haga clic para seleccionar varios servicios">
+                                                        <?php if (!empty($servicios)): ?>
+                                                            <?php foreach ($servicios as $s): ?>
+                                                                <option value="<?= htmlspecialchars($s['cod_tipo_servicio']); ?>"
+                                                                    data-price="<?= htmlspecialchars(number_format($s['precio'], 2, '.', '')); ?>">
+                                                                    <?= htmlspecialchars($s['nombre_servicio'] . ' - ' . number_format($s['precio'], 2, ',', '.') . ' $'); ?>
+                                                                </option>
+                                                            <?php endforeach; ?>
+                                                        <?php else: ?>
+                                                            <option disabled>No hay tipos de servicio disponibles</option>
+                                                        <?php endif; ?>
+                                                    </select>
+                                                    <button type="button" class="btn btn-primary btn-sm" onclick="openTipoServicioModal()">
+                                                        <i class="bi bi-brush-fill"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Precio total -->
+                                        <div class="row mb-3">
+                                            <div class="col-md-6">
+                                                <label for="precio" class="form-label">
+                                                    <i class="bi bi-cash-coin me-1"></i> Precio Total
+                                                </label>
+                                                <input type="text" class="form-control" id="precio" name="precio" readonly>
+                                                <input type="hidden" id="precio_original" name="precio_original" value="0">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="descripcion_servicio" class="form-label">
+                                                    <i class="bi bi-card-text me-1"></i> Descripción
+                                                </label>
+                                                <textarea class="form-control" id="descripcion_servicio" name="descripcion_servicio" placeholder="Descripción del servicio" rows="3"></textarea>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="row mb-3">
+                                        <div class="col-md-12">
+                                            <label for="select_herramientas" class="form-label">
+                                                <i class="bi bi-tools me-1"></i> Seleccione las Herramientas
+                                                <small class="text-muted">(presione <strong>Ctrl</strong> + clic para seleccionar varios)</small>
+                                            </label>
+                                            <select class="form-select" id="select_herramientas" name="herramientas[]" multiple size="3">
+                                                <?php if (!empty($herramientas)): ?>
+                                                    <?php foreach ($herramientas as $h): ?>
+                                                        <option value="<?= htmlspecialchars($h['cod_herramienta']); ?>">
+                                                            <?= htmlspecialchars($h['nombre_herramienta']); ?>
+                                                        </option>
+                                                    <?php endforeach; ?>
+                                                <?php else: ?>
+                                                    <option disabled>No hay herramientas disponibles</option>
+                                                <?php endif; ?>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <!-- Footer con botones -->
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="btnCerrar">
+                                            <i class="bi bi-x-circle me-1"></i> Cerrar
+                                        </button>
+                                        <button type="submit" class="btn btn-primary">
+                                            <i class="bi bi-save2 me-1"></i> Registrar Servicio
+                                        </button>
+                                    </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- Modal Secundario: Tipo de Servicio -->
+                <div class="modal fade" id="registrartiposervicio" tabindex="-1" aria-labelledby="modalTipoServicioLabel" aria-hidden="true" data-bs-backdrop="static">
+                    <div class="modal-dialog modal-dialog-centered modal-sm"> <!-- Cambiado a modal-sm para menor ancho -->
+                        <div class="modal-content">
+                            <div class="modal-header bg-primary text-white">
+                                <h5 class="modal-title white" id="modalTipoServicioLabel">Registrar tipo de servicio</h5>
+                                <button type="button" class="close text-white" data-bs-dismiss="modal"><i data-feather="x"></i></button>
+                            </div>
+                            <div class="modal-body">
+                                <form id="formRegistrartiposservicios" method="post">
+                                    <div class="mb-3">
+                                        <label for="nombre_servicio"><i class="bi-scissors"></i> Tipo de Servicio</label>
+                                        <input type="text" class="form-control" id="nombre_servicio" name="nombre_servicio" placeholder="Nombre del tipo de servicio" required>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label for="precio"><i class="fas fa-dollar-sign"></i> Precio total</label>
+                                        <input type="text" class="form-control" id="precio" name="precio" placeholder="Precio del tipo de servicio" required>
+
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                <button type="submit" class="btn btn-primary" form="formRegistrartiposservicios">Guardar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+            </div>
+
+    </div>
+    <div class="modal fade text-left" id="modalregistrarpago" tabindex="-1" role="dialog" aria-labelledby="modalregistrarpagoLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-primary">
+                    <h5 class="modal-title white" id="registrarpagoLabel">Registrar pago</h5>
+                    <button type="button" class="close text-white" data-bs-dismiss="modal" aria-label="Close">
+                        <i data-feather="x"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="formRegistrarpago" method="post">
+                        <input type="hidden" name="cod_servicio" id="cod_servicio">
+                        <h2 id="titulo_total">TOTAL A PAGAR: 0 $</h2>
+
+                        <div class="form-group">
+                            <label for="fecha_pago"><i class="bi bi-calendar-date me-1"></i> Fecha de pago</label>
+                            <input type="date" class="form-control" name="fecha_pago" id="fecha_pago" required>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="cod_tipo_pago"><i class="fas fa-dollar-sign"></i> Método de pago</label>
+                                <select id="cod_tipo_pago" name="cod_tipo_pago" class="form-select" required>
+                                    <option value="">--Seleccione método de pago--</option>
+                                    <?php if (!empty($tipos_pago)): ?>
+                                        <?php foreach ($tipos_pago as $t): ?>
+                                            <option value="<?php echo htmlspecialchars($t['cod_tipo_pago']); ?>">
+                                                <?php echo htmlspecialchars($t['nombre_tipo_pago']); ?>
+                                            </option>
+                                        <?php endforeach; ?>
+                                    <?php endif; ?>
+                                </select>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="monto"><i class="bi bi-cash-coin me-1"></i> Monto total</label>
+                                <input type="text" class="form-control" id="monto" name="monto" readonly>
+                            </div>
+                        </div>
+
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal" id="btnCerrar">Cerrar</button>
+                            <button type="submit" class="btn btn-primary ms-1">Guardar</button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade text-left" id="modalcancelarservicio" tabindex="-1" role="dialog" aria-labelledby="modalEliminartiposervicioLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-danger">
+                    <h5 class="modal-title white" id="modalcancelarservicioLabel">Cancelar Servicio</h5>
+                    <button type="button" class="close text-white" data-bs-dismiss="modal" aria-label="Close">
+                        <i data-feather="x"></i>
+                    </button>
+                </div>
+                <form id="formcancelarservicio" method="post">
+                    <div class="modal-body">
+                        <p>¿Desea cancelar este servicio?</p>
+                        <input type="hidden" id="delete_cod_servicio" name="cod_servicio" value="">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-light-primary" data-bs-dismiss="modal">
+                            <i class="bx bx-x d-block d-sm-none"></i>
+                            <span class="d-none d-sm-block">No</span>
+                        </button>
+                        <button type="submit" class="btn btn-danger ms-1" name="cancelar_servicio">
+                            <i class="bx bx-check d-block d-sm-none"></i>
+                            <span class="d-none d-sm-block">Cancelar</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="modaldetalleservicio" tabindex="-1" aria-labelledby="labeldetalle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
+            <div class="modal-content border-0 shadow-lg">
+
+                <!-- Header -->
+                <div class="modal-header bg-gradient-primary text-white">
+                    <h5 class="modal-title fw-bold" id="labeldetalle">
+                        <i class="bi bi-file-earmark-text me-2"></i> Nota de Servico
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+
+                <!-- Body -->
+                <div class="modal-body">
+                    <div class="card border-0 shadow-sm">
+                        <div class="card-body">
+
+                            <!-- Cliente y fecha -->
+                            <div class="row mb-4">
+                                <div class="col-md-6">
+                                    <h6 class="text-muted">Cliente:</h6>
+                                    <p id="nota_nombre" class="mb-1 fw-semibold">-</p>
+                                    <p id="nota_cedula" class="text-muted">-</p>
+                                </div>
+                                <div class="col-md-6 text-end">
+                                    <h6 class="text-muted">Fecha:</h6>
+                                    <p id="nota_fecha" class="fw-semibold">-</p>
+                                </div>
+                            </div>
+
+                            <hr class="my-3">
+
+                            <!-- Tabla de servicios -->
+                            <div class="table-responsive mb-3">
+                                <table class="table table-hover align-middle">
+                                    <thead class="table-light text-uppercase small">
+                                        <tr>
+                                            <th>Servicio</th>
+                                            <th class="text-end">Precio Unitario</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="factura_servicios">
+                                        <tr>
+                                            <td colspan="4" class="text-center text-muted fst-italic">No hay servicios registrados</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+
+                            <div class="row mt-4 justify-content-end">
+                                <div class="col-md-6 d-flex justify-content-end align-items-center">
+                                    <div>
+                                        <h6 class="text-muted mb-1">Total a pagar:</h6>
+                                        <h3 id="factura_total" class="text-success fw-bold mb-0">$0.00</h3>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <a href="#"
+                        class="btn btn-sm btn-primary btn-generar-nota"
+                        data-cod_servicio="<?= $servicio['cod_servicio'] ?>"
+                        target="_blank">
+                        Generar Nota
+                    </a>
+
+
+
+                </div>
+            </div>
+        </div>
+
+
+        </section>
+    </div>
+
+    <script src="vista/assets/js/modulos-js/servicios.js"></script>
+</div>

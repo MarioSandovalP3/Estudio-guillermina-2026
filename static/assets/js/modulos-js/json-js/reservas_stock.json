@@ -1,0 +1,37 @@
+{
+    "88": {
+        "fecha": "2026-09-08",
+        "productos": {
+            "5": {
+                "cantidad": 4,
+                "cod_conteo": 93
+            },
+            "6": {
+                "cantidad": 4,
+                "cod_conteo": 94
+            }
+        }
+    },
+    "97": {
+        "fecha": "2026-09-08",
+        "productos": {
+            "4": {
+                "cantidad": 2,
+                "cod_conteo": 104
+            }
+        }
+    },
+    "98": {
+        "fecha": "2026-09-08",
+        "productos": {
+            "2": {
+                "cantidad": 2,
+                "cod_conteo": 105
+            },
+            "3": {
+                "cantidad": 2,
+                "cod_conteo": 106
+            }
+        }
+    }
+}

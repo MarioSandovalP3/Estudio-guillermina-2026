@@ -1,0 +1,221 @@
+<div id="main">
+    <div class="page-heading">
+        <div class="page-title">
+            <div class="row">
+                <div class="col-12 col-md-6 order-md-1 order-last">
+                    <h3>Rol</h3>
+                </div>
+                <div class="col-12 col-md-6 order-md-2 order-first">
+                    <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"> <a href="/admin?ruta=inicio">Inicio</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Rol</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+        <!-- Sección principal -->
+        <section class="section">
+            <div class="card">
+                <div class="card-header">
+                    <button type="button" class="btn btn-primary rounded-pill" data-bs-toggle="modal"
+                        data-bs-target="#Rol">
+                        Registrar Rol
+                    </button>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered mb-0" id="table1">
+                            <thead>
+                                <tr>
+                                    <th>Código</th>
+                                    <th>Rol</th>
+                                    <th>Estado</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for datos in roles %}
+                                {% if datos.status != 2 %}
+                                <tr>
+                                    <td>{{ datos.cod_rol }}</td>
+                                    <td>{{ datos.rol }}</td>
+                                    <td>
+                                        {% if datos.status == 1 %}
+                                        <span class="badge bg-success">Activo</span>
+                                        {% else %}
+                                        <span class="badge bg-danger">Inactivo</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <div class="d-flex gap-2">
+
+                                            <!-- BOTÓN EDITAR -->
+                                            <button
+                                                class="btn btn-sm {% if datos.cod_rol == 1 %}btn-secondary{% else %}btn-primary{% endif %} btn-editar"
+                                                {% if datos.cod_rol !=1 %} data-bs-toggle="modal"
+                                                data-bs-target="#editModal" data-id="{{ datos.cod_rol }}"
+                                                data-nombre="{{ datos.rol }}" data-status="{{ datos.status }}"
+                                                title="Editar" {% else %} disabled title="Este rol no se puede editar"
+                                                {% endif %}>
+                                                <i class="bi bi-pencil"></i>
+                                            </button>
+
+                                            <!-- BOTÓN ELIMINAR -->
+                                            <button
+                                                class="btn btn-sm {% if datos.cod_rol == 1 %}btn-secondary{% else %}btn-danger{% endif %} btn-eliminar"
+                                                {% if datos.cod_rol !=1 %} data-bs-toggle="modal"
+                                                data-bs-target="#deleteModal" data-codigo="{{ datos.cod_rol }}"
+                                                data-nombre="{{ datos.rol }}" title="Eliminar" {% else %} disabled
+                                                title="Este rol no se puede eliminar" {% endif %}>
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endif %}
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <!-- Modal para registrar Rol -->
+
+    <div class="modal fade text-left" id="Rol" tabindex="-1" role="dialog" aria-labelledby="myModalLabel160"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-primary">
+                    <h5 class="modal-title white" id="myModalLabel160">Registrar Rol</h5>
+                    <button type="button" class="close text-white" data-bs-dismiss="modal" aria-label="Close">
+                        <i data-feather="x"></i>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <form id="formRol" method="post" data-parsley-validate style="font-weight: bold;">
+                        <!-- Campo oculto -->
+                        <input type="hidden" name="registrar" value="1">
+
+                        <div class="form-group mb-3">
+                            <label for="nombre_rol">
+                                <i class="the-icon fas fa-user-cog"></i> Rol <span class="text-danger"
+                                    style="font-size: 20px;"> *</span>
+                            </label>
+                            <button class="btn btn-xs" data-toggle="tooltip" data-placement="top"
+                                title="Ingrese el rol">
+                                <i class="fas fa-info-circle"></i>
+                            </button>
+                            <input type="text" class="form-control" placeholder="Nombre del rol" id="nombre_rol"
+                                name="rol" required maxlength="16" data-parsley-pattern="^[a-zA-ZÁÉÍÓÚáéíóúÑñ\s.,()]+$"
+                                data-parsley-pattern-message="Este campo solo permite letras."
+                                data-parsley-required-message="Este campo es obligatorio.">
+                        </div>
+
+                        <div class="alert alert-light d-flex align-items-center" role="alert">
+                            <i class="fas fa-exclamation-triangle mr-2"></i>
+                            <span>Todos los campos marcados con (*) son obligatorios</span>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal"
+                                id="btnCerrarModal">
+                                Cerrar
+                            </button>
+                            <button type="submit" class="btn btn-primary ms-1"
+                                style="font-weight: normal;">Guardar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- Modal para editar Rol -->
+    <div class="modal fade text-left" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title white" id="labelEditar">Editar Rol</h5>
+                    <button type="button" class="close text-white" data-bs-dismiss="modal" aria-label="Close"
+                        id="btnClose">
+                        <i data-feather="x"></i>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <form id="formEditRol" method="post" data-parsley-validate style="font-weight: bold;">
+                        <input type="hidden" name="cod_rol" id="edit_cod_rol">
+
+                        <input type="hidden" name="actualizar" value="1"> <!-- campo oculto -->
+
+                        <div class="form-group mb-3">
+                            <label for="edit_rol">
+                                <i class="the-icon fas fa-user-cog"></i> Rol
+                            </label>
+                            <input type="text" class="form-control" placeholder="Nombre del rol" id="edit_rol"
+                                name="rol" required maxlength="16" data-parsley-pattern="^[a-zA-ZÁÉÍÓÚáéíóúÑñ\s.,()]+$"
+                                data-parsley-pattern-message="Este campo solo permite letras."
+                                data-parsley-required-message="Este campo es obligatorio.">
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label for="edit_estado"><i class="bi bi-toggle-on"></i> Estado</label>
+                            <select name="status" id="edit_estado" class="form-select" required>
+                                <option value="">Seleccione un estado</option>
+                                <option value="1">Activo</option>
+                                <option value="0">Inactivo</option>
+                            </select>
+                        </div>
+
+                        <div class="alert alert-light d-flex align-items-center" role="alert">
+                            <i class="fas fa-exclamation-triangle mr-2"></i>
+                            <span>Todos los campos marcados con (*) son obligatorios</span>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal"
+                                id="btnCerrar">Cerrar</button>
+                            <button type="submit" class="btn btn-primary" style="font-weight: normal;">Editar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- eliminar rol -->
+    <div class="modal fade text-left" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-danger">
+                    <h5 class="modal-title white" id="deleteModalLabel">Confirmar Eliminación</h5> <button type="button"
+                        class="close text-white" data-bs-dismiss="modal" aria-label="Close"> <i data-feather="x"></i>
+                    </button>
+                </div>
+                <form id="elimodal" method="post">
+                    <input type="hidden" name="eliminar" value="1"><!-- campo oculto-->
+                    <div class="modal-body">
+                        <p class="mb-0">¿Desea eliminar este rol <strong id="nombreEliminar"></strong>?</p>
+                        <input type="hidden" id="rolCodigo" name="cod_rol">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">No</button>
+                        <button type="submit" class="btn btn-danger ms-1">Eliminar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='/assets/js/modulos-js/rol.js') }}"></script>
+</div>

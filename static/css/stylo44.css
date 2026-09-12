@@ -1,0 +1,897 @@
+/* ================= VARIABLES ================= */
+:root{
+--negro:#080808;
+--negro-secundario:#111;
+--dorado:#1e26cf;
+--dorado-claro:#1e26cf;
+--blanco:#fff;
+--gris:#777;
+--transicion:all .4s cubic-bezier(.4,0,.2,1);
+--sombra:0 20px 50px rgba(0,0,0,.18);
+--sombra-dorada:0 15px 40px rgba(212,175,55,.25);
+}
+
+/* ================= RESET ================= */
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+html{
+scroll-behavior:smooth;
+}
+
+body{
+font-family:'Poppins','Segoe UI',sans-serif;
+background:#fff;
+color:#222;
+overflow-x:hidden;
+}
+
+img{
+max-width:100%;
+display:block;
+}
+
+a{
+text-decoration:none;
+}
+
+ul{
+list-style:none;
+}
+
+/* ================= SCROLLBAR ================= */
+::-webkit-scrollbar{
+width:10px;
+}
+
+::-webkit-scrollbar-track{
+background:#111;
+}
+
+::-webkit-scrollbar-thumb{
+background:linear-gradient(var(--dorado),#8b6b12);
+border-radius:20px;
+}
+
+/* ================= NAVBAR ================= */
+.menu-principal{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+padding:18px 0;
+background:rgba(0,0,0,.25);
+backdrop-filter:blur(15px);
+border-bottom:1px solid rgba(255,255,255,.1);
+z-index:9999;
+transition:var(--transicion);
+}
+
+.menu-principal:hover{
+background:rgba(0,0,0,.9);
+}
+
+.navbar-brand{
+display:flex;
+align-items:center;
+}
+
+.logo{
+width:95px;
+height:75px;
+object-fit:contain;
+filter:drop-shadow(0 5px 15px rgba(0,0,0,.5));
+transition:var(--transicion);
+}
+
+.logo:hover{
+transform:scale(1.08) rotate(-3deg);
+}
+
+.nav-link{
+position:relative;
+color:white!important;
+font-size:.9rem;
+font-weight:600;
+letter-spacing:1.5px;
+margin:0 12px;
+padding:10px 5px!important;
+text-transform:uppercase;
+transition:var(--transicion);
+}
+
+.nav-link::after{
+content:"";
+position:absolute;
+left:50%;
+bottom:0;
+width:0;
+height:2px;
+background:var(--dorado);
+transform:translateX(-50%);
+transition:.4s;
+}
+
+.nav-link:hover::after{
+width:100%;
+}
+
+.nav-link:hover{
+color:var(--dorado)!important;
+}
+
+.btn-login{
+display:flex;
+align-items:center;
+gap:8px;
+background:linear-gradient(135deg,var(--dorado),var(--dorado-claro));
+color:#000;
+padding:12px 25px;
+border-radius:50px;
+font-weight:700;
+box-shadow:0 10px 25px rgba(212,175,55,.3);
+transition:var(--transicion);
+}
+
+.btn-login:hover{
+transform:translateY(-4px);
+color:#000;
+box-shadow:0 15px 35px rgba(212,175,55,.5);
+}
+
+/* ================= HERO PROMOCIONES ================= */
+.hero-promociones{
+height:90vh;
+min-height:650px;
+background:
+linear-gradient(rgba(0,0,0,.65),rgba(0,0,0,.75)),
+url("../imagenes/estudio1.jpg");
+background-size:cover;
+background-position:center;
+display:flex;
+justify-content:center;
+align-items:center;
+text-align:center;
+position:relative;
+}
+
+.hero-overlay{
+position:absolute;
+inset:0;
+}
+
+.hero-promociones-contenido{
+position:relative;
+max-width:850px;
+padding:20px;
+color:white;
+animation:entradaHero 1.2s ease;
+}
+
+.hero-promociones-contenido span{
+color:var(--dorado);
+font-size:18px;
+font-weight:700;
+letter-spacing:3px;
+text-transform:uppercase;
+}
+
+.hero-promociones-contenido h1{
+font-size:4rem;
+font-weight:800;
+text-transform:uppercase;
+letter-spacing:2px;
+margin:20px 0;
+}
+
+.hero-promociones-contenido p{
+font-size:1.2rem;
+line-height:1.8;
+margin-bottom:35px;
+}
+
+.hero-botones{
+display:flex;
+justify-content:center;
+gap:20px;
+flex-wrap:wrap;
+}
+
+.hero-botones a{
+padding:15px 40px;
+border-radius:40px;
+font-weight:700;
+transition:var(--transicion);
+}
+
+.btn-dorado{
+background:var(--dorado);
+color:#000;
+}
+
+.btn-dorado:hover{
+background:white;
+color:#000;
+transform:translateY(-5px);
+}
+
+.btn-negro{
+background:transparent;
+border:2px solid white;
+color:white;
+}
+
+.btn-negro:hover{
+background:var(--dorado);
+border-color:var(--dorado);
+color:#000;
+transform:translateY(-5px);
+}
+
+@keyframes entradaHero{
+from{
+opacity:0;
+transform:translateY(60px);
+}
+to{
+opacity:1;
+transform:translateY(0);
+}
+}
+
+/* ================= INTRO PROMOCIONES ================= */
+.intro-promociones{
+padding:90px 0;
+background:#fff;
+}
+
+.intro-promo-imagen{
+overflow:hidden;
+border-radius:25px;
+box-shadow:var(--sombra);
+}
+
+.intro-promo-imagen img{
+width:100%;
+height:500px;
+object-fit:cover;
+transition:.5s;
+}
+
+.intro-promo-imagen:hover img{
+transform:scale(1.08);
+}
+
+.intro-promo-texto{
+padding:30px;
+}
+
+.intro-promo-texto span{
+color:var(--dorado);
+font-weight:700;
+letter-spacing:2px;
+text-transform:uppercase;
+}
+
+.intro-promo-texto h2{
+font-size:42px;
+font-weight:800;
+margin:20px 0;
+color:#111;
+}
+
+.intro-promo-texto p{
+font-size:17px;
+line-height:1.8;
+color:#666;
+margin-bottom:15px;
+}
+
+/* ================= TITULOS GENERALES ================= */
+.titulo-seccion{
+text-align:center;
+padding:80px 0 50px;
+}
+
+.titulo-seccion span{
+color:var(--dorado);
+font-weight:700;
+letter-spacing:2px;
+text-transform:uppercase;
+}
+
+.titulo-seccion h2{
+font-size:42px;
+font-weight:800;
+margin-top:15px;
+color:#111;
+}
+/* ================= PROMOCIONES DESTACADAS ================= */
+.promociones-destacadas{
+padding-bottom:90px;
+background:#fff;
+}
+
+.grid-promociones{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:35px;
+}
+
+.promo-card-premium{
+background:white;
+border-radius:25px;
+overflow:hidden;
+position:relative;
+box-shadow:0 15px 35px rgba(0,0,0,.15);
+transition:var(--transicion);
+}
+
+.promo-card-premium:hover{
+transform:translateY(-15px);
+box-shadow:0 25px 50px rgba(212,175,55,.35);
+}
+
+.promo-imagen{
+height:330px;
+position:relative;
+overflow:hidden;
+}
+
+.promo-imagen img{
+width:100%;
+height:100%;
+object-fit:cover;
+transition:.5s;
+}
+
+.promo-card-premium:hover .promo-imagen img{
+transform:scale(1.1);
+}
+
+.descuento{
+position:absolute;
+top:20px;
+right:20px;
+background:var(--dorado);
+color:#000;
+padding:10px 22px;
+border-radius:30px;
+font-weight:800;
+font-size:.9rem;
+box-shadow:0 10px 25px rgba(212,175,55,.4);
+}
+
+.promo-contenido{
+padding:30px;
+text-align:center;
+}
+
+.promo-contenido h3{
+font-size:25px;
+font-weight:800;
+margin-bottom:15px;
+color:#111;
+}
+
+.promo-contenido p{
+color:#666;
+line-height:1.7;
+}
+
+.precios{
+display:flex;
+justify-content:center;
+align-items:center;
+gap:20px;
+margin:20px 0;
+}
+
+.precio-anterior{
+color:#999;
+font-size:20px;
+text-decoration:line-through;
+}
+
+.precio-nuevo{
+color:var(--dorado);
+font-size:35px;
+font-weight:900;
+}
+
+.fecha-promo{
+font-weight:600;
+color:#111!important;
+margin:15px 0;
+}
+
+.btn-promo{
+display:inline-block;
+background:#000;
+color:white;
+padding:13px 35px;
+border-radius:40px;
+font-weight:700;
+transition:var(--transicion);
+}
+
+.btn-promo:hover{
+background:var(--dorado);
+color:#000;
+transform:translateY(-5px);
+}
+
+/* ================= BENEFICIOS ================= */
+.beneficios-promociones{
+background:#f8f8f8;
+padding:80px 0;
+}
+
+.grid-beneficios{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:25px;
+}
+
+.beneficio-card{
+background:white;
+padding:40px 25px;
+text-align:center;
+border-radius:25px;
+box-shadow:0 10px 30px rgba(0,0,0,.12);
+transition:var(--transicion);
+}
+
+.beneficio-card:hover{
+background:#000;
+color:white;
+transform:translateY(-12px);
+box-shadow:0 20px 40px rgba(212,175,55,.35);
+}
+
+.beneficio-card i{
+font-size:50px;
+color:var(--dorado);
+margin-bottom:20px;
+}
+
+.beneficio-card h3{
+font-size:22px;
+font-weight:800;
+margin-bottom:15px;
+}
+
+.beneficio-card p{
+color:#666;
+line-height:1.7;
+}
+
+.beneficio-card:hover p{
+color:#ddd;
+}
+
+/* ================= BANNER PROMOCIONAL ================= */
+.banner-promocional{
+height:450px;
+background:
+linear-gradient(rgba(0,0,0,.75),rgba(0,0,0,.8)),
+url("../imagenes/estudio1.jpg");
+background-size:cover;
+background-position:center;
+display:flex;
+align-items:center;
+justify-content:center;
+text-align:center;
+position:relative;
+}
+
+.banner-overlay{
+position:absolute;
+inset:0;
+}
+
+.banner-contenido{
+position:relative;
+max-width:800px;
+padding:20px;
+color:white;
+}
+
+.banner-contenido span{
+color:var(--dorado);
+font-weight:800;
+font-size:18px;
+letter-spacing:3px;
+}
+
+.banner-contenido h2{
+font-size:45px;
+font-weight:900;
+margin:20px 0;
+}
+
+.banner-contenido p{
+font-size:18px;
+line-height:1.8;
+margin-bottom:30px;
+}
+
+.banner-contenido .btn-dorado{
+display:inline-block;
+padding:15px 45px;
+border-radius:40px;
+font-weight:800;
+transition:var(--transicion);
+}
+
+.banner-contenido .btn-dorado:hover{
+background:white;
+transform:translateY(-5px);
+}
+
+/* ================= CTA FINAL ================= */
+.cta-final{
+min-height:520px;
+background:
+linear-gradient(rgba(0,0,0,.7),rgba(0,0,0,.8)),
+url("../imagenes/estudio1.jpg");
+background-size:cover;
+background-position:center;
+display:flex;
+align-items:center;
+justify-content:center;
+text-align:center;
+padding:70px 20px;
+}
+
+.cta-contenido{
+max-width:850px;
+color:white;
+}
+
+.cta-contenido h2{
+font-size:45px;
+font-weight:900;
+margin-bottom:20px;
+}
+
+.cta-contenido p{
+font-size:18px;
+line-height:1.8;
+margin-bottom:35px;
+}
+
+.btn-reserva-final{
+display:inline-block;
+background:var(--dorado);
+color:#000;
+padding:16px 45px;
+border-radius:40px;
+font-weight:800;
+transition:var(--transicion);
+}
+
+.btn-reserva-final:hover{
+background:white;
+transform:translateY(-6px);
+}
+/* ================= WHATSAPP FLOTANTE ================= */
+.whatsapp-flotante{
+position:fixed;
+right:30px;
+bottom:30px;
+width:70px;
+height:70px;
+display:flex;
+align-items:center;
+justify-content:center;
+background:linear-gradient(135deg,#25d366,#128c7e);
+color:white;
+border-radius:50%;
+font-size:38px;
+z-index:9999;
+box-shadow:0 15px 35px rgba(37,211,102,.45);
+transition:var(--transicion);
+}
+
+.whatsapp-flotante:hover{
+transform:translateY(-8px) scale(1.08);
+color:white;
+}
+
+.whatsapp-flotante::before{
+content:"";
+position:absolute;
+inset:-8px;
+border-radius:50%;
+border:2px solid rgba(37,211,102,.5);
+animation:whatsappPulse 2s infinite;
+}
+
+@keyframes whatsappPulse{
+0%{
+transform:scale(.9);
+opacity:1;
+}
+100%{
+transform:scale(1.5);
+opacity:0;
+}
+}
+
+/* ================= FOOTER PREMIUM ================= */
+.footer-mt{
+background:linear-gradient(135deg,#050505,#151515);
+padding:90px 0 40px;
+color:white;
+position:relative;
+}
+
+.footer-mt::before{
+content:"";
+position:absolute;
+top:0;
+left:0;
+width:100%;
+height:3px;
+background:linear-gradient(90deg,transparent,var(--dorado),transparent);
+}
+
+.footer-logo img{
+width:130px;
+height:130px;
+object-fit:cover;
+border-radius:50%;
+border:3px solid var(--dorado);
+padding:5px;
+transition:var(--transicion);
+}
+
+.footer-logo img:hover{
+transform:rotate(5deg) scale(1.05);
+}
+
+.footer-text{
+color:#ccc;
+line-height:1.8;
+margin-top:25px;
+}
+
+.copyright{
+margin-top:25px;
+color:#777;
+font-size:.9rem;
+}
+
+.footer-mt h4{
+color:var(--dorado);
+font-size:1.3rem;
+font-weight:800;
+margin-bottom:25px;
+position:relative;
+}
+
+.footer-mt h4::after{
+content:"";
+position:absolute;
+bottom:-10px;
+left:0;
+width:45px;
+height:3px;
+background:var(--dorado);
+}
+
+.footer-links li,
+.footer-info li{
+margin-bottom:15px;
+}
+
+.footer-links a{
+color:#ccc;
+transition:var(--transicion);
+}
+
+.footer-links a:hover{
+color:var(--dorado);
+padding-left:8px;
+}
+
+.footer-info li{
+color:#ccc;
+}
+
+.footer-info i{
+color:var(--dorado);
+margin-right:10px;
+}
+
+.redes-sociales{
+margin-top:25px;
+}
+
+.redes-sociales a{
+width:45px;
+height:45px;
+display:inline-flex;
+align-items:center;
+justify-content:center;
+border-radius:50%;
+background:rgba(255,255,255,.08);
+color:white;
+margin-right:10px;
+transition:var(--transicion);
+}
+
+.redes-sociales a:hover{
+background:var(--dorado);
+color:#000;
+transform:translateY(-5px);
+}
+
+/* ================= ANIMACIONES ================= */
+.fade-up{
+opacity:0;
+transform:translateY(50px);
+transition:1s ease;
+}
+
+.fade-up.mostrar{
+opacity:1;
+transform:translateY(0);
+}
+
+/* ================= TABLET ================= */
+@media(max-width:992px){
+
+.menu-principal{
+background:rgba(0,0,0,.9);
+}
+
+.navbar-collapse{
+margin-top:20px;
+padding:25px;
+background:rgba(0,0,0,.95);
+border-radius:20px;
+}
+
+.hero-promociones-contenido h1{
+font-size:3rem;
+}
+
+.grid-promociones{
+grid-template-columns:repeat(2,1fr);
+}
+
+.grid-beneficios{
+grid-template-columns:repeat(2,1fr);
+}
+
+.intro-promo-texto h2{
+font-size:35px;
+}
+
+.banner-contenido h2{
+font-size:35px;
+}
+
+.cta-contenido h2{
+font-size:35px;
+}
+
+}
+
+/* ================= MOVIL ================= */
+@media(max-width:576px){
+
+.logo{
+width:75px;
+height:60px;
+}
+
+.hero-promociones{
+height:80vh;
+min-height:550px;
+}
+
+.hero-promociones-contenido h1{
+font-size:2.2rem;
+}
+
+.hero-promociones-contenido p{
+font-size:1rem;
+}
+
+.hero-botones{
+flex-direction:column;
+align-items:center;
+}
+
+.hero-botones a{
+width:230px;
+}
+
+.intro-promociones{
+padding:50px 0;
+}
+
+.intro-promo-imagen img{
+height:350px;
+}
+
+.intro-promo-texto{
+padding:20px 0;
+}
+
+.intro-promo-texto h2{
+font-size:30px;
+}
+
+.titulo-seccion{
+padding:50px 15px 35px;
+}
+
+.titulo-seccion h2{
+font-size:30px;
+}
+
+.grid-promociones{
+grid-template-columns:1fr;
+}
+
+.grid-beneficios{
+grid-template-columns:1fr;
+}
+
+.promo-imagen{
+height:270px;
+}
+
+.banner-promocional{
+height:400px;
+}
+
+.banner-contenido h2{
+font-size:30px;
+}
+
+.banner-contenido p{
+font-size:16px;
+}
+
+.cta-final{
+min-height:420px;
+}
+
+.cta-contenido h2{
+font-size:30px;
+}
+
+.cta-contenido p{
+font-size:16px;
+}
+
+.whatsapp-flotante{
+width:60px;
+height:60px;
+font-size:30px;
+right:20px;
+bottom:20px;
+}
+
+.footer-mt{
+text-align:center;
+}
+
+.footer-mt h4::after{
+left:50%;
+transform:translateX(-50%);
+}
+
+.footer-links a:hover{
+padding-left:0;
+}
+
+}

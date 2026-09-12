@@ -1,0 +1,297 @@
+<div id="main">
+    <div class="page-heading">
+        <div class="page-title">
+            <div class="row">
+                <div class="col-12 col-md-6 order-md-1 order-last">
+                    <h3>Reporte Estadístico de Pagos</h3>
+                    <p class="text-muted">Análisis de pagos con métricas y gráficos.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="section">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between flex-wrap gap-2 align-items-center">
+                <div class="d-flex gap-2 align-items-center">
+                    <form id="formPDF" action="/admin?ruta=reporte_pago_estadistico" method="post" target="_blank" class="d-flex gap-2">
+                        <input type="hidden" name="pdf" value="1">
+                        <input type="hidden" name="desde" id="pdf_desde" value="{{ filtros.desde }}">
+                        <input type="hidden" name="hasta" id="pdf_hasta" value="{{ filtros.hasta }}">
+                        <input type="hidden" name="cod_tipo_pago" id="pdf_cod_tipo_pago" value="{{ filtros.cod_tipo_pago }}">
+                        <input type="hidden" name="status" id="pdf_status" value="{{ filtros.status }}">
+                        <button type="submit" class="btn btn-danger btn-sm"><i class="bi bi-file-earmark-pdf"></i> Generar PDF</button>
+                    </form>
+                    <form id="formExcel" action="/admin?ruta=reporte_pago_estadistico" method="post" class="d-flex gap-2">
+                        <input type="hidden" name="excel" value="1">
+                        <input type="hidden" name="desde" id="excel_desde" value="{{ filtros.desde }}">
+                        <input type="hidden" name="hasta" id="excel_hasta" value="{{ filtros.hasta }}">
+                        <input type="hidden" name="cod_tipo_pago" id="excel_cod_tipo_pago" value="{{ filtros.cod_tipo_pago }}">
+                        <input type="hidden" name="status" id="excel_status" value="{{ filtros.status }}">
+                        <button type="submit" class="btn btn-success btn-sm"><i class="bi bi-file-earmark-excel"></i> Generar Excel</button>
+                    </form>
+                </div>
+                <button id="btnLimpiar" type="button" class="btn btn-secondary btn-sm">Limpiar</button>
+            </div>
+
+            <div class="card-body">
+                <form id="formFiltros" method="get" action="/admin" class="row g-3 mb-4">
+                    <input type="hidden" name="ruta" value="rep-pagos-estadistico">
+                    <div class="col-12 col-md-2">
+                        <label for="desde" class="form-label">Desde</label>
+                        <input id="desde" name="desde" type="date" class="form-control form-control-sm" value="{{ filtros.desde }}">
+                    </div>
+                    <div class="col-12 col-md-2">
+                        <label for="hasta" class="form-label">Hasta</label>
+                        <input id="hasta" name="hasta" type="date" class="form-control form-control-sm" value="{{ filtros.hasta }}">
+                    </div>
+                    <div class="col-12 col-md-3">
+                        <label for="cod_tipo_pago" class="form-label">Tipo de Pago</label>
+                        <select id="cod_tipo_pago" name="cod_tipo_pago" class="form-select form-select-sm">
+                            <option value="0" {% if filtros.cod_tipo_pago == 0 %}selected{% endif %}>Todos</option>
+                            {% for tipo in tipopagos %}
+                            <option value="{{ tipo.cod_tipo_pago }}" {% if tipo.cod_tipo_pago == filtros.cod_tipo_pago %}selected{% endif %}>{{ tipo.nombre_tipo_pago }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-12 col-md-3">
+                        <label for="status" class="form-label">Estado</label>
+                        <select id="status" name="status" class="form-select form-select-sm">
+                            <option value="all" {% if filtros.status == 'all' %}selected{% endif %}>Todos</option>
+                            <option value="active" {% if filtros.status == 'active' %}selected{% endif %}>Activos</option>
+                            <option value="anulado" {% if filtros.status == 'anulado' %}selected{% endif %}>Anulados</option>
+                        </select>
+                    </div>
+                    <div class="col-12 col-md-2 d-flex align-items-end gap-2">
+                        <button type="submit" class="btn btn-primary btn-sm">Filtrar</button>
+                    </div>
+                </form>
+
+                <div class="row gy-3">
+                    <div class="col-12 col-lg-6">
+                        <div class="card stats-card p-3">
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="stats-icon bg-primary"><i class="bi bi-wallet2"></i></div>
+                                <div>
+                                    <div class="mini-title">Total de pagos</div>
+                                    <div class="counter">{{ estadisticas.total_pagos }}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6">
+                        <div class="card stats-card p-3">
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="stats-icon bg-success"><i class="bi bi-cash-stack"></i></div>
+                                <div>
+                                    <div class="mini-title">Ingresos totales</div>
+                                    <div class="counter">{{ "%.2f"|format(estadisticas.ingresos_totales) }}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6">
+                        <div class="card stats-card p-3">
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="stats-icon bg-warning"><i class="bi bi-graph-up"></i></div>
+                                <div>
+                                    <div class="mini-title">Pago promedio</div>
+                                    <div class="counter">{{ "%.2f"|format(estadisticas.pago_promedio) }}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6">
+                        <div class="card stats-card p-3">
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="stats-icon bg-danger"><i class="bi bi-x-circle"></i></div>
+                                <div>
+                                    <div class="mini-title">Pagos anulados</div>
+                                    <div class="counter">{{ estadisticas.pagos_anulados }}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mt-4">
+                    <div class="col-12 col-xl-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5>Pagos por tipo</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-sm table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Tipo</th>
+                                                <th class="text-end">Pagos</th>
+                                                <th class="text-end">Ingresos</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for item in estadisticas.pagos_por_tipo %}
+                                            <tr>
+                                                <td>{{ item.nombre_tipo_pago }}</td>
+                                                <td class="text-end">{{ item.total_pagos }}</td>
+                                                <td class="text-end">{{ "%.2f"|format(item.ingresos) }}</td>
+                                            </tr>
+                                            {% endfor %}
+                                            {% if estadisticas.pagos_por_tipo|length == 0 %}
+                                            <tr><td colspan="3" class="text-center">Sin datos</td></tr>
+                                            {% endif %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-xl-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5>Pagos por moneda</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-sm table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Moneda</th>
+                                                <th class="text-end">Pagos</th>
+                                                <th class="text-end">Ingresos</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for item in estadisticas.pagos_por_moneda %}
+                                            <tr>
+                                                <td>{{ item.nombre_moneda }}</td>
+                                                <td class="text-end">{{ item.total_pagos }}</td>
+                                                <td class="text-end">{{ "%.2f"|format(item.ingresos) }}</td>
+                                            </tr>
+                                            {% endfor %}
+                                            {% if estadisticas.pagos_por_moneda|length == 0 %}
+                                            <tr><td colspan="3" class="text-center">Sin datos</td></tr>
+                                            {% endif %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mt-4">
+                    <div class="col-12 col-xl-8">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5>Ingresos por mes</h5>
+                            </div>
+                            <div class="card-body">
+                                <div id="chart-pagos-mes"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-xl-4">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5>Top clientes</h5>
+                            </div>
+                            <div class="card-body">
+                                <ul class="list-group">
+                                    {% for cliente in estadisticas.top_clientes %}
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        <span>{{ cliente.nombre_cliente }}</span>
+                                        <span class="badge bg-primary rounded-pill">{{ "%.2f"|format(cliente.ingresos) }}</span>
+                                    </li>
+                                    {% endfor %}
+                                    {% if estadisticas.top_clientes|length == 0 %}
+                                    <li class="list-group-item text-center">Sin datos</li>
+                                    {% endif %}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card mt-4">
+                    <div class="card-header">
+                        <h5>Últimos pagos</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-sm table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Pago</th>
+                                        <th>Fecha</th>
+                                        <th class="text-end">Monto</th>
+                                        <th>Cliente</th>
+                                        <th>Tipo</th>
+                                        <th>Moneda</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for pago in estadisticas.ultimos_pagos %}
+                                    <tr>
+                                        <td>{{ pago.cod_pago }}</td>
+                                        <td>{{ pago.fecha_pago }}</td>
+                                        <td class="text-end">{{ "%.2f"|format(pago.monto) }}</td>
+                                        <td>{{ pago.cliente }}</td>
+                                        <td>{{ pago.tipo_pago }}</td>
+                                        <td>{{ pago.moneda }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                    {% if estadisticas.ultimos_pagos|length == 0 %}
+                                    <tr><td colspan="6" class="text-center">Sin datos</td></tr>
+                                    {% endif %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+<script>
+    const pagosPorMes = {{ estadisticas.pagos_por_mes | tojson | safe }};
+    const categorias = pagosPorMes.map(item => item.periodo);
+    const ingresos = pagosPorMes.map(item => Number(item.ingresos));
+
+    new ApexCharts(document.querySelector('#chart-pagos-mes'), {
+        series: [{ name: 'Ingresos', data: ingresos }],
+        chart: { type: 'area', height: 320 },
+        stroke: { curve: 'smooth', width: 3 },
+        fill: { type: 'gradient', gradient: { opacityFrom: 0.45, opacityTo: 0.05 } },
+        xaxis: { categories },
+        tooltip: { y: { formatter: val => '$' + val.toFixed(2) } }
+    }).render();
+
+    const updateHiddenFields = () => {
+        const values = {
+            desde: document.getElementById('desde').value,
+            hasta: document.getElementById('hasta').value,
+            cod_tipo_pago: document.getElementById('cod_tipo_pago').value,
+            status: document.getElementById('status').value,
+        };
+
+        document.getElementById('pdf_desde').value = values.desde;
+        document.getElementById('pdf_hasta').value = values.hasta;
+        document.getElementById('pdf_cod_tipo_pago').value = values.cod_tipo_pago;
+        document.getElementById('pdf_status').value = values.status;
+
+        document.getElementById('excel_desde').value = values.desde;
+        document.getElementById('excel_hasta').value = values.hasta;
+        document.getElementById('excel_cod_tipo_pago').value = values.cod_tipo_pago;
+        document.getElementById('excel_status').value = values.status;
+    };
+
+    document.getElementById('formPDF').addEventListener('submit', updateHiddenFields);
+    document.getElementById('formExcel').addEventListener('submit', updateHiddenFields);
+    document.getElementById('btnLimpiar').addEventListener('click', function () {
+        window.location = '/admin?ruta=rep-pagos-estadistico';
+    });
+</script>

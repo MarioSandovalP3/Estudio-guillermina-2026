@@ -1,0 +1,301 @@
+<div id="main">
+    <div class="page-heading">
+        <div class="page-title">
+            <div class="row">
+                <div class="col-12 col-md-6 order-md-1 order-last">
+                    <h3>Presentacion </h3>
+                </div>
+                <div class="col-12 col-md-6 order-md-2 order-first">
+                    <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="inicio">Inicio</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Presentacion</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+
+        <section class="section">
+            <div class="card">
+                <div class="card-header">
+                    <button type="button" class="btn btn-primary rounded-pill" data-bs-toggle="modal"
+                        data-bs-target="#modalRegistrarPresentacion">
+                        Registrar Presentacion
+                    </button>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered mb-0" id="table1">
+                            <thead>
+                                <tr>
+                                    <th>Codigo</th>
+                                    <th>Nombre</th>
+                                    <th>Status</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                {% for datos in presentacion %}
+                                {% if datos.status != 2 %}
+
+                                <tr>
+                                    <td>{{ datos.cod_presentacion }}</td>
+                                    <td>{{ datos.presentacion }}</td>
+
+                                    <td>
+                                        {% if datos.status == 1 %}
+                                        <span class="badge bg-success">Activo</span>
+                                        {% else %}
+                                        <span class="badge bg-danger">Inactivo</span>
+                                        {% endif %}
+                                    </td>
+
+                                    <td>
+                                        <div class="buttons d-flex gap-2">
+
+                                            <!-- EDITAR -->
+                                            <button class="btn btn-primary btn-sm btn-editar" data-bs-toggle="modal"
+                                                data-bs-target="#modalEditarPresentacion"
+                                                data-cod_presentacion="{{ datos.cod_presentacion }}"
+                                                data-presentacion="{{ datos.presentacion }}"
+                                                data-status="{{ datos.status }}" title="Editar">
+
+                                                <i class="bi bi-pencil"></i>
+                                            </button>
+
+                                            <!-- ELIMINAR -->
+                                            <button class="btn btn-danger btn-sm btn-eliminar" data-bs-toggle="modal"
+                                                data-bs-target="#modalEliminarPresentacion"
+                                                data-cod_presentacion="{{ datos.cod_presentacion }}"
+                                                data-presentacion="{{ datos.presentacion }}" title="Eliminar">
+
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                {% endif %}
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+
+
+                    <!-- Modal para registrar unidad de presentacion -->
+                    <div class="modal fade text-left" id="modalRegistrarPresentacion" tabindex="-1" role="dialog"
+                        aria-labelledby="modalRegistrarPresentacionLabel" aria-hidden="true">
+
+                        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+                            <div class="modal-content">
+
+                                <!-- HEADER -->
+                                <div class="modal-header bg-primary">
+                                    <h5 class="modal-title text-white" id="modalRegistrarPresentacionLabel">
+                                        Registrar Presentación
+                                    </h5>
+
+                                    <button type="button" class="close text-white" data-bs-dismiss="modal"
+                                        aria-label="Close" id="btnClose"><i data-feather="x"></i></button>
+                                </div>
+
+                                <!-- FORM -->
+                                <form id="formRegistrarPresentacion" method="POST"data-parsley-validate  >
+
+                                    <div class="modal-body"
+                                        style="max-height: 70vh; overflow-y: auto; overflow-x: hidden;">
+
+                                        <input type="hidden" name="registrar" value="1">
+
+                                        <!-- NOMBRE PRESENTACIÓN -->
+                                        <div class="row mb-3">
+                                            <div class="col-md-12">
+
+                                                <label for="presentacion_reg" style="font-weight: bold;">
+                                                    <i class="bi bi-box"></i> Nombre de la presentación
+                                                    <span class="text-danger" style="font-size: 20px;">*</span>
+                                                </label>
+
+                                                <button class="btn btn-xs" data-toggle="tooltip"
+                                                    title="Ingrese el nombre de la presentación del producto.">
+                                                    <i class="fas fa-info-circle"></i>
+                                                </button>
+
+                                                <input type="text" class="form-control" id="presentacion_reg"
+                                                    name="presentacion" required maxlength="12"
+                                                    placeholder="Ej: Botella, Caja, Bolsa" required
+                                                    data-parsley-pattern="^[a-zA-ZÁÉÍÓÚáéíóúÑñ\s]+$"
+                                                    data-parsley-pattern-message="Solo se permiten letras."
+                                                    data-parsley-required-message="Este campo es obligatorio.">
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <!-- ALERTA -->
+                                    <div class="alert alert-light d-flex align-items-center mb-0"
+                                        style="font-weight: bold;">
+                                        <i class="fas fa-exclamation-triangle mr-2"></i>
+                                        <span>Todos los campos marcados con (*) son obligatorios</span>
+                                    </div>
+
+                                    <!-- FOOTER -->
+                                    <div class="modal-footer" style="position: sticky; bottom: 0; background: #fff;">
+
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                            Cerrar
+                                        </button>
+
+                                        <button type="submit" class="btn btn-primary">
+                                            Guardar
+                                        </button>
+                                    </div>
+
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <!-- Modal editar presentación -->
+                    <div class="modal fade text-left" id="modalEditarPresentacion" tabindex="-1" role="dialog"
+                        aria-labelledby="modalEditarPresentacionLabel" aria-hidden="true">
+
+                        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+                            <div class="modal-content">
+
+                                <!-- HEADER -->
+                                <div class="modal-header bg-primary">
+                                    <h5 class="modal-title text-white" id="modalEditarPresentacionLabel">
+                                        Editar Presentación
+                                    </h5>
+
+                                    <button type="button" class="close text-white" data-bs-dismiss="modal"
+                                        aria-label="Close" id="btnClose"><i data-feather="x"></i></button>
+                                </div>
+
+                                <!-- FORM -->
+                                <form id="formEditarPresentacion" method="POST">
+
+                                    <div class="modal-body">
+
+                                        <input type="hidden" name="actualizar" value="1">
+                                        <input type="hidden" id="cod_presentacion_edit" name="cod_presentacion">
+
+                                        <!-- PRESENTACIÓN -->
+                                        <div class="row mb-3">
+                                            <div class="col-md-12">
+
+                                                <label for="presentacion_edit">
+                                                    <i class="bi bi-box"></i> Nombre de la presentación
+                                                </label>
+
+                                                <input type="text" class="form-control" id="presentacion_edit"
+                                                    name="presentacion" required maxlength="12"
+                                                    placeholder="Ej: Botella, Caja, Bolsa" required
+                                                    data-parsley-pattern="^[a-zA-ZÁÉÍÓÚáéíóúÑñ\s]+$"
+                                                    data-parsley-pattern-message="Solo se permiten letras."
+                                                    data-parsley-required-message="Este campo es obligatorio.">
+
+                                            </div>
+                                        </div>
+
+                                        <!-- STATUS -->
+                                        <div class="row mb-3">
+                                            <div class="col-md-12">
+
+                                                <label for="status_presentacion_edit">
+                                                    <i class="bi bi-toggle-on"></i> Estado
+                                                </label>
+
+                                                <select id="status_presentacion_edit" name="status" class="form-select">
+                                                    <option value="1">Activo</option>
+                                                    <option value="0">Inactivo</option>
+                                                </select>
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <!-- FOOTER -->
+                                    <div class="modal-footer">
+
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                            Cerrar
+                                        </button>
+
+                                        <button type="submit" class="btn btn-primary">
+                                            Guardar cambios
+                                        </button>
+
+                                    </div>
+
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- Modal eliminar presentacion  -->
+                    <div class="modal fade text-left" id="modalEliminarPresentacion" tabindex="-1" role="dialog"
+                        aria-labelledby="modalEliminarPresentacionLabel" aria-hidden="true">
+
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+
+                                <!-- HEADER -->
+                                <div class="modal-header bg-danger">
+                                    <h5 class="modal-title text-white" id="modalEliminarPresentacionLabel">
+                                        Confirmar Eliminación
+                                    </h5>
+
+                                    <button type="button" class="close text-white" data-bs-dismiss="modal">
+                                        <i data-feather="x"></i>
+                                    </button>
+                                </div>
+
+                                <!-- FORM -->
+                                <form id="formEliminarPresentacion" method="POST">
+
+                                    <div class="modal-body">
+
+                                        <input type="hidden" name="eliminar" value="1">
+                                        <input type="hidden" name="cod_presentacion" id="cod_presentacion_eliminar">
+
+                                        <p>
+                                            ¿Desea eliminar la presentación
+                                            <strong id="nombre_presentacion"></strong>?
+                                        </p>
+
+                                    </div>
+
+                                    <!-- FOOTER -->
+                                    <div class="modal-footer">
+
+                                        <button type="button" class="btn btn-light-primary" data-bs-dismiss="modal">
+                                            No
+                                        </button>
+
+                                        <button type="submit" class="btn btn-danger">
+                                            Eliminar
+                                        </button>
+
+                                    </div>
+
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+        </section>
+    </div>
+</div>
+<script src="{{ url_for('static', filename='/assets/js/modulos-js/presentacion.js') }}"></script>

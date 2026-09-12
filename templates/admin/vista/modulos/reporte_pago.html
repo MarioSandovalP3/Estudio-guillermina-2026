@@ -1,0 +1,142 @@
+<div id="main">
+    <div class="page-heading">
+        <div class="page-title">
+            <div class="row">
+                <div class="col-12 col-md-6 order-md-1 order-last">
+                    <h3>Reporte de Pagos</h3>
+                    <p class="text-muted">Listado de pagos con filtros y exportación en PDF/Excel.</p>
+                </div>
+                <div class="col-12 col-md-6 order-md-2 text-md-end mt-3 mt-md-0">
+                    <a href="{{ url_for('admin_index', ruta='reporte_pago_estadistico') }}" class="btn btn-outline-primary btn-sm">
+                        <i class="fas fa-chart-line"></i> Ir a estadísticas
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="section">
+        <div class="card">
+            <div class="card-header d-flex flex-column flex-md-row justify-content-between gap-2 align-items-start align-items-md-center">
+                <div class="d-flex gap-2 flex-wrap align-items-center">
+                    <form id="formPDF" action="/admin?ruta=reporte_pago" method="post" target="_blank" class="d-flex gap-2 align-items-center">
+                        <input type="hidden" name="pdf" value="1">
+                        <input type="hidden" name="desde" id="pdf_desde" value="{{ filtros.desde }}">
+                        <input type="hidden" name="hasta" id="pdf_hasta" value="{{ filtros.hasta }}">
+                        <input type="hidden" name="cod_tipo_pago" id="pdf_cod_tipo_pago" value="{{ filtros.cod_tipo_pago }}">
+                        <input type="hidden" name="status" id="pdf_status" value="{{ filtros.status }}">
+                        <button type="submit" class="btn btn-danger btn-sm"><i class="bi bi-file-earmark-pdf"></i> Generar PDF</button>
+                    </form>
+                    <form id="formExcel" action="/admin?ruta=reporte_pago" method="post" class="d-flex gap-2 align-items-center">
+                        <input type="hidden" name="excel" value="1">
+                        <input type="hidden" name="desde" id="excel_desde" value="{{ filtros.desde }}">
+                        <input type="hidden" name="hasta" id="excel_hasta" value="{{ filtros.hasta }}">
+                        <input type="hidden" name="cod_tipo_pago" id="excel_cod_tipo_pago" value="{{ filtros.cod_tipo_pago }}">
+                        <input type="hidden" name="status" id="excel_status" value="{{ filtros.status }}">
+                        <button type="submit" class="btn btn-success btn-sm"><i class="bi bi-file-earmark-excel"></i> Generar Excel</button>
+                    </form>
+                </div>
+                <button id="btnLimpiar" type="button" class="btn btn-secondary btn-sm">Limpiar filtros</button>
+            </div>
+
+            <div class="card-body">
+                <form id="formFiltros" method="get" action="/admin" class="row g-3 mb-4">
+                    <input type="hidden" name="ruta" value="rep-pagos">
+                    <div class="col-12 col-md-2">
+                        <label for="desde" class="form-label">Desde</label>
+                        <input id="desde" name="desde" type="date" class="form-control form-control-sm" value="{{ filtros.desde }}">
+                    </div>
+                    <div class="col-12 col-md-2">
+                        <label for="hasta" class="form-label">Hasta</label>
+                        <input id="hasta" name="hasta" type="date" class="form-control form-control-sm" value="{{ filtros.hasta }}">
+                    </div>
+                    <div class="col-12 col-md-3">
+                        <label for="cod_tipo_pago" class="form-label">Tipo de Pago</label>
+                        <select id="cod_tipo_pago" name="cod_tipo_pago" class="form-select form-select-sm">
+                            <option value="0" {% if filtros.cod_tipo_pago == 0 %}selected{% endif %}>Todos</option>
+                            {% for tipo in tipopagos %}
+                            <option value="{{ tipo.cod_tipo_pago }}" {% if tipo.cod_tipo_pago == filtros.cod_tipo_pago %}selected{% endif %}>{{ tipo.nombre_tipo_pago }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-12 col-md-3">
+                        <label for="status" class="form-label">Estado</label>
+                        <select id="status" name="status" class="form-select form-select-sm">
+                            <option value="all" {% if filtros.status == 'all' %}selected{% endif %}>Todos</option>
+                            <option value="active" {% if filtros.status == 'active' %}selected{% endif %}>Activos</option>
+                            <option value="anulado" {% if filtros.status == 'anulado' %}selected{% endif %}>Anulados</option>
+                        </select>
+                    </div>
+                    <div class="col-12 col-md-2 d-flex align-items-end gap-2">
+                        <button type="submit" class="btn btn-primary btn-sm">Filtrar</button>
+                    </div>
+                </form>
+
+                <div class="table-responsive mt-3">
+                    <table class="table table-bordered mb-0" id="table1">
+                        <thead>
+                            <tr>
+                                <th>Cédula</th>
+                                <th>Cliente</th>
+                                <th>Fecha Pago</th>
+                                <th class="text-end">Monto</th>
+                                <th>Tipo de Pago</th>
+                                <th>Moneda</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for pago in registro %}
+                            <tr>
+                                <td>{{ pago.cedula }}</td>
+                                <td>{{ pago.nombre_cliente }}</td>
+                                <td>{{ pago.fecha_pago }}</td>
+                                <td class="text-end">{{ "%.2f"|format(pago.monto) }}</td>
+                                <td>{{ pago.nombre_tipo_pago or 'N/A' }}</td>
+                                <td>{{ pago.nombre_moneda or 'Bs' }}</td>
+                                <td>
+                                    {% if pago.status == 1 %}
+                                    <span class="badge bg-success">Activo</span>
+                                    {% else %}
+                                    <span class="badge bg-danger">Anulado</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                            {% if registro|length == 0 %}
+                            <tr><td colspan="7" class="text-center">Sin datos</td></tr>
+                            {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<script>
+    const updateHiddenFields = () => {
+        const values = {
+            desde: document.getElementById('desde').value,
+            hasta: document.getElementById('hasta').value,
+            cod_tipo_pago: document.getElementById('cod_tipo_pago').value,
+            status: document.getElementById('status').value,
+        };
+
+        document.getElementById('pdf_desde').value = values.desde;
+        document.getElementById('pdf_hasta').value = values.hasta;
+        document.getElementById('pdf_cod_tipo_pago').value = values.cod_tipo_pago;
+        document.getElementById('pdf_status').value = values.status;
+
+        document.getElementById('excel_desde').value = values.desde;
+        document.getElementById('excel_hasta').value = values.hasta;
+        document.getElementById('excel_cod_tipo_pago').value = values.cod_tipo_pago;
+        document.getElementById('excel_status').value = values.status;
+    };
+
+    document.getElementById('formPDF').addEventListener('submit', updateHiddenFields);
+    document.getElementById('formExcel').addEventListener('submit', updateHiddenFields);
+    document.getElementById('btnLimpiar').addEventListener('click', function () {
+        window.location = '/admin?ruta=rep-pagos';
+    });
+</script>

@@ -1,0 +1,571 @@
+<div id="main">
+    <div class="page-heading">
+        <div class="page-title">
+            <div class="row">
+                <div class="col-12 col-md-6 order-md-1 order-last">
+                    <h3>Especialista</h3>
+                </div>
+                <div class="col-12 col-md-6 order-md-2 order-first">
+                    <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a href="/admin?ruta=inicio">Inicio</a>
+                            </li>
+                            <li class="breadcrumb-item active" aria-current="page">
+                                Especialista
+                            </li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sección principal -->
+        <section class="section">
+
+            <div class="card">
+                <div class="card-header">
+                    <button type="button" class="btn btn-primary rounded-pill" data-bs-toggle="modal"
+                        data-bs-target="#primary">
+                        Registrar Especialista
+                    </button>
+                </div>
+                <div class="card-body">
+
+                    <div class="table-responsive">
+
+                        <table class="table table-bordered mb-0" id="table1">
+
+                            <thead>
+
+                                <tr>
+                                    <th>Cedula</th>
+                                    <th>Especialidad</th>
+                                    <th>Nombre y Apellido</th>
+                                    <th>Status</th>
+                                    <th>Acciones</th>
+                                </tr>
+
+                            </thead>
+
+                            <tbody>
+
+                                {% for datos in especialidad %}
+
+                                {% if datos.status != 2 %}
+
+                                <tr>
+
+                                    <!-- CÉDULA -->
+                                    <td>
+                                        {{ datos.cedula_especialista }}
+                                    </td>
+
+                                    <!-- ESPECIALISTA -->
+                                    <td>
+                                        {{ datos.especialista }}
+                                    </td>
+
+
+                                    <!-- NOMBRE Y APELLIDO -->
+                                    <td>
+                                        {{ datos.nombre_usuario }} {{ datos.apellido_usuario }}
+                                    </td>
+
+                                    <!-- STATUS -->
+                                    <td data-status="{{ datos.status }}">
+
+                                        {% if datos.status == 1 %}
+
+                                        <span class="badge bg-success">
+                                            Activo
+                                        </span>
+
+                                        {% else %}
+
+                                        <span class="badge bg-danger">
+                                            Inactivo
+                                        </span>
+
+                                        {% endif %}
+
+                                    </td>
+
+                                    <!-- ACCIONES -->
+                                    <td>
+
+                                        <div class="d-flex gap-2">
+
+                                            <!-- BOTÓN EDITAR -->
+                                            <button class="btn btn-primary btn-sm btn-editar" data-bs-toggle="modal"
+                                                data-bs-target="#editModal"
+                                                data-cedula="{{ datos.cedula_especialista }}"
+                                                data-especialista="{{ datos.especialista }}"
+                                                data-nombre="{{ datos.nombre_usuario }}"
+                                                data-status="{{ datos.status }}" title="Editar">
+
+                                                <i class="bi bi-pencil"></i>
+
+                                            </button>
+
+
+                                            <!-- BOTÓN ELIMINAR -->
+                                            <button class="btn btn-danger btn-sm btn-eliminar" data-bs-toggle="modal"
+                                                data-bs-target="#deleteModal"
+                                                data-cedula="{{ datos.cedula_especialista }}"
+                                                data-nombre="{{ datos.especialista }}" title="Eliminar">
+
+                                                <i class="bi bi-trash"></i>
+
+                                            </button>
+
+                                        </div>
+
+                                    </td>
+
+                                </tr>
+
+                                {% endif %}
+
+                                {% endfor %}
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- Modal para registrar Especialista -->
+
+                <div class="modal fade text-left" id="primary" tabindex="-1" role="dialog"
+                    aria-labelledby="myModalLabel160" aria-hidden="true">
+
+                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+
+                        <div class="modal-content">
+
+                            <div class="modal-header bg-primary">
+
+                                <h5 class="modal-title white" id="myModalLabel160">
+                                    Registrar Especialista
+                                </h5>
+
+                                <button type="button" class="close text-white" data-bs-dismiss="modal"
+                                    aria-label="Close">
+
+                                    <i data-feather="x"></i>
+
+                                </button>
+
+                            </div>
+
+
+                            <div class="modal-body">
+
+                                <form id="especialidad" method="post" data-parsley-validate style="font-weight: bold;">
+
+                                    <!-- Campo oculto para AJAX -->
+                                    <input type="hidden" name="registrar" value="1">
+
+
+                                    <!-- ================================= -->
+                                    <!-- ESPECIALIDAD -->
+                                    <!-- ================================= -->
+
+                                    <div class="form-group mb-3">
+
+                                        <label for="especialista">
+
+                                            <i data-feather="edit-3"></i>
+                                            Especialidad
+
+                                            <span class="text-danger" style="font-size: 20px;">
+                                                *
+                                            </span>
+
+                                        </label>
+
+                                        <button type="button" class="btn btn-xs" data-toggle="tooltip"
+                                            data-placement="top" title="Seleccione la especialidad del personal">
+
+                                            <i class="fas fa-info-circle"></i>
+
+                                        </button>
+
+
+                                        <select class="form-select" id="especialista" name="especialista" required
+                                            data-parsley-required-message="Debe seleccionar una especialidad.">
+
+                                            <option value="" selected disabled>
+                                                Seleccione una especialidad
+                                            </option>
+
+                                            <option value="Estilista">
+                                                estilista
+                                            </option>
+
+                                            <option value="Manicurista">
+                                                manicurista
+                                            </option>
+
+                                            <option value="Pedicurista">
+                                                pedicurista
+                                            </option>
+
+                                            <option value="Ayudante">
+                                                ayudante
+                                            </option>
+
+                                            <option value="Asistente">
+                                                asistente
+                                            </option>
+
+                                            <option value="Colorista">
+                                                colorista
+                                            </option>
+
+                                        </select>
+
+                                    </div>
+
+
+                                    <!-- ================================= -->
+                                    <!-- CÉDULA / USUARIO -->
+                                    <!-- ================================= -->
+                                    <div class="form-group mb-3">
+
+                                        <label for="cedula_reg">
+                                            <i class="bi bi-person-lines-fill"></i>
+                                            Cédula del personal
+
+                                            <span class="text-danger" style="font-size: 20px;">
+                                                *
+                                            </span>
+                                        </label>
+
+                                        <button type="button" class="btn btn-xs" data-toggle="tooltip"
+                                            data-placement="top" title="Cédula del personal">
+
+                                            <i class="fas fa-info-circle"></i>
+                                        </button>
+
+                                        <!-- BUSCADOR -->
+                                        <input type="text" id="searchCedula" class="form-control"
+                                            placeholder="Buscar cédula..." onkeyup="filterFunction()" autocomplete="off"
+                                            maxlength="33" data-parsley-maxlength="33"
+                                            data-parsley-maxlength-message="La cédula no puede tener más de 33 caracteres.">
+
+                                        <!-- USUARIOS -->
+                                        <select class="form-select mt-2" id="cedula_reg" name="cedula" required size="5"
+                                            style="display:none;"
+                                            data-parsley-required-message="La cédula es obligatoria;">
+
+                                            <option value="" selected disabled>
+                                                Seleccione una opción
+                                            </option>
+
+                                            {% for usuario in usuarios %}
+
+                                            <option value="{{ usuario.cedula }}">
+                                                {{ usuario.cedula }} -
+                                                {{ usuario.nombre_usuario }}
+                                                {{ usuario.apellido_usuario }}
+                                            </option>
+
+                                            {% endfor %}
+
+                                        </select>
+
+                                    </div>
+
+
+                                    <div class="alert alert-light d-flex align-items-center" role="alert">
+
+                                        <i class="fas fa-exclamation-triangle mr-2"></i>
+
+                                        <span>
+                                            Todos los campos marcados con (*) son obligatorios
+                                        </span>
+
+                                    </div>
+
+
+
+                                    <div class="modal-footer">
+
+                                        <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
+
+                                            Cerrar
+
+                                        </button>
+
+                                        <button type="submit" class="btn btn-primary ms-1">
+
+                                            Guardar
+
+                                        </button>
+
+                                    </div>
+
+                                </form>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+
+
+                <!-- Modal para editar Especialista -->
+                <div class="modal fade text-left" id="editModal" tabindex="-1" role="dialog"
+                    aria-labelledby="editModalLabel" aria-hidden="true">
+
+                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+
+                        <div class="modal-content">
+
+                            <div class="modal-header bg-primary text-white">
+
+                                <h5 class="modal-title white" id="labelEditar">
+                                    Editar Especialista
+                                </h5>
+
+                                <button type="button" class="close text-white" data-bs-dismiss="modal"
+                                    aria-label="Close">
+
+                                    <i data-feather="x"></i>
+
+                                </button>
+
+                            </div>
+
+
+                            <div class="modal-body">
+
+                                <form id="formEditEspecialidad" method="post" data-parsley-validate
+                                    style="font-weight: bold;">
+
+                                    <!-- ACTUALIZAR -->
+                                    <input type="hidden" name="actualizar" value="1">
+
+                                    <!-- CÉDULA ACTUAL -->
+                                    <input type="hidden" name="cedula_actual" id="edit_cedula_actual">
+
+
+                                    <!-- ================================= -->
+                                    <!-- ESPECIALIDAD -->
+                                    <!-- ================================= -->
+
+                                    <div class="form-group mb-3">
+
+                                        <label for="edit_especialista">
+
+                                            <i data-feather="edit-3"></i>
+                                            Especialidad
+
+                                            <span class="text-danger" style="font-size: 20px;">
+                                                *
+                                            </span>
+
+                                        </label>
+
+                                        <select class="form-select" id="edit_especialista" name="especialista" required
+                                            data-parsley-required-message="Debe seleccionar una especialidad.">
+
+                                            <option value="" selected disabled>
+                                                Seleccione una especialidad
+                                            </option>
+
+                                            <option value="Estilista">
+                                                Estilista
+                                            </option>
+
+                                            <option value="Manicurista">
+                                                Manicurista
+                                            </option>
+
+                                            <option value="Pedicurista">
+                                                Pedicurista
+                                            </option>
+
+                                            <option value="Ayudante">
+                                                Ayudante
+                                            </option>
+
+                                            <option value="Asistente">
+                                                Asistente
+                                            </option>
+
+                                            <option value="Colorista">
+                                                Colorista
+                                            </option>
+
+                                        </select>
+
+                                    </div>
+
+
+                                    <!-- ================================= -->
+                                    <!-- PERSONAL -->
+                                    <!-- ================================= -->
+
+                                    <div class="form-group mb-3">
+
+                                        <label for="edit_cedula">
+
+                                            <i class="bi bi-person-lines-fill"></i>
+                                            Personal
+
+                                            <span class="text-danger" style="font-size: 20px;">
+                                                *
+                                            </span>
+
+                                        </label>
+
+                                        <select class="form-select" id="edit_cedula" name="cedula" required
+                                            data-parsley-required-message="Debe seleccionar el personal.">
+
+                                            <option value="" selected disabled>
+                                                Seleccione el personal
+                                            </option>
+
+                                            {% for usuario in usuarios %}
+
+                                            {% if usuario.cod_rol == 2 %}
+
+                                            <option value="{{ usuario.cedula }}">
+
+                                                {{ usuario.cedula }} -
+                                                {{ usuario.nombre_usuario }}
+                                                {{ usuario.apellido_usuario }}
+
+                                            </option>
+
+                                            {% endif %}
+
+                                            {% endfor %}
+
+                                        </select>
+
+                                    </div>
+
+
+                                    <!-- ================================= -->
+                                    <!-- ESTADO -->
+                                    <!-- ================================= -->
+
+                                    <div class="form-group mb-3">
+
+                                        <label for="edit_estado">
+
+                                            <i class="bi bi-toggle-on"></i>
+                                            Estado
+
+                                            <span class="text-danger" style="font-size: 20px;">
+                                                *
+                                            </span>
+
+                                        </label>
+
+                                        <select name="status" id="edit_estado" class="form-select" required>
+
+                                            <option value="" disabled>
+                                                Seleccione un estado
+                                            </option>
+
+                                            <option value="1">
+                                                Activo
+                                            </option>
+
+                                            <option value="0">
+                                                Inactivo
+                                            </option>
+
+                                        </select>
+
+                                    </div>
+
+
+                                    <!-- BOTONES -->
+
+                                    <div class="modal-footer">
+
+                                        <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
+
+                                            Cerrar
+
+                                        </button>
+
+                                        <button type="submit" class="btn btn-primary ms-1">
+
+                                            Editar
+
+                                        </button>
+
+                                    </div>
+
+                                </form>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- Modal para eliminar Especialista -->
+                <div class="modal fade text-left" id="deleteModal" tabindex="-1" role="dialog"
+                    aria-labelledby="deleteModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header bg-danger">
+                                <h5 class="modal-title white" id="deleteModalLabel">Confirmar Eliminación</h5>
+                                <button type="button" class="close text-white" data-bs-dismiss="modal"
+                                    aria-label="Close">
+                                    <i data-feather="x"></i>
+                                </button>
+                            </div>
+                            <form id="elimodal" method="post">
+                                <!-- Campo oculto para AJAX -->
+                                <input type="hidden" name="eliminar" value="1">
+                                <input type="hidden" id="especialidadCodigo" name="cedula_especialista">
+
+                                <div class="modal-body">
+                                    <p class="mb-0">¿Desea eliminar este especialista <strong
+                                            id="nombreEliminar"></strong>?</p>
+                                </div>
+
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-light-secondary"
+                                        data-bs-dismiss="modal">No</button>
+                                    <button type="submit" class="btn btn-danger ms-1">Eliminar</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- eliminar especilidad -->
+            </div>
+    </div>
+    </section>
+
+</div>
+
+
+<script src="{{ url_for('static', filename='/assets/js/modulos-js/especialista.js') }}"></script>
+
+
+</div>

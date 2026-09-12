@@ -1,0 +1,210 @@
+<div id="main">
+    <div class="page-heading">
+        <div class="page-title">
+            <div class="row">
+                <div class="col-12 col-md-6 order-md-1 order-last">
+                    <h3>Reporte Estadístico de Productos</h3>
+                    <p class="text-muted">Resumen de inventario, stock y distribución por categoría y marca.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="section">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between flex-wrap gap-2 align-items-center">
+                <div class="d-flex gap-2 align-items-center">
+                    <form id="formPDF" action="/admin?ruta=reporte_producto_estadistico" method="post" target="_blank" class="d-flex gap-2">
+                        <input type="hidden" name="pdf" value="1">
+                        <input type="hidden" name="cod_categoria" id="pdf_cod_categoria" value="{{ filtros.cod_categoria }}">
+                        <input type="hidden" name="cod_marca" id="pdf_cod_marca" value="{{ filtros.cod_marca }}">
+                        <input type="hidden" name="status" id="pdf_status" value="{{ filtros.status }}">
+                        <button type="submit" class="btn btn-danger btn-sm"><i class="bi bi-file-earmark-pdf"></i> Generar PDF</button>
+                    </form>
+                    <form id="formExcel" action="/admin?ruta=reporte_producto_estadistico" method="post" class="d-flex gap-2">
+                        <input type="hidden" name="excel" value="1">
+                        <input type="hidden" name="cod_categoria" id="excel_cod_categoria" value="{{ filtros.cod_categoria }}">
+                        <input type="hidden" name="cod_marca" id="excel_cod_marca" value="{{ filtros.cod_marca }}">
+                        <input type="hidden" name="status" id="excel_status" value="{{ filtros.status }}">
+                        <button type="submit" class="btn btn-success btn-sm"><i class="bi bi-file-earmark-excel"></i> Generar Excel</button>
+                    </form>
+                </div>
+                <button id="btnLimpiar" type="button" class="btn btn-secondary btn-sm">Limpiar</button>
+            </div>
+
+            <div class="card-body">
+                <form id="formFiltros" method="get" action="/admin" class="row g-3 mb-4">
+                    <input type="hidden" name="ruta" value="reporte_producto_estadistico">
+                    <div class="col-12 col-md-3">
+                        <label for="cod_categoria" class="form-label">Categoría</label>
+                        <select id="cod_categoria" name="cod_categoria" class="form-select form-select-sm">
+                            <option value="0" {% if filtros.cod_categoria == 0 %}selected{% endif %}>Todas</option>
+                            {% for categoria in categorias %}
+                            <option value="{{ categoria.cod_categoria }}" {% if categoria.cod_categoria == filtros.cod_categoria %}selected{% endif %}>{{ categoria.nombre_categoria }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-12 col-md-3">
+                        <label for="cod_marca" class="form-label">Marca</label>
+                        <select id="cod_marca" name="cod_marca" class="form-select form-select-sm">
+                            <option value="0" {% if filtros.cod_marca == 0 %}selected{% endif %}>Todas</option>
+                            {% for marca in marcas %}
+                            <option value="{{ marca.cod_marca }}" {% if marca.cod_marca == filtros.cod_marca %}selected{% endif %}>{{ marca.nombre_marca }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-12 col-md-3">
+                        <label for="status" class="form-label">Estado</label>
+                        <select id="status" name="status" class="form-select form-select-sm">
+                            <option value="all" {% if filtros.status == 'all' %}selected{% endif %}>Todos</option>
+                            <option value="active" {% if filtros.status == 'active' %}selected{% endif %}>Activos</option>
+                            <option value="inactive" {% if filtros.status == 'inactive' %}selected{% endif %}>Inactivos</option>
+                        </select>
+                    </div>
+                    <div class="col-12 col-md-3 d-flex align-items-end gap-2">
+                        <button type="submit" class="btn btn-primary btn-sm">Filtrar</button>
+                    </div>
+                </form>
+
+                <div class="row gy-3">
+                    <div class="col-12 col-lg-6">
+                        <div class="card stats-card p-3">
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="stats-icon bg-primary"><i class="bi bi-box-seam"></i></div>
+                                <div>
+                                    <div class="mini-title">Total de productos</div>
+                                    <div class="counter">{{ estadisticas.total_productos }}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6">
+                        <div class="card stats-card p-3">
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="stats-icon bg-success"><i class="bi bi-stack"></i></div>
+                                <div>
+                                    <div class="mini-title">Stock total</div>
+                                    <div class="counter">{{ "%.2f"|format(estadisticas.stock_total) }}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6">
+                        <div class="card stats-card p-3">
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="stats-icon bg-warning"><i class="bi bi-cash-stack"></i></div>
+                                <div>
+                                    <div class="mini-title">Valor total</div>
+                                    <div class="counter">{{ "%.2f"|format(estadisticas.valor_total) }}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6">
+                        <div class="card stats-card p-3">
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="stats-icon bg-danger"><i class="bi bi-exclamation-triangle"></i></div>
+                                <div>
+                                    <div class="mini-title">Stock bajo</div>
+                                    <div class="counter">{{ estadisticas.stock_bajo }}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mt-4">
+                    <div class="col-12 col-xl-6">
+                        <div class="card">
+                            <div class="card-header"><h5>Por categoría</h5></div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-sm table-striped">
+                                        <thead>
+                                            <tr><th>Categoría</th><th class="text-end">Productos</th><th class="text-end">Stock</th></tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for item in estadisticas.por_categoria %}
+                                            <tr><td>{{ item.nombre_categoria }}</td><td class="text-end">{{ item.total_productos }}</td><td class="text-end">{{ "%.2f"|format(item.stock_total) }}</td></tr>
+                                            {% endfor %}
+                                            {% if estadisticas.por_categoria|length == 0 %}
+                                            <tr><td colspan="3" class="text-center">Sin datos</td></tr>
+                                            {% endif %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-xl-6">
+                        <div class="card">
+                            <div class="card-header"><h5>Por marca</h5></div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-sm table-striped">
+                                        <thead>
+                                            <tr><th>Marca</th><th class="text-end">Productos</th><th class="text-end">Stock</th></tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for item in estadisticas.por_marca %}
+                                            <tr><td>{{ item.nombre_marca }}</td><td class="text-end">{{ item.total_productos }}</td><td class="text-end">{{ "%.2f"|format(item.stock_total) }}</td></tr>
+                                            {% endfor %}
+                                            {% if estadisticas.por_marca|length == 0 %}
+                                            <tr><td colspan="3" class="text-center">Sin datos</td></tr>
+                                            {% endif %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card mt-4">
+                    <div class="card-header"><h5>Stock bajo</h5></div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-sm table-striped">
+                                <thead>
+                                    <tr><th>Código</th><th>Producto</th><th class="text-end">Stock</th><th class="text-end">Precio</th></tr>
+                                </thead>
+                                <tbody>
+                                    {% for item in estadisticas.stock_bajo_items %}
+                                    <tr><td>{{ item.cod_producto }}</td><td>{{ item.nombre_producto }}</td><td class="text-end">{{ item.stock }}</td><td class="text-end">{{ "%.2f"|format(item.precio_producto) }}</td></tr>
+                                    {% endfor %}
+                                    {% if estadisticas.stock_bajo_items|length == 0 %}
+                                    <tr><td colspan="4" class="text-center">Sin datos</td></tr>
+                                    {% endif %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<script>
+    const updateHiddenFields = () => {
+        const values = {
+            cod_categoria: document.getElementById('cod_categoria').value,
+            cod_marca: document.getElementById('cod_marca').value,
+            status: document.getElementById('status').value,
+        };
+
+        document.getElementById('pdf_cod_categoria').value = values.cod_categoria;
+        document.getElementById('pdf_cod_marca').value = values.cod_marca;
+        document.getElementById('pdf_status').value = values.status;
+
+        document.getElementById('excel_cod_categoria').value = values.cod_categoria;
+        document.getElementById('excel_cod_marca').value = values.cod_marca;
+        document.getElementById('excel_status').value = values.status;
+    };
+
+    document.getElementById('formPDF').addEventListener('submit', updateHiddenFields);
+    document.getElementById('formExcel').addEventListener('submit', updateHiddenFields);
+    document.getElementById('btnLimpiar').addEventListener('click', function () {
+        window.location = '/admin?ruta=reporte_producto_estadistico';
+    });
+</script>

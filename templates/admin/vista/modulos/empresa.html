@@ -1,0 +1,497 @@
+<div id="main">
+    <div class="page-heading">
+        <div class="page-title">
+            <div class="row">
+                <div class="col-12 col-md-6 order-md-1 order-last">
+                    <h3>Empresa</h3>
+                </div>
+                <div class="col-12 col-md-6 order-md-2 order-first">
+                    <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"> <a href="/admin?ruta=inicio">Inicio</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Empresa</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+
+
+        <section class="section">
+            <div class="card" id="contenedorEmpresas">
+
+                <div class="card-header">
+                    {% if empresas|length == 0 %}
+                    <button id="btnCerrarModal" type="button" class="btn btn-primary rounded-pill"
+                        data-bs-toggle="modal" data-bs-target="#modalRegistrarEmpresa">
+                        Registrar Empresa
+                    </button>
+                    {% endif %}
+                </div>
+
+                <div class="card-body">
+                    <div class="table-responsive">
+
+                        {% for datos in empresas %}
+                        <div class="card mb-3">
+
+                            <div class="card-header">
+                                <h5 class="card-title">Empresa</h5>
+                                <hr style="border: 1px solid #000; margin: 0;">
+                            </div>
+
+                            <div class="card-body">
+
+                                <p><b>Nombre:</b> {{ datos.nombre }}</p>
+                                <p><b>Dirección:</b> {{ datos.direccion }}</p>
+                                <p><b>Teléfono:</b> {{ datos.telefono }}</p>
+                                <p><b>Email:</b> {{ datos.email }}</p>
+                                <p><b>Descripción:</b> {{ datos.descripcion_empresa }}</p>
+
+                                <p>
+                                    <b>Logo:</b>
+                                    {% if datos.logo %}
+                                    <img src="{{ datos.logo }}" alt="Logo" style="width: 100px; height: auto;">
+                                    {% else %}
+                                    <span>No disponible</span>
+                                    {% endif %}
+                                </p>
+
+                                <hr style="border: 1px solid #000; margin: 20px 0;">
+
+                                <div class="d-flex gap-2">
+
+                                    <!-- BOTÓN EDITAR -->
+                                    <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal"
+                                        data-bs-target="#exampleModal" data-nombre="{{ datos.nombre }}"
+                                        data-direccion="{{ datos.direccion }}" data-telefono="{{ datos.telefono }}"
+                                        data-email="{{ datos.email }}"
+                                        data-descripcion_empresa="{{ datos.descripcion_empresa }}"
+                                        data-logo="{{ datos.logo }}" title="Editar">
+
+                                        <i class="bi bi-pencil"></i>
+                                    </button>
+
+                                </div>
+
+                            </div>
+                        </div>
+                        {% endfor %}
+
+                    </div>
+                </div>
+
+            </div>
+
+
+            <!-- Modal de empresa -->
+            <div class="modal fade text-left" id="modalRegistrarEmpresa" tabindex="-1" role="dialog"
+                aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="modalRegistrarEmpresaTitle">Registrar Empresa</h5>
+                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                <i data-feather="x"></i>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="card-content">
+                                <div class="card-body">
+                                    <form class="form" id="empresaForm" method="post" enctype="multipart/form-data"
+                                        data-parsley-validate>
+                                        <input type="hidden" name="registrar" value="1">
+                                        <div class="row">
+                                            <!-- Nombre (letras, signos) -->
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label for="nombre" style="font-weight: bold;">Nombre <span
+                                                            class="text-danger" style="font-size: 20px;">
+                                                            *</span></label>
+                                                    <button class="btn btn-xs" data-toggle="tooltip"
+                                                        data-placement="top" title="Ingresa el Nombre de la empresa.">
+                                                        <i class="fas fa-info-circle"></i>
+                                                    </button>
+                                                    <div class="form-group has-icon-left">
+                                                        <div class="position-relative">
+                                                            <input type="text" class="form-control" name="nombre"
+                                                                id="nombre" placeholder="Nombre" required maxlength="37" 
+                                                                data-parsley-pattern="^[a-zA-ZÁÉÍÓÚáéíóúÑñ\s.,()]+$"
+                                                                data-parsley-pattern-message="En este campo Solo se permiten letras."
+                                                                data-parsley-required-message="Este campo es obligatorio.">
+                                                            <div class="form-control-icon">
+                                                                <i class="bi bi-person"></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- Dirección (letras, números, signos) -->
+                                            <div class="col-md-6 col-12">
+                                                <div class="form-group">
+                                                    <label for="direccion" style="font-weight: bold;">Dirección <span
+                                                            class="text-danger" style="font-size: 20px;">
+                                                            *</span></label>
+                                                    <button class="btn btn-xs" data-toggle="tooltip"
+                                                        data-placement="top"
+                                                        title="Ingresa la Direccion de la empresa.">
+                                                        <i class="fas fa-info-circle"></i>
+                                                    </button>
+                                                    <div class="form-group has-icon-left">
+                                                        <div class="position-relative">
+                                                            <input type="text" class="form-control" name="direccion"
+                                                                id="direccion" placeholder="Dirección"required maxlength="42" 
+                                                                data-parsley-pattern="^[a-zA-Z0-9ÁÉÍÓÚáéíóúÑñ\s.,#\-\/()]+$"
+                                                                data-parsley-pattern-message="En este campo Solo se permiten letras, números y signos básicos."
+                                                                data-parsley-required-message="Este campo es obligatorio.">
+                                                            <div class="form-control-icon">
+                                                                <i class="bi bi-geo-alt"></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- Teléfono (solo números) -->
+                                            <div class="col-md-6 col-12">
+                                                <div class="form-group">
+                                                    <label for="telefono" style="font-weight: bold;">Teléfono <span
+                                                            class="text-danger" style="font-size: 20px;">
+                                                            *</span></label>
+                                                    <button class="btn btn-xs" data-toggle="tooltip"
+                                                        data-placement="top" title="Ingresa el Telefono de la empresa.">
+                                                        <i class="fas fa-info-circle"></i>
+                                                    </button>
+                                                    <div class="form-group has-icon-left">
+                                                        <div class="position-relative">
+                                                            <input type="text" class="form-control" name="telefono"
+                                                                id="telefono" placeholder="Teléfono" required maxlength="12"
+                                                                data-parsley-type="digits"
+                                                                data-parsley-type-message="En este campo solo se permiten números."
+                                                                data-parsley-required-message="Este campo es obligatorio.">
+                                                            <div class="form-control-icon">
+                                                                <i class="bi bi-phone"></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+
+                                                <!-- Email -->
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="email" style="font-weight: bold;">
+                                                            Email <span class="text-danger"
+                                                                style="font-size: 20px;">*</span>
+                                                        </label>
+
+                                                        <button class="btn btn-xs" data-toggle="tooltip"
+                                                            data-placement="top"
+                                                            title="Ingresa el correo de la empresa.">
+                                                            <i class="fas fa-info-circle"></i>
+                                                        </button>
+
+                                                        <div class="form-group has-icon-left">
+                                                            <div class="position-relative">
+                                                                <input type="email" class="form-control" name="email"
+                                                                    id="email" placeholder="Email" required maxlength="70" 
+                                                                    data-parsley-type="email"
+                                                                    data-parsley-required-message="Este campo es obligatorio."
+                                                                    data-parsley-type-message="Ingrese un correo válido.">
+
+                                                                <div class="form-control-icon">
+                                                                    <i class="bi bi-envelope"></i>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Fecha -->
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="fecha" style="font-weight: bold;">
+                                                            Fecha
+                                                        </label>
+
+                                                        <button class="btn btn-xs" data-toggle="tooltip"
+                                                            data-placement="top" title=" fecha actual.">
+                                                            <i class="fas fa-info-circle"></i>
+                                                        </button>
+
+                                                        <div class="form-group has-icon-left">
+                                                            <div class="position-relative">
+
+                                                                <input type="date" class="form-control"
+                                                                    name="fecha_actualizacion" id="fechaEmpresa"
+                                                                    required style="background:#e9ecef; pointer-events:none;
+                                                                max-width: 179px; "
+                                                                    data-parsley-required-message="Este campo es obligatorio.">
+
+                                                                <div class="form-control-icon">
+                                                                    <i class="bi bi-calendar-date"></i>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                            <!-- Descripción (solo letras y signos) -->
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label for="descripcion" style="font-weight: bold;">Descripción
+                                                        <span class="text-danger" style="font-size: 20px;">
+                                                            *</span></label>
+                                                    <button class="btn btn-xs" data-toggle="tooltip"
+                                                        data-placement="top"
+                                                        title="Ingresa una descripción breve de la empresa.">
+                                                        <i class="fas fa-info-circle"></i>
+                                                    </button>
+                                                    <div class="form-group has-icon-left">
+                                                        <div class="position-relative">
+                                                            <input type="text" class="form-control"
+                                                                name="descripcion_empresa" id="descripcion"
+                                                                placeholder="Descripción" required
+                                                                data-parsley-pattern="^[a-zA-ZÁÉÍÓÚáéíóúÑñ\s.,;¿?()]+$"
+                                                                data-parsley-pattern-message="En este campo Solo se permiten letras Y caracteres especiales."
+                                                                data-parsley-required-message="Este campo es obligatorio.">
+                                                            <div class="form-control-icon">
+                                                                <i class="bi bi-pencil"></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- Logo -->
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label for="logo" style="font-weight: bold;">Logo <span
+                                                            class="text-danger" style="font-size: 20px;">
+                                                            *</span></label>
+                                                    <button class="btn btn-xs" data-toggle="tooltip"
+                                                        data-placement="top"
+                                                        title="Ingresa un logo representativo de la empresa.">
+                                                        <i class="fas fa-info-circle"></i>
+                                                    </button>
+                                                    <input type="file" class="form-control" name="logo" id="logo"
+                                                        required
+                                                        data-parsley-required-message="Seleccione una imagen de logo válida.">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Alert Message -->
+                        <div class="alert alert-light d-flex align-items-center" style="font-weight: bold;"
+                            role="alert">
+                            <i class="fas fa-exclamation-triangle mr-2"></i>
+                            <span>Todos los campos marcados con (*) son obligatorios.</span>
+                        </div>
+
+                        <!-- botones -->
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
+                                <i class="bx bx-x d-block d-sm-none"></i>
+                                Cerrar
+                            </button>
+                            <button type="submit" class="btn btn-primary ms-1" form="empresaForm">
+                                <i class="bx bx-check d-block d-sm-none"></i>
+                                Guardar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal de empresa editar -->
+            <div class="modal fade text-left" id="exampleModal" tabindex="-1" role="dialog"
+                aria-labelledby="editarEmpresaLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="editarEmpresaLabel">Editar Empresa</h5>
+                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                <i data-feather="x"></i>
+                            </button>
+                        </div>
+
+                        <div class="modal-body">
+                            <div class="card-content">
+                                <div class="card-body">
+                                    <form id="editar" class="form" method="post" enctype="multipart/form-data"
+                                        data-parsley-validate>
+                                        <input type="hidden" name="nombre_original" value="">
+                                        <!-- Campo oculto para el nombre original -->
+                                        <input type="hidden" name="actualizar" value="1"><!-- campo oculto -->
+
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label for="nombre">Nombre <span class="text-danger"
+                                                            style="font-size: 20px;"> *</span></label>
+                                                    <div class="form-group has-icon-left">
+                                                        <div class="position-relative">
+                                                            <input type="text" class="form-control" placeholder="Nombre"
+                                                                required id="nombre" name="nombre" required maxlength="37" 
+                                                                data-parsley-pattern="^[a-zA-ZÁÉÍÓÚáéíóúÑñ\s.,;¿?()]+$"
+                                                                data-parsley-pattern-message="En este campo Solo se permiten letras."
+                                                                data-parsley-required-message="Este campo es obligatorio.">
+                                                            <div class="form-control-icon">
+                                                                <i class="bi bi-person"></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6 col-12">
+                                                <div class="form-group">
+                                                    <label for="direccion">Dirección <span class="text-danger"
+                                                            style="font-size: 20px;"> *</span></label>
+                                                    <div class="form-group has-icon-left">
+                                                        <div class="position-relative">
+                                                            <input type="text" class="form-control"
+                                                                placeholder="Dirección" required id="direccion"
+                                                                name="direccion" required maxlength="42"
+                                                                data-parsley-pattern="^[a-zA-Z0-9ÁÉÍÓÚáéíóúÑñ\s.,#\-\/()]+$"
+                                                                data-parsley-pattern-message="En este campo Solo se permiten letras, números y signos básicos."
+                                                                data-parsley-required-message="Este campo es obligatorio.">
+                                                            <div class="form-control-icon">
+                                                                <i class="bi bi-geo-alt"></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6 col-12">
+                                                <div class="form-group">
+                                                    <label for="telefono">Teléfono <span class="text-danger"
+                                                            style="font-size: 20px;"> *</span></label>
+                                                    <div class="form-group has-icon-left">
+                                                        <div class="position-relative">
+                                                            <input type="text" class="form-control"
+                                                                placeholder="Teléfono" required id="telefono"
+                                                                name="telefono" required maxlength="12" data-parsley-type="digits"
+                                                                data-parsley-type-message="En este campo solo se permiten números."
+                                                                data-parsley-required-message="Este campo es obligatorio.">
+                                                            <div class="form-control-icon">
+                                                                <i class="bi bi-phone"></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label for="email">Email <span class="text-danger"
+                                                            style="font-size: 20px;"> *</span></label>
+                                                    <div class="form-group has-icon-left">
+                                                        <div class="position-relative">
+                                                            <input type="email" class="form-control" placeholder="Email"
+                                                                required id="email" name="email" required maxlength="60" 
+                                                                data-parsley-type="email"
+                                                                data-parsley-required-message="Este campo es obligatorio."
+                                                                data-parsley-type-message="Ingrese un correo válido.">
+                                                            <div class="form-control-icon">
+                                                                <i class="bi bi-envelope"></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label for="descripcion_empresa">Descripción <span
+                                                            class="text-danger" style="font-size: 20px;">
+                                                            *</span></label>
+                                                    <div class="form-group has-icon-left">
+                                                        <div class="position-relative">
+                                                            <input type="text" class="form-control"
+                                                                placeholder="Descripción" required
+                                                                id="descripcion_empresa" name="descripcion_empresa"
+                                                                data-parsley-pattern="^[a-zA-ZÁÉÍÓÚáéíóúÑñ\s.,;¿?()]+$"
+                                                                data-parsley-pattern-message="En este campo Solo se permiten letras, espacios y signos básicos permitidos."
+                                                                data-parsley-required-message="Este campo es obligatorio.">
+                                                            <div class="form-control-icon">
+                                                                <i class="bi bi-pencil"></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+
+                                                    <label for="logo">Logo <span class="text-danger">*</span></label>
+
+                                                    <button class="btn btn-xs" data-toggle="tooltip"
+                                                        data-placement="top"
+                                                        title="Ingresa un logo representativo de la empresa">
+                                                        <i class="fas fa-info-circle"></i>
+                                                    </button>
+
+                                                    <div class="d-flex align-items-center gap-3">
+
+                                                        <!-- INPUT -->
+                                                        <input type="file" class="form-control" name="logo" id="logo"
+                                                            style="max-width: 60%;">
+
+                                                        <!-- PREVIEW A LA DERECHA -->
+                                                        <div class="border rounded p-2 d-flex align-items-center justify-content-center"
+                                                            style="width:120px; height:120px; background:#f8f9fa;">
+
+                                                            <img id="previewLogo" src=""
+                                                                style="max-width:100%; max-height:100%; display:none; object-fit:contain;">
+
+
+                                                        </div>
+
+                                                    </div>
+
+                                                    <div class="invalid-feedback" style="display: none;"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- botones -->
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
+                                <i class="bx bx-x d-block d-sm-none"></i>
+                                Cerrar
+                            </button>
+                            <button type="submit" class="btn btn-primary ms-1" form="editar">
+                                <i class="bx bx-check d-block d-sm-none"></i>
+                                Editar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal de editar  -->
+        </section>
+    </div>
+
+
+</div>
+
+
+<script src="{{ url_for('static', filename='/assets/js/modulos-js/empresass.js') }}"></script>

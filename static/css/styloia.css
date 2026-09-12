@@ -1,0 +1,123 @@
+.btn-ia {
+    background: linear-gradient(135deg, #6366f1, #9c6ef1);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    padding: 12px 22px;
+    font-weight: bold;
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(0)
+    }
+
+    50% {
+        transform: translateY(-10px)
+    }
+
+    100% {
+        transform: translateY(0)
+    }
+}
+
+.ia-chat {
+    position: fixed;
+    bottom: 90px;
+    right: 25px;
+    width: 380px;
+    background: #dbdde2;
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+    animation: open .3s ease;
+}
+
+@keyframes open {
+    from {
+        opacity: 0;
+        transform: translateY(40px)
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0)
+    }
+}
+
+.hidden {
+    display: none
+}
+
+.ia-header {
+    background: linear-gradient(135deg, #6366f1, #9c6ef1);
+    padding: 14px;
+    color: white;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+}
+
+.ia-body {
+    height: 300px;
+    overflow-y: auto;
+    padding: 12px;
+    background: #0f172a;
+}
+
+.ia-msg {
+    margin: 8px 0;
+    padding: 10px;
+    border-radius: 12px;
+    max-width: 85%;
+    animation: fade .3s ease;
+}
+
+@keyframes fade {
+    from {
+        opacity: 0;
+        transform: scale(.95)
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1)
+    }
+}
+
+.bot {
+    background: #1f2937;
+    color: #e5e7eb;
+    border-left: 3px solid #9c6ef1;
+}
+
+.user {
+    background: linear-gradient(135deg, #6366f1, #9c6ef1);
+    color: white;
+    margin-left: auto;
+    text-align: right;
+}
+
+.ia-footer {
+    display: flex;
+    background: #111827;
+}
+
+.ia-footer input {
+    flex: 1;
+    padding: 12px;
+    border: none;
+    outline: none;
+    background: transparent;
+    color: white;
+}
+
+.ia-footer button {
+    background: linear-gradient(135deg, #6366f1, #9c6ef1);
+    border: none;
+    color: white;
+    padding: 10px 14px;
+    cursor: pointer;
+}

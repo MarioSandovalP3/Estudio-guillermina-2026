@@ -1,0 +1,46 @@
+/* =============================
+CSS  
+============================= */
+
+/* REGISTRO  */
+#auth {
+    height: 100vh;
+    background-color: #f0f2f5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#auth-left {
+    padding: 2rem;
+}
+
+#auth-right {
+    background-color: rgb(18, 39, 171);
+    /* Azul fuerte */
+    height: 100%;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    border: none;
+    border-radius: 0;
+}
+
+.form-group {
+    position: relative;
+}
+
+.toggle-password {
+    position: absolute;
+    right: 15px;
+    /* Ajusta este valor según sea necesario */
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    /* Cambia el cursor al pasar sobre el icono */
+}
+
+.form-control {
+    padding-right: 40px;
+    /* Agrega espacio para el icono */
+}

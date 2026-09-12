@@ -1,0 +1,348 @@
+<body style="margin: 0; padding: 0; overflow: hidden; position: relative;">
+    <img src="{{ url_for('static', filename='assets/img/puluqueria.jpg') }}" alt="EstudioMT"
+        class="brand-image img-circle elevation-3"
+        style="opacity: 0.8; width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0; z-index: -1;">
+    <div class="login-container-custom" style="position: relative; z-index: 1;">
+        <div class="auth-box-custom">
+            <div class="auth-logo-custom text-center mb-3">
+
+                <h6 style="text-align: right; color: green;">
+                    <a href="#" id="registrarce-link" style="color: #66a2d6ff; text-decoration: none;">
+                        Registrarse aquí
+                    </a>
+                </h6>
+
+                <h1 class="auth-title-custom">Guillermina</h1>
+
+                <p>Ingresa tus datos para iniciar sesión</p>
+
+                <form id="loginForm" data-parsley-validate>
+
+                    <input type="hidden" name="login" value="1">
+
+                    <!-- CÉDULA -->
+                    <div class="form-group-custom">
+                        <i class="bi bi-person form-control-icon-custom"></i>
+
+                        <input type="text" class="form-control-custom" id="reset-cedula" placeholder="Cédula"
+                            name="cedula" required maxlength="9" data-parsley-pattern="^[0-9]+$"
+                            data-parsley-pattern-message="Por favor, ingresa solo números."
+                            data-parsley-required-message="La cédula es obligatoria.">
+                    </div>
+
+                    <!-- CONTRASEÑA -->
+                    <div class="form-group-custom" style="position: relative;">
+                        <i class="bi bi-shield-lock form-control-icon-custom"></i>
+
+                        <input type="password" id="login-password" class="form-control-custom" placeholder="Password"
+                            name="password" required maxlength="9" autocomplete="current-password"
+                            data-parsley-minlength="6"
+                            data-parsley-minlength-message="La contraseña debe tener al menos 6 caracteres."
+                            data-parsley-required-message="La contraseña es obligatoria.">
+
+                        <span id="toggle-login-password"
+                            style="cursor: pointer; position: absolute; right: 10px; top: 50%; transform: translateY(-50%);">
+                            <i class="fas fa-eye" id="eye-icon-login"></i>
+                        </span>
+                    </div>
+
+
+                    <!-- CAPTCHA PROOF OF WORK -->
+
+                    <div id="pow-captcha" style="
+                        margin-top: 15px;
+                        margin-bottom: 15px;
+                        padding: 12px;
+                        border: 1px solid #ddd;
+                        border-radius: 8px;
+                        background: #f8f9fa;
+                        text-align: left;
+                    ">
+
+                        <div style="display: flex; align-items: center; gap: 10px;">
+
+                            <input type="checkbox" id="pow-checkbox"
+                                style="width: 20px; height: 20px; cursor: pointer;">
+
+                            <label for="pow-checkbox" style="margin: 0; cursor: pointer; font-size: 14px;">
+                                No soy un robot
+                            </label>
+
+                            <span id="pow-status" style="margin-left: auto; font-size: 13px; color: #6c757d;">
+                                Pendiente
+                            </span>
+
+                        </div>
+
+                        <div id="pow-operation" style="
+                            display: none;
+                            margin-top: 12px;
+                            text-align: center;
+                        ">
+
+                            <div style="
+                                font-size: 14px;
+                                color: #6c757d;
+                                margin-bottom: 6px;
+                            ">
+                                Resuelve la operación:
+                            </div>
+
+                            <div id="pow-question" style="
+                        font-size: 22px;
+                        font-weight: bold;
+                        margin-bottom: 8px;
+                    ">
+                            </div>
+
+                            <input type="text" id="pow-answer" maxlength="2" inputmode="numeric" autocomplete="off"
+                                placeholder="Respuesta" style="
+                            width: 120px;
+                            height: 38px;
+                            text-align: center;
+                            border: 1px solid #ced4da;
+                            border-radius: 6px;
+                            outline: none;
+                        ">
+
+                            <div id="pow-message" style="
+                        display: none;
+                        margin-top: 6px;
+                        font-size: 13px;
+                    ">
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <!-- OLVIDASTE LA CONTRASEÑA -->
+                    <h5>
+                        <a href="#" id="forgot-password-link">
+                            Olvidaste la contraseña?
+                        </a>
+                    </h5>
+
+                    <button type="submit" class="btn btn-primary btn-block w-100 mt-3" id="loginButton">
+
+                        Acceso
+
+                    </button>
+
+                </form>
+
+                <br>
+
+                <p>
+                    <a href="{{ url_for('inicio') }}" style="color: #6c757d;">
+                        Volver al Inicio
+                    </a>
+                </p>
+
+            </div>
+        </div>
+
+        <!-- Formulario para restablecer la contraseña -->
+        <div class="auth-box-custom" id="resetPasswordContainer" style="display: none; position: relative; z-index: 1;">
+            <div class="auth-logo-custom text-center mb-3">
+                <h1 class="auth-title-custom">Restablecer Contraseña</h1>
+                <div id="resetMessage"></div>
+                <form id="resetPasswordForm" method="POST" data-parsley-validate>
+                    <input type="hidden" name="cambiar" value="">
+                    <div class="form-group-custom">
+                        <i class="bi bi-person form-control-icon-custom"></i>
+                        <input type="text" id="reset-cedula" class="form-control-custom" placeholder="Cédula"
+                            name="cedula" required maxlength="9" data-parsley-pattern="^[0-9]+$"
+                            data-parsley-pattern-message="Por favor, ingresa solo números."
+                            data-parsley-required-message="La cédula es obligatoria.">
+                    </div>
+                    <div class="form-group-custom">
+                        <i class="bi bi-shield-lock form-control-icon-custom"></i>
+                        <input type="password" id="newPassword" class="form-control-custom"
+                            placeholder="Nueva Contraseña" name="new_password" required maxlength="9"
+                            autocomplete="new-password" data-parsley-minlength="6"
+                            data-parsley-minlength-message="La contraseña debe tener al menos 6 caracteres."
+                            data-parsley-required-message="La nueva contraseña es obligatoria.">
+                        <span id="toggle-new-password" class="toggle-password-custom">
+                            <i class="fas fa-eye" id="eye-icon-new"></i>
+                        </span>
+                    </div>
+                    <div class="form-group-custom">
+                        <i class="bi bi-shield-lock form-control-icon-custom"></i>
+                        <input type="password" id="confirmPassword" class="form-control-custom"
+                            placeholder="Verifica Contraseña" name="confirm_password" required maxlength="9"
+                            autocomplete="new-password" data-parsley-equalto="#newPassword"
+                            data-parsley-equalto-message="Las contraseñas no coinciden."
+                            data-parsley-required-message="La verificación de la contraseña es obligatoria.">
+                        <span id="toggle-confirm-password" class="toggle-password-custom">
+                            <i class="fas fa-eye" id="eye-icon-confirm"></i>
+                        </span>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block w-100 mt-3">Restablecer
+                        Contraseña</button>
+                    <button type="button" class="btn btn-secondary btn-block w-100 mt-3" id="back-to-login-reset">Volver
+                        al Inicio de Sesión</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Formulario para registro -->
+        <div class="auth-box-custom" id="registerContainer" style="display: none; position: relative; z-index: 1;">
+            <div class="auth-logo-custom text-center mb-3">
+                <h1 class="auth-title-custom">Registro</h1>
+                <center>
+                    <p class="auth-subtitle mb-5">Ingresa tus datos para registrarte en nuestro sitio web.</p>
+                </center>
+
+                <!-- Contenedor de mensaje -->
+                <div class="container mt-3 p-0">
+                    <form id="formRegistrarCliente" method="POST">
+                        <input type="hidden" name="registrar" value="1">
+                        <div class="form-group position-relative has-icon-left mb-3">
+                            <input type="text" class="form-control form-control-lg" id="cedula_reg" name="cedula"
+                                placeholder="Cédula" required maxlength="9">
+                            <div class="form-control-icon">
+                                <i class="bi bi-card-text"></i>
+                            </div>
+                        </div>
+
+                        <div class="form-group position-relative has-icon-left mb-3">
+                            <input type="text" class="form-control form-control-lg" id="nombre_usuario_reg"
+                                name="nombre_usuario" placeholder="Nombre" required maxlength="10"
+                                autocomplete="username">
+                            <div class="form-control-icon">
+                                <i class="bi bi-person"></i>
+                            </div>
+                        </div>
+
+                        <div class="form-group position-relative has-icon-left mb-3">
+                            <input type="text" class="form-control form-control-lg" id="apellido_usuario_reg"
+                                name="apellido_usuario" placeholder="Apellido" required maxlength="10"
+                                autocomplete="apellido_usuario">
+                            <div class="form-control-icon">
+                                <i class="bi bi-person"></i>
+                            </div>
+                        </div>
+
+                        <div class="form-group position-relative has-icon-left mb-3">
+                            <input type="email" class="form-control form-control-lg" id="correo_reg" name="correo"
+                                placeholder="Correo Electrónico" required maxlength="40">
+                            <div class="form-control-icon">
+                                <i class="bi bi-envelope"></i>
+                            </div>
+                        </div>
+
+                        <div class="form-group position-relative has-icon-left mb-3">
+                            <input type="text" class="form-control form-control-lg" id="telefono_reg" name="telefono"
+                                placeholder="Teléfono" required maxlength="12">
+                            <div class="form-control-icon">
+                                <i class="bi bi-telephone"></i>
+                            </div>
+                        </div>
+
+                        <div class="form-group position-relative has-icon-left mb-3">
+                            <input type="text" class="form-control form-control-lg" id="direccion_reg" name="direccion"
+                                placeholder="Dirección" required maxlength="40">
+                            <div class="form-control-icon">
+                                <i class="bi bi-geo-alt"></i>
+                            </div>
+                        </div>
+
+                        <div class="form-group position-relative has-icon-left mb-3">
+                            <input type="password" class="form-control form-control-lg" name="password_reg"
+                                id="register-password" placeholder="Contraseña" required maxlength="9"
+                                autocomplete="new-password">
+                            <div class="form-control-icon">
+                                <i class="bi bi-shield-lock"></i>
+                            </div>
+                            <span id="toggle-register-password" class="toggle-password"
+                                style="cursor:pointer; position:absolute; right:15px; top:50%; transform: translateY(-50%);">
+                                <i class="fas fa-eye" id="eye-icon-register"></i>
+                            </span>
+                        </div>
+
+                        <input type="hidden" name="cod_rol" value="3">
+
+                        <input class="form-check-input" type="checkbox" id="acepto" required>
+
+                        <label for="acepto">
+                            Acepto los términos y condiciones
+                        </label>
+                        <br>
+                        <br>
+                        <button type="submit"
+                            class="btn btn-primary btn-block btn-lg shadow-lg w-100 mb-2">Registrar</button>
+
+
+                        <button type="button" class="btn btn-secondary btn-block w-100"
+                            id="back-to-login-register">Volver al
+                            Inicio de Sesión</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="modalCaptchaSimple" tabindex="-1" data-bs-backdrop="false" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+
+                    <!-- HEADER -->
+                    <div class="modal-header flex-column text-center border-0">
+
+                        <!-- ICONO ESCUDO -->
+                        <div style="font-size: 60px; color: #0d6efd; line-height: 1;">
+                            🛡️
+                        </div>
+
+                        <h5 class="modal-title fw-bold mt-2">Verificación de seguridad</h5>
+
+                        <div class="text-muted small">
+                            CAPTCHA
+                        </div>
+
+                    </div>
+
+                    <!-- BODY -->
+                    <div class="modal-body text-center">
+
+                        <!-- MENSAJE -->
+                        <div id="captchaMensaje" class="mb-2"></div>
+
+                        <!-- CAPTCHA VISUAL -->
+                        <div class="position-relative p-3 border rounded bg-light mb-3">
+
+                            <!-- TEXTO CAPTCHA -->
+                            <h2 id="captchaTexto" class="mb-0 fw-bold"></h2>
+
+                            <!-- BOTÓN CAMBIAR (lado derecho) -->
+                            <button id="nuevoCaptchaSimple" type="button"
+                                class="btn btn-sm btn-outline-primary position-absolute top-0 end-0 m-2">
+                                🔄
+                            </button>
+                        </div>
+
+                        <!-- INPUT -->
+                        <input type="text" id="captchaRespuesta" class="form-control text-center"
+                            placeholder="Escribe el código">
+
+                        <!-- RESULTADO -->
+                        <div id="captchaEstado" class="mt-3"></div>
+
+                    </div>
+
+                    <!-- FOOTER -->
+                    <div class="modal-footer">
+                        <button class="btn btn-primary w-100" id="verificarCaptchaSimple">
+                            Verificar
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <script src="{{ url_for('static', filename='/assets/js/modulos-js/login.js') }}"></script>
+    </div>
+
+
+</body>

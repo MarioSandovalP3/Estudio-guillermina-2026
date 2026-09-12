@@ -1,0 +1,351 @@
+<div id="app">
+    <div class="card">
+        <div
+            class="card-body footer-content d-flex flex-wrap align-items-center justify-content-between justify-content-sm-end text-center text-sm-end">
+
+            <!-- Parte izquierda del header: Botón burger -->
+            <div class="header-left me-3 mb-2 mb-sm-0 order-2 order-sm-1">
+                <a href="#" id="burger-btn" class="burger-btn d-block d-xl-none text-white" data-bs-toggle="collapse"
+                    data-bs-target="#sidebar" aria-expanded="false" aria-controls="sidebar">
+                    <i class="bi bi-justify fs-3"></i>
+                </a>
+            </div>
+
+            <!-- Centro del header: Icono de usuario -->
+            <div class="header-center d-flex justify-content-end justify-content-sm-end w-100 order-1 order-sm-2">
+
+                <div class="navbar-nav-right d-flex align-items-center">
+                    <ul class="navbar-nav flex-row align-items-center ms-auto">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link" href="#" id="dropdownMenuButton" data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                                <div
+                                    class="avatar avatar-online icono-usuario-verde d-flex align-items-center justify-content-center">
+                                    <i class="bi bi-person-circle fs-3"></i>
+                                </div>
+                            </a>
+
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li>
+                                    <a class="dropdown-item" href="#">
+                                        <div class="d-flex align-items-center">
+                                            <div class="flex-shrink-0 me-3">
+                                                <div class="avatar avatar-online">
+                                                    <img src="{{ url_for('static', filename='assets/compiled/jpg/1.jpg') }}"
+                                                        alt="Usuario" class="w-px-40 h-auto rounded-circle" />
+                                                </div>
+                                            </div>
+                                            <div class="flex-grow-1">
+                                                <span class="dropdown-header">
+                                                    {{ session.get('nombre_usuario') }}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+
+                                <li>
+                                    <a class="dropdown-item" href="#" data-bs-toggle="modal"
+                                        data-bs-target="#primaryheder">
+                                        <i class="bi bi-person me-2"></i> Mi perfil
+                                    </a>
+                                </li>
+
+                                <li><a class="dropdown-item" href="{{ url_for('cerrarsesion') }}"><i
+                                            class="bi bi-box-arrow-right me-2"></i> Cerrar sesión</a></li>
+
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <br>
+    <div class="text-end mb-3">
+        <a href="/admin?ruta=reservacliente">Inicio / Reserva</a>
+    </div>
+
+    <!-- Modal Perfil de Usuario -->
+    <div class="modal fade text-left" id="primaryheder" tabindex="-1" aria-labelledby="myModalLabel160"
+        aria-hidden="true">
+
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+
+            <div class="modal-content border-0 shadow-lg rounded-3">
+
+                <!-- Encabezado -->
+                <div class="modal-header bg-primary text-white">
+
+                    <h5 class="modal-title text-white" id="myModalLabel160">
+                        <i class="fas fa-user-circle me-2"></i>
+                        Perfil del cliente
+                    </h5>
+
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal">
+                    </button>
+
+                </div>
+
+                <!-- Cuerpo -->
+                <div class="modal-body p-4">
+
+                    <ul class="list-group list-group-flush">
+
+                        <li class="list-group-item d-flex align-items-center">
+
+                            <i class="fas fa-id-card fa-lg text-primary me-3"></i>
+
+                            <strong>Cédula:</strong>
+
+                            &nbsp;{{ session.get('cedula') }}
+
+                        </li>
+
+                        <li class="list-group-item d-flex align-items-center">
+
+                            <i class="fas fa-user fa-lg text-primary me-3"></i>
+
+                            <strong>Nombre:</strong>
+
+                            &nbsp;{{ session.get('nombre_usuario') }}
+
+                        </li>
+
+                        <li class="list-group-item d-flex align-items-center">
+
+                            <i class="fas fa-user-check fa-lg text-success me-3"></i>
+
+                            <strong>Apellido:</strong>
+
+                            &nbsp;{{ session.get('apellido_usuario') }}
+
+                        </li>
+
+                        <li class="list-group-item d-flex align-items-center">
+
+                            <i class="fas fa-phone fa-lg text-success me-3"></i>
+
+                            <strong>Teléfono:</strong>
+
+                            &nbsp;{{ session.get('telefono') }}
+
+                        </li>
+
+                        <li class="list-group-item d-flex align-items-center">
+
+                            <i class="fas fa-home fa-lg text-primary me-3"></i>
+
+                            <strong>Dirección:</strong>
+
+                            &nbsp;{{ session.get('direccion') }}
+
+                        </li>
+
+                        <li class="list-group-item d-flex align-items-center">
+
+                            <i class="fas fa-envelope fa-lg text-success me-3"></i>
+
+                            <strong>Correo:</strong>
+
+                            &nbsp;{{ session.get('correo') }}
+
+                        </li>
+
+                    </ul>
+
+                </div>
+
+                <!-- Footer -->
+                <div class="modal-footer bg-white">
+
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+
+                        <i class="fas fa-times me-2"></i>
+
+                        Cerrar
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+
+    <div id="main">
+        <section class="section">
+            <div class="card">
+                <div class="card-body" style="width: 100%;">
+                    <div class="tab-content">
+                        <div class="card-body">
+
+                            <div class="table-responsive">
+
+                                <table class="table table-bordered mb-0" id="table1">
+
+                                    <thead>
+
+                                        <tr>
+
+                                            <th>Nombre cliente</th>
+                                            <th>Servicio</th>
+                                            <th>Fecha Reserva</th>
+                                            <th>Hora Reserva</th>
+                                            <th>Status</th>
+                                            <th>Acción</th>
+
+                                        </tr>
+
+                                    </thead>
+
+                                    <tbody>
+
+                                        {% for datos in registro %}
+
+                                        {% if datos.estado_reserva != 2 %}
+
+                                        <tr>
+
+                                            <td>
+
+                                                {{ datos.nombre_cliente }}
+
+                                                {{ datos.apellido_cliente }}
+
+                                            </td>
+
+                                            <td>
+
+                                                {{ datos.servicios }}
+
+                                            </td>
+
+                                            <td>
+
+                                                {{ datos.fecha_reserva }}
+
+                                            </td>
+
+                                            <td>
+
+                                                {{ datos.hora_reserva }}
+
+                                            </td>
+
+                                            <td>
+
+                                                {% if datos.estado_reserva == 1 %}
+
+                                                <span class="badge bg-success">
+                                                    Activo
+                                                </span>
+
+                                                {% elif datos.estado_reserva == 0 %}
+
+                                                <span class="badge bg-danger">
+                                                    Cancelada
+                                                </span>
+
+                                                {% endif %}
+
+                                            </td>
+
+                                            <td>
+
+                                                <div class="buttons d-flex gap-2">
+
+                                                    {% if datos.estado_reserva == 1 %}
+
+                                                    <button type="button" class="btn btn-danger btn-sm"
+                                                        data-bs-toggle="modal" data-bs-target="#deleteModalReservas"
+                                                        data-codigo="{{ datos.cod_servicio }}"
+                                                        data-fecha_reserva="{{ datos.fecha_reserva }}"
+                                                        title="Cancelar reserva">
+                                                        <i class="bi bi-trash"></i>
+                                                    </button>
+
+                                                    {% endif %}
+
+                                                </div>
+
+                                            </td>
+
+                                        </tr>
+
+                                        {% endif %}
+
+                                        {% endfor %}
+
+                                    </tbody>
+
+                                </table>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+        </section>
+
+
+
+        <div class="modal fade" id="deleteModalReservas" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <form id="formDeleteReserva" method="post">
+                        <input type="hidden" name="eliminar" value="1">
+
+                        <div class="modal-header bg-danger">
+                            <h5 class="modal-title text-white">
+                                Confirmar la cancelación de la reserva
+                            </h5>
+                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                        </div>
+
+                        <div class="modal-body text-center">
+                            <i class="bi bi-calendar-x text-danger" style="font-size:45px;"></i>
+
+                            <p class="mt-3 mb-2">
+                                ¿Desea cancelar la reserva de la fecha:
+                            </p>
+
+                            <h5 class="fw-bold text-danger" id="fecha_reserva_eliminar"></h5>
+
+                            <input type="hidden" id="delete_cod_servicio" name="cod_servicio" value="">
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-light-primary" data-bs-dismiss="modal">
+                                No
+                            </button>
+
+                            <button type="submit" class="btn btn-danger ms-1">
+                                Cancelar reserva
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+</div>
+
+<script src="{{ url_for('static', filename='assets/js/modulos-js/misreservass.js') }}"></script>

@@ -1,0 +1,540 @@
+<div id="main">
+    <div class="page-heading">
+        <div class="page-title">
+            <div class="row">
+                <div class="col-12 col-md-6 order-md-1 order-last">
+                    <h3>Proveedores</h3>
+                </div>
+
+                <div class="col-12 col-md-6 order-md-2 order-first">
+                    <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"> <a href="/admin?ruta=inicio">Inicio</a></li>
+                            <li class="breadcrumb-item active">Proveedores</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+
+        <!-- TABLA -->
+        <section class="section">
+            <div class="card">
+
+                <div class="card-header">
+                    <button type="button" class="btn btn-primary rounded-pill" data-bs-toggle="modal"
+                        data-bs-target="#modalRegistrar">
+                        Registrar proveedor
+                    </button>
+                </div>
+
+                <div class="card-body">
+                    <div class="table-responsive">
+
+                        <table class="table table-bordered mb-0" id="table1">
+                            <thead>
+                                <tr>
+                                   
+                                    <th>Cédula</th>
+                                    <th>Nombre</th>
+                                    <th>Apellido</th>
+                                    <th>RIF</th>
+                                    <th>Teléfono</th>
+                                    <th>Correo</th>
+                                    <th>Estado</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                {% for datos in proveedores %}
+                                {% if datos.status != 2 %}
+                                <tr>
+                                  
+                                    <td>{{ datos.cedula }}</td>
+                                    <td>{{ datos.nombre }}</td>
+                                    <td>{{ datos.apellido }}</td>
+                                    <td>{{ datos.rif }}</td>
+                                    <td>{{ datos.telefono }}</td>
+                                    <td>{{ datos.correo }}</td>
+
+                                    <td>
+                                        {% if datos.status == 1 %}
+                                        <span class="badge bg-success">Activo</span>
+                                        {% else %}
+                                        <span class="badge bg-danger">Inactivo</span>
+                                        {% endif %}
+                                    </td>
+
+                                    <td>
+                                        <div class="d-flex gap-2">
+
+                                            <!-- EDITAR -->
+                                            <button class="btn btn-primary btn-sm" data-bs-toggle="modal"
+                                                data-bs-target="#modalEditar"
+                                                data-cod_proveedor="{{ datos.cod_proveedor }}"
+                                                data-cedula="{{ datos.cedula }}" data-nombre="{{ datos.nombre }}"
+                                                data-apellido="{{ datos.apellido }}" data-rif="{{ datos.rif }}"
+                                                data-telefono="{{ datos.telefono }}" data-correo="{{ datos.correo }}"
+                                                data-status="{{ datos.status }}">
+                                                <i class="bi bi-pencil"></i>
+                                            </button>
+
+                                            <!-- ELIMINAR -->
+                                            <button class="btn btn-danger btn-sm" data-bs-toggle="modal"
+                                                data-bs-target="#modalEliminar"
+                                                data-cod_proveedor="{{ datos.cod_proveedor }}">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endif %}
+                                {% endfor %}
+                            </tbody>
+
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+
+    <!-- ============================= -->
+    <!-- MODAL REGISTRAR PROVEEDOR -->
+    <!-- ============================= -->
+
+    <div class="modal fade text-left" id="modalRegistrar" tabindex="-1" role="dialog"
+        aria-labelledby="modalRegistrarProveedorLabel" aria-hidden="true">
+
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg" role="document">
+
+            <div class="modal-content">
+
+
+                <!-- ================= HEADER ================= -->
+
+                <div class="modal-header bg-primary">
+
+                    <h5 class="modal-title text-white" id="modalRegistrarProveedorLabel">
+
+                        <i class="bi bi-person-plus"></i>
+                        Registrar Proveedor
+
+                    </h5>
+
+
+                    <!-- X PARA CERRAR -->
+
+                    <button type="button" class="close text-white" data-bs-dismiss="modal" aria-label="Close"
+                        id="btnCloseProveedor">
+
+                        <i data-feather="x"></i>
+
+                    </button>
+
+                </div>
+
+
+                <!-- ================= FORMULARIO ================= -->
+
+                <form id="formRegistrarProveedor" method="POST">
+
+                    <input type="hidden" name="registrar" value="1">
+
+
+                    <!-- ================= CUERPO ================= -->
+
+                    <div class="modal-body" style="
+                    max-height: 70vh;
+                    overflow-y: auto;
+                    overflow-x: hidden;
+                    scrollbar-width: thin;
+                    scrollbar-color: #007bff #f1f1f1;
+                    ">
+
+
+                        <div class="row">
+
+
+                            <!-- ================= CÉDULA ================= -->
+
+                            <div class="col-md-6 mb-3">
+
+                                <label for="cedula" style="font-weight: bold;">
+
+                                    <i class="bi bi-card-text"></i>
+                                    Cédula
+
+                                    <span class="text-danger" style="font-size: 20px;">
+                                        *
+                                    </span>
+
+                                </label>
+
+                                <button type="button" class="btn btn-xs" data-toggle="tooltip" data-placement="top"
+                                    title="Ingrese la cédula de identidad del proveedor.">
+
+                                    <i class="fas fa-info-circle"></i>
+
+                                </button>
+
+                                <input type="text" class="form-control" name="cedula" id="cedula"
+                                    placeholder="Cédula de identidad" required
+                                    data-parsley-required-message="Este campo es obligatorio.">
+
+                            </div>
+
+
+                            <!-- ================= NOMBRE ================= -->
+
+                            <div class="col-md-6 mb-3">
+
+                                <label for="nombre" style="font-weight: bold;">
+
+                                    <i class="bi bi-person"></i>
+                                    Nombre
+
+                                    <span class="text-danger" style="font-size: 20px;">
+                                        *
+                                    </span>
+
+                                </label>
+
+                                <button type="button" class="btn btn-xs" data-toggle="tooltip" data-placement="top"
+                                    title="Ingrese el nombre del proveedor.">
+
+                                    <i class="fas fa-info-circle"></i>
+
+                                </button>
+
+                                <input type="text" class="form-control" name="nombre" id="nombre" placeholder="Nombre"
+                                    required data-parsley-required-message="Este campo es obligatorio.">
+
+                            </div>
+
+
+                            <!-- ================= APELLIDO ================= -->
+
+                            <div class="col-md-6 mb-3">
+
+                                <label for="apellido" style="font-weight: bold;">
+
+                                    <i class="bi bi-person-check"></i>
+                                    Apellido
+
+                                    <span class="text-danger" style="font-size: 20px;">
+                                        *
+                                    </span>
+
+                                </label>
+
+                                <button type="button" class="btn btn-xs" data-toggle="tooltip" data-placement="top"
+                                    title="Ingrese el apellido del proveedor.">
+
+                                    <i class="fas fa-info-circle"></i>
+
+                                </button>
+
+                                <input type="text" class="form-control" name="apellido" id="apellido"
+                                    placeholder="Apellido" required
+                                    data-parsley-required-message="Este campo es obligatorio.">
+
+                            </div>
+
+
+                            <!-- ================= RIF ================= -->
+
+                            <div class="col-md-6 mb-3">
+
+                                <label for="rif" style="font-weight: bold;">
+
+                                    <i class="bi bi-file-earmark-text"></i>
+                                    RIF
+
+                                    <span class="text-danger" style="font-size: 20px;">
+                                        *
+                                    </span>
+
+                                </label>
+
+                                <button type="button" class="btn btn-xs" data-toggle="tooltip" data-placement="top"
+                                    title="Ingrese el RIF del proveedor.">
+
+                                    <i class="fas fa-info-circle"></i>
+
+                                </button>
+
+                                <input type="text" class="form-control" name="rif" id="rif" placeholder="RIF" required
+                                    data-parsley-required-message="Este campo es obligatorio.">
+
+                            </div>
+
+
+                            <!-- ================= TELÉFONO ================= -->
+
+                            <div class="col-md-6 mb-3">
+
+                                <label for="telefono" style="font-weight: bold;">
+
+                                    <i class="bi bi-telephone"></i>
+                                    Teléfono
+
+                                    <span class="text-danger" style="font-size: 20px;">
+                                        *
+                                    </span>
+
+                                </label>
+
+                                <button type="button" class="btn btn-xs" data-toggle="tooltip" data-placement="top"
+                                    title="Ingrese el número telefónico del proveedor.">
+
+                                    <i class="fas fa-info-circle"></i>
+
+                                </button>
+
+                                <input type="text" class="form-control" name="telefono" id="telefono"
+                                    placeholder="Número telefónico" required
+                                    data-parsley-required-message="Este campo es obligatorio.">
+
+                            </div>
+
+
+                            <!-- ================= CORREO ================= -->
+
+                            <div class="col-md-6 mb-3">
+
+                                <label for="correo" style="font-weight: bold;">
+
+                                    <i class="bi bi-envelope"></i>
+                                    Correo
+
+                                    <span class="text-danger" style="font-size: 20px;">
+                                        *
+                                    </span>
+
+                                </label>
+
+                                <button type="button" class="btn btn-xs" data-toggle="tooltip" data-placement="top"
+                                    title="Ingrese el correo electrónico del proveedor.">
+
+                                    <i class="fas fa-info-circle"></i>
+
+                                </button>
+
+                                <input type="email" class="form-control" name="correo" id="correo"
+                                    placeholder="Correo electrónico" required
+                                    data-parsley-required-message="Este campo es obligatorio.">
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- ================= AVISO ================= -->
+
+                    <div class="alert alert-light d-flex align-items-center mb-0" style="font-weight: bold;"
+                        role="alert">
+
+                        <i class="fas fa-exclamation-triangle mr-2"></i>
+
+                        <span>
+                            Todos los campos marcados con (*) son obligatorios
+                        </span>
+
+                    </div>
+
+
+                    <!-- ================= FOOTER ================= -->
+
+                    <div class="modal-footer" style="
+                    position: sticky;
+                    bottom: 0;
+                    background: #fff;
+                    z-index: 10;
+                    box-shadow: 0 -2px 8px rgba(0,0,0,0.1);
+                    ">
+
+
+                        <!-- CERRAR -->
+
+                        <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal"
+                            id="btnCerrarModalProveedor">
+
+                            <i class="bx bx-x d-block d-sm-none"></i>
+
+                            Cerrar
+
+                        </button>
+
+
+                        <!-- GUARDAR -->
+
+                        <button type="submit" class="btn btn-primary">
+
+                            <i class="bx bx-check d-block d-sm-none"></i>
+
+                            Guardar
+
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ========================= -->
+    <!-- MODAL EDITAR -->
+    <!-- ========================= -->
+    <div class="modal fade" id="modalEditar" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+
+                <div class="modal-header bg-primary text-white">
+
+                    <h5 class="modal-title">
+                        Editar proveedor
+                    </h5>
+
+                    <!-- BOTÓN X -->
+                    <button type="button" class="close text-white" data-bs-dismiss="modal" aria-label="Close"
+                        id="btnClose">
+
+                        <i data-feather="x"></i>
+
+                    </button>
+
+                </div>
+
+                <div class="modal-body">
+
+                    <form id="formEditarProveedor" method="post">
+
+                        <input type="hidden" name="cod_proveedor" id="edit_cod_proveedor">
+
+                        <input type="hidden" name="actualizar" value="1">
+
+                        <div class="row">
+
+                            <div class="col-md-6 mb-3">
+                                <i class="bi bi-card-text"></i>
+                                <label>Cédula</label>
+                                <input type="text" class="form-control" name="cedula" id="edit_cedula">
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <i class="bi bi-person"></i>
+                                <label>Nombre</label>
+                                <input type="text" class="form-control" name="nombre" id="edit_nombre">
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <i class="bi bi-person-check"></i>
+                                <label>Apellido</label>
+                                <input type="text" class="form-control" name="apellido" id="edit_apellido">
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <i class="bi bi-file-earmark-text"></i>
+                                <label>RIF</label>
+                                <input type="text" class="form-control" name="rif" id="edit_rif">
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <i class="bi bi-telephone"></i>
+                                <label>Teléfono</label>
+                                <input type="text" class="form-control" name="telefono" id="edit_telefono">
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <i class="bi bi-envelope"></i>
+                                <label>Correo</label>
+                                <input type="email" class="form-control" name="correo" id="edit_correo">
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label>Estado</label>
+
+                                <select name="status" id="edit_status" class="form-select">
+
+                                    <option value="1">Activo</option>
+                                    <option value="0">Inactivo</option>
+
+                                </select>
+                            </div>
+
+                        </div>
+
+                        <div class="modal-footer">
+
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+
+                                Cerrar
+
+                            </button>
+
+                            <button type="submit" class="btn btn-primary">
+
+                                Editar
+
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- ========================= -->
+    <!-- MODAL ELIMINAR -->
+    <!-- ========================= -->
+    <div class="modal fade" id="modalEliminar" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title">Eliminar proveedor</h5>
+                </div>
+
+                <form id="formEliminarProveedor" method="post">
+
+                    <input type="hidden" name="eliminar" value="1">
+                    <input type="hidden" name="cod_proveedor" id="delete_cod_proveedor">
+
+                    <div class="modal-body">
+                        ¿Desea eliminar este proveedor?
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                            No
+                        </button>
+
+                        <button type="submit" class="btn btn-danger">
+                            Eliminar
+                        </button>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- JS -->
+    <script src="{{ url_for('static', filename='assets/js/modulos-js/proveedor.js') }}"></script>
+
+</div>

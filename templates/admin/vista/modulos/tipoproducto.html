@@ -1,0 +1,344 @@
+<div id="main">
+    <div class="page-heading">
+        <div class="page-title">
+            <div class="row">
+                <div class="col-12 col-md-6 order-md-1 order-last">
+                    <h3>Tipos de Productos</h3>
+                </div>
+
+                <div class="col-12 col-md-6 order-md-2 order-first">
+                    <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"> <a href="/admin?ruta=inicio">Inicio</a></li>
+                            <li class="breadcrumb-item active">Tipos de Productos</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+
+        <section class="section">
+            <div class="card">
+
+                <div class="card-header">
+                    <button type="button" class="btn btn-primary rounded-pill" data-bs-toggle="modal"
+                        data-bs-target="#modalRegistrar">
+                        Registrar Tipo de Producto
+                    </button>
+                </div>
+
+                <div class="card-body">
+                    <div class="table-responsive">
+
+                        <table class="table table-bordered mb-0" id="table1">
+                            <thead>
+                                <tr>
+                                    <th>Código</th>
+                                    <th>Nombre</th>
+                                    <th>Status</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                {% for datos in tipo_productos %}
+                                {% if datos.status != 2 %}
+                                <tr>
+                                    <td>{{ datos.cod_tipo_producto }}</td>
+                                    <td>{{ datos.nombre_tipo_producto }}</td>
+
+                                    <td>
+                                        {% if datos.status == 1 %}
+                                        <span class="badge bg-success">Activo</span>
+                                        {% else %}
+                                        <span class="badge bg-danger">Inactivo</span>
+                                        {% endif %}
+                                    </td>
+
+                                    <td>
+                                        <div class="buttons d-flex gap-2">
+
+                                            <!-- EDITAR -->
+                                            <button type="button" class="btn icon btn-primary" data-bs-toggle="modal"
+                                                data-bs-target="#modalEditar" data-id="{{ datos.cod_tipo_producto }}"
+                                                data-nombre="{{ datos.nombre_tipo_producto }}"
+                                                data-status="{{ datos.status }}">
+                                                <i class="bi bi-pencil"></i>
+                                            </button>
+
+                                            <!-- ELIMINAR -->
+                                            <button type="button" class="btn icon btn-danger" data-bs-toggle="modal"
+                                                data-bs-target="#modalEliminar" data-id="{{ datos.cod_tipo_producto }}">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endif %}
+                                {% endfor %}
+                            </tbody>
+
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- ========================= -->
+    <!-- MODAL REGISTRAR -->
+    <!-- ========================= -->
+   <div class="modal fade" id="modalRegistrar" tabindex="-1"
+    role="dialog"
+    aria-labelledby="modalRegistrarTipoProductoLabel"
+    aria-hidden="true">
+
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
+        role="document">
+
+        <div class="modal-content">
+
+            <!-- ================= HEADER ================= -->
+            <div class="modal-header bg-primary">
+
+                <h5 class="modal-title text-white"
+                    id="modalRegistrarTipoProductoLabel">
+
+                    <i class="bi bi-box-seam"></i>
+                    Registrar Tipo de Producto
+
+                </h5>
+
+                <button type="button"
+                    class="close text-white"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                    id="btnClose">
+
+                    <i data-feather="x"></i>
+
+                </button>
+
+            </div>
+
+
+            <!-- ================= FORMULARIO ================= -->
+
+            <form id="formRegistrarTipoProducto" method="post">
+
+                <input type="hidden"
+                    name="registrar"
+                    value="1">
+
+
+                <!-- ================= CUERPO ================= -->
+
+                <div class="modal-body">
+
+                    <div class="form-group mb-3">
+
+                        <label for="nombre_tipo_producto"
+                            style="font-weight: bold;">
+
+                            <i class="bi bi-box"></i>
+                            Nombre
+
+                            <span class="text-danger"
+                                style="font-size: 20px;">
+                                *
+                            </span>
+
+                        </label>
+
+
+                        <button type="button"
+                            class="btn btn-xs"
+                            data-toggle="tooltip"
+                            data-placement="top"
+                            title="Ingrese el nombre del tipo de producto.">
+
+                            <i class="fas fa-info-circle"></i>
+
+                        </button>
+
+
+                        <input type="text"
+                            class="form-control"
+                            name="nombre_tipo_producto"
+                            id="nombre_tipo_producto"
+                            placeholder="Nombre del tipo de producto"
+                            required>
+
+
+                        <!-- MENSAJE DE VALIDACIÓN -->
+
+                        <div class="invalid-feedback"></div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ================= MENSAJE ================= -->
+
+                <div class="alert alert-light d-flex align-items-center mb-0"
+                    role="alert"
+                    style="
+                        font-weight: bold;
+                        border-radius: 0;
+                        border-left: none;
+                        border-right: none;
+                    ">
+
+                    <i class="fas fa-exclamation-triangle me-2 text-warning"></i>
+
+                    <span>
+                        Todos los campos marcados con (*)
+                        son obligatorios
+                    </span>
+
+                </div>
+
+
+                <!-- ================= FOOTER ================= -->
+
+                <div class="modal-footer"
+                    style="
+                        position: sticky;
+                        bottom: 0;
+                        background: #fff;
+                        z-index: 10;
+                        box-shadow: 0 -2px 8px rgba(0,0,0,0.1);
+                    ">
+
+                    <button type="button"
+                        class="btn btn-light-secondary"
+                        data-bs-dismiss="modal"
+                        id="btnCerrarModal">
+
+                        <i class="bx bx-x d-block d-sm-none"></i>
+                        Cerrar
+
+                    </button>
+
+
+                    <button type="submit"
+                        class="btn btn-primary">
+
+                        <i class="bx bx-check d-block d-sm-none"></i>
+                        Guardar
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+    <!-- ========================= -->
+    <!-- MODAL EDITAR -->
+    <!-- ========================= -->
+   <div class="modal fade" id="modalEditar" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title">Editar Tipo de Producto</h5>
+
+                <!-- Botón X para cerrar -->
+                <button type="button"
+                    class="btn-close btn-close-white"
+                    data-bs-dismiss="modal"
+                    aria-label="Cerrar">
+                </button>
+            </div>
+
+            <form id="formEditarTipoProducto" method="post">
+
+                <input type="hidden" name="cod_tipo_producto" id="edit_id">
+                <input type="hidden" name="actualizar" value="1">
+
+                <div class="modal-body">
+
+                    <label>Nombre</label>
+                    <input type="text"
+                        class="form-control"
+                        name="nombre_tipo_producto"
+                        id="edit_nombre">
+
+                    <label class="mt-2">Estado</label>
+                    <select name="status"
+                        id="edit_status"
+                        class="form-select">
+                        <option value="1">Activo</option>
+                        <option value="0">Inactivo</option>
+                    </select>
+
+                </div>
+
+                <div class="modal-footer">
+
+                    <button type="button"
+                        class="btn btn-secondary"
+                        data-bs-dismiss="modal">
+                        Cerrar
+                    </button>
+
+                    <button type="submit"
+                        class="btn btn-primary">
+                        Editar
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>
+    <!-- ========================= -->
+    <!-- MODAL ELIMINAR -->
+    <!-- ========================= -->
+    <div class="modal fade" id="modalEliminar" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title">Eliminar Tipo de Producto</h5>
+                </div>
+
+                <form id="formEliminarTipoProducto" method="post">
+
+                    <input type="hidden" name="eliminar" value="1">
+                    <input type="hidden" name="cod_tipo_producto" id="delete_id">
+
+                    <div class="modal-body">
+                        ¿Desea eliminar este registro?
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                            No
+                        </button>
+
+                        <button type="submit" class="btn btn-danger">
+                            Eliminar
+                        </button>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- JS -->
+    <script src="{{ url_for('static', filename='assets/js/modulos-js/tipoproducto.js') }}"></script>
+</div>

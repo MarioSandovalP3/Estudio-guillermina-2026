@@ -1,0 +1,795 @@
+<div id="app">
+  <div id="sidebar">
+    <div class="sidebar-wrapper active">
+      <div class="sidebar-header position-relative">
+        <div class="d-flex justify-content-between align-items-center">
+          <a href="">
+
+            <div class="logo d-flex justify-content-center align-items-center flex-column text-center">
+
+              <img id="logoEmpresa" src="{{ session.get('logo', '') }}" alt="Empresa"
+                class="brand-image img-circle elevation-3 mb-2" style="
+                    opacity: 0.85;
+                    width: 100px;
+                    height: 100px;
+                    object-fit: cover;
+                    {% if not session.get('logo') %}display: none;{% endif %}
+                ">
+
+              <span id="textoEmpresaSidebar" class="fw-semibold" {% if session.get('logo') %}style="display: none;" {%
+                endif %}>
+                Mi Empresa
+              </span>
+
+
+            </div>
+
+          </a>
+
+          <div class="theme-toggle d-flex gap-2  align-items-center mt-2">
+            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true"
+              role="img" class="iconify iconify--system-uicons" width="20" height="20"
+              preserveAspectRatio="xMidYMid meet" viewBox="0 0 21 21">
+              <g fill="none" fill-rule="evenodd" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <path
+                  d="M10.5 14.5c2.219 0 4-1.763 4-3.982a4.003 4.003 0 0 0-4-4.018c-2.219 0-4 1.781-4 4c0 2.219 1.781 4 4 4zM4.136 4.136L5.55 5.55m9.9 9.9l1.414 1.414M1.5 10.5h2m14 0h2M4.135 16.863L5.55 15.45m9.899-9.9l1.414-1.415M10.5 19.5v-2m0-14v-2"
+                  opacity=".3"></path>
+                <g transform="translate(-210 -1)">
+                  <path d="M220.5 2.5v2m6.5.5l-1.5 1.5"></path>
+                  <circle cx="220.5" cy="11.5" r="4"></circle>
+                  <path d="m214 5l1.5 1.5m5 14v-2m6.5-.5l-1.5-1.5M214 18l1.5-1.5m-4-5h2m14 0h2">
+                  </path>
+                </g>
+              </g>
+            </svg>
+            <div class="form-check form-switch fs-6">
+              <input class="form-check-input  me-0" type="checkbox" id="toggle-dark" style="cursor: pointer">
+              <label class="form-check-label"></label>
+            </div>
+            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true"
+              role="img" class="iconify iconify--mdi" width="20" height="20" preserveAspectRatio="xMidYMid meet"
+              viewBox="0 0 24 24">
+              <path fill="currentColor"
+                d="m17.75 4.09l-2.53 1.94l.91 3.06l-2.63-1.81l-2.63 1.81l.91-3.06l-2.53-1.94L12.44 4l1.06-3l1.06 3l3.19.09m3.5 6.91l-1.64 1.25l.59 1.98l-1.7-1.17l-1.7 1.17l.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95l2.06.05m-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85c-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14c.4-.4.82-.76 1.27-1.08c.75-.53 1.93.36 1.85 1.19c-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82c-2.81 3.14-2.7 7.96.31 10.98c3.02 3.01 7.84 3.12 10.98.31Z">
+              </path>
+            </svg>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!--=================
+    MENU / sidebar
+=====================-->
+
+
+      <div class="sidebar-menu">
+
+        <ul class="menu">
+
+          <li class="sidebar-title">Menú Principal</li>
+
+          {% if session.modulos.get('panel') %}
+          <li class="sidebar-item active">
+            {% if empresa_configurada %}
+            <a href="{{ url_for('admin_index', ruta='panel') }}" class="sidebar-link">
+              <i class="bi bi-speedometer2"></i>
+              <span>Panel Principal</span>
+            </a>
+            {% else %}
+            <a href="#" data-href="{{ url_for('admin_index', ruta='panel') }}" data-empresa-bloqueado="true"
+              class="sidebar-link"
+              style="background:#d3d3d3 !important; color:#777 !important; pointer-events:none; cursor:not-allowed;">
+              <i class="bi bi-speedometer2" style="color:#777 !important;"></i>
+              <span style="color:#777 !important;">Panel Principal</span>
+            </a>
+            {% endif %}
+          </li>
+          {% endif %}
+
+          {% if session.modulos.get('cliente') %}
+          <li class="sidebar-item active">
+            {% if empresa_configurada %}
+            <a href="{{ url_for('admin_index', ruta='cliente') }}" class="sidebar-link">
+              <i class="bi bi-people-fill"></i>
+              <span>Clientes</span>
+            </a>
+            {% else %}
+            <a href="#" data-href="{{ url_for('admin_index', ruta='cliente') }}" data-empresa-bloqueado="true"
+              class="sidebar-link"
+              style="background:#d3d3d3 !important; color:#777 !important; pointer-events:none; cursor:not-allowed;">
+              <i class="bi bi-people-fill" style="color:#777 !important;"></i>
+              <span style="color:#777 !important;">Clientes</span>
+            </a>
+            {% endif %}
+          </li>
+          {% endif %}
+
+          {% if session.modulos.get('reserva') %}
+          <li class="sidebar-item active">
+            {% if empresa_configurada %}
+            <a href="{{ url_for('admin_index', ruta='reserva') }}" class="sidebar-link">
+              <i class="bi bi-book"></i>
+              <span>Reservas</span>
+            </a>
+            {% else %}
+            <a href="#" data-href="{{ url_for('admin_index', ruta='reserva') }}" data-empresa-bloqueado="true"
+              class="sidebar-link"
+              style="background:#d3d3d3 !important; color:#777 !important; pointer-events:none; cursor:not-allowed;">
+              <i class="bi bi-book" style="color:#777 !important;"></i>
+              <span style="color:#777 !important;">Reservas</span>
+            </a>
+            {% endif %}
+          </li>
+          {% endif %}
+
+          {% if session.modulos.get('disponibilidad') %}
+          <li class="sidebar-item active">
+            {% if empresa_configurada %}
+            <a href="{{ url_for('admin_index', ruta='disponibilidad') }}" class="sidebar-link">
+              <i class="bi bi-clock ms-1"></i>
+              <span>Disponibilidad Especialistas</span>
+            </a>
+            {% else %}
+            <a href="#" data-href="{{ url_for('admin_index', ruta='disponibilidad') }}" data-empresa-bloqueado="true"
+              class="sidebar-link"
+              style="background:#d3d3d3 !important; color:#777 !important; pointer-events:none; cursor:not-allowed;">
+              <i class="bi bi-clock ms-1" style="color:#777 !important;"></i>
+              <span style="color:#777 !important;">Disponibilidad Especialistas</span>
+            </a>
+            {% endif %}
+          </li>
+          {% endif %}
+
+          {% if session.modulos.get('tiposervicio') %}
+          <li class="sidebar-item active">
+            {% if empresa_configurada %}
+            <a href="{{ url_for('admin_index', ruta='tiposervicio') }}" class="sidebar-link">
+              <i class="bi bi-scissors"></i>
+              <span>Tipo de Servicios</span>
+            </a>
+            {% else %}
+            <a href="#" data-href="{{ url_for('admin_index', ruta='tiposervicio') }}" data-empresa-bloqueado="true"
+              class="sidebar-link"
+              style="background:#d3d3d3 !important; color:#777 !important; pointer-events:none; cursor:not-allowed;">
+              <i class="bi bi-scissors" style="color:#777 !important;"></i>
+              <span style="color:#777 !important;">Tipo de Servicios</span>
+            </a>
+            {% endif %}
+          </li>
+          {% endif %}
+
+          {% if session.modulos.get('promocion') %}
+          <li class="sidebar-item active">
+            {% if empresa_configurada %}
+            <a href="{{ url_for('admin_index', ruta='promocion') }}" class="sidebar-link">
+              <i class="bi bi-tag"></i>
+              <span>Promociones</span>
+            </a>
+            {% else %}
+            <a href="#" data-href="{{ url_for('admin_index', ruta='promocion') }}" data-empresa-bloqueado="true"
+              class="sidebar-link"
+              style="background:#d3d3d3 !important; color:#777 !important; pointer-events:none; cursor:not-allowed;">
+              <i class="bi bi-tag" style="color:#777 !important;"></i>
+              <span style="color:#777 !important;">Promociones</span>
+            </a>
+            {% endif %}
+          </li>
+          {% endif %}
+
+          {% if session.modulos.get('compra') %}
+          <li class="sidebar-item active">
+            {% if empresa_configurada %}
+            <a href="{{ url_for('admin_index', ruta='compra') }}" class="sidebar-link">
+              <i class="bi bi-cart"></i>
+              <span>Compras</span>
+            </a>
+            {% else %}
+            <a href="#" data-href="{{ url_for('admin_index', ruta='compra') }}" data-empresa-bloqueado="true"
+              class="sidebar-link"
+              style="background:#d3d3d3 !important; color:#777 !important; pointer-events:none; cursor:not-allowed;">
+              <i class="bi bi-cart" style="color:#777 !important;"></i>
+              <span style="color:#777 !important;">Compras</span>
+            </a>
+            {% endif %}
+          </li>
+          {% endif %}
+
+          {% if session.modulos.get('proveedor') %}
+          <li class="sidebar-item active">
+            {% if empresa_configurada %}
+            <a href="{{ url_for('admin_index', ruta='proveedor') }}" class="sidebar-link">
+              <i class="bi bi-building"></i>
+              <span>Proveedores</span>
+            </a>
+            {% else %}
+            <a href="#" data-href="{{ url_for('admin_index', ruta='proveedor') }}" data-empresa-bloqueado="true"
+              class="sidebar-link"
+              style="background:#d3d3d3 !important; color:#777 !important; pointer-events:none; cursor:not-allowed;">
+              <i class="bi bi-building" style="color:#777 !important;"></i>
+              <span style="color:#777 !important;">Proveedores</span>
+            </a>
+            {% endif %}
+          </li>
+          {% endif %}
+
+          {% if session.modulos.get('producto')
+          or session.modulos.get('tipoproducto')
+          or session.modulos.get('marca')
+          or session.modulos.get('categoria') %}
+
+          <li class="sidebar-item has-sub">
+
+            {% if empresa_configurada %}
+            <a href="#" class="sidebar-link" style="background:#1f5ceb; color:#fff;">
+              <i class="bi bi-box" style="color:#fff;"></i>
+              <span style="color:#fff;">Productos</span>
+            </a>
+            {% else %}
+            <a href="#" data-empresa-bloqueado="true" class="sidebar-link"
+              style="background:#d3d3d3 !important; color:#777 !important; pointer-events:none; cursor:not-allowed;">
+              <i class="bi bi-box" style="color:#777 !important;"></i>
+              <span style="color:#777 !important;">Productos</span>
+            </a>
+            {% endif %}
+
+            <ul class="submenu">
+
+              {% if session.modulos.get('producto') %}
+              <li class="submenu-item">
+                {% if empresa_configurada %}
+                <a href="{{ url_for('admin_index', ruta='producto') }}" class="submenu-link">
+                  <i class="bi bi-box-seam"></i>
+                  Productos
+                </a>
+                {% else %}
+                <a href="#" data-href="{{ url_for('admin_index', ruta='producto') }}" data-empresa-bloqueado="true"
+                  class="submenu-link" style="color:#999 !important; pointer-events:none; cursor:not-allowed;">
+                  <i class="bi bi-box-seam" style="color:#999 !important;"></i>
+                  Productos
+                </a>
+                {% endif %}
+              </li>
+              {% endif %}
+
+              {% if session.modulos.get('tipoproducto') %}
+              <li class="submenu-item">
+                {% if empresa_configurada %}
+                <a href="{{ url_for('admin_index', ruta='tipoproducto') }}" class="submenu-link">
+                  <i class="bi bi-tags"></i>
+                  Tipos Productos
+                </a>
+                {% else %}
+                <a href="#" data-href="{{ url_for('admin_index', ruta='tipoproducto') }}" data-empresa-bloqueado="true"
+                  class="submenu-link" style="color:#999 !important; pointer-events:none; cursor:not-allowed;">
+                  <i class="bi bi-tags" style="color:#999 !important;"></i>
+                  Tipos Productos
+                </a>
+                {% endif %}
+              </li>
+              {% endif %}
+
+              {% if session.modulos.get('marca') %}
+              <li class="submenu-item">
+                {% if empresa_configurada %}
+                <a href="{{ url_for('admin_index', ruta='marca') }}" class="submenu-link">
+                  <i class="bi bi-bookmark-star"></i>
+                  Marca
+                </a>
+                {% else %}
+                <a href="#" data-href="{{ url_for('admin_index', ruta='marca') }}" data-empresa-bloqueado="true"
+                  class="submenu-link" style="color:#999 !important; pointer-events:none; cursor:not-allowed;">
+                  <i class="bi bi-bookmark-star" style="color:#999 !important;"></i>
+                  Marca
+                </a>
+                {% endif %}
+              </li>
+              {% endif %}
+
+              {% if session.modulos.get('categoria') %}
+              <li class="submenu-item">
+                {% if empresa_configurada %}
+                <a href="{{ url_for('admin_index', ruta='categoria') }}" class="submenu-link">
+                  <i class="bi bi-folder"></i>
+                  Categorías
+                </a>
+                {% else %}
+                <a href="#" data-href="{{ url_for('admin_index', ruta='categoria') }}" data-empresa-bloqueado="true"
+                  class="submenu-link" style="color:#999 !important; pointer-events:none; cursor:not-allowed;">
+                  <i class="bi bi-folder" style="color:#999 !important;"></i>
+                  Categorías
+                </a>
+                {% endif %}
+              </li>
+              {% endif %}
+
+            </ul>
+          </li>
+          {% endif %}
+
+          {% if session.modulos.get('unidadmedida')
+          or session.modulos.get('presentacion')
+          or session.modulos.get('unidad') %}
+
+          <li class="sidebar-item has-sub">
+
+            {% if empresa_configurada %}
+            <a href="#" class="sidebar-link" style="background:#1f5ceb; color:#fff;">
+              <i class="bi bi-boxes" style="color:#fff;"></i>
+              <span style="color:#fff;">Unidad de Medida</span>
+            </a>
+            {% else %}
+            <a href="#" data-empresa-bloqueado="true" class="sidebar-link"
+              style="background:#d3d3d3 !important; color:#777 !important; pointer-events:none; cursor:not-allowed;">
+              <i class="bi bi-boxes" style="color:#777 !important;"></i>
+              <span style="color:#777 !important;">Unidad de Medida</span>
+            </a>
+            {% endif %}
+
+            <ul class="submenu">
+
+              {% if session.modulos.get('unidadmedida') %}
+              <li class="submenu-item">
+                {% if empresa_configurada %}
+                <a href="{{ url_for('admin_index', ruta='unidadmedida') }}" class="submenu-link">
+                  <i class="bi bi-123"></i>
+                  Medida
+                </a>
+                {% else %}
+                <a href="#" data-href="{{ url_for('admin_index', ruta='unidadmedida') }}" data-empresa-bloqueado="true"
+                  class="submenu-link" style="color:#999 !important; pointer-events:none; cursor:not-allowed;">
+                  <i class="bi bi-123" style="color:#999 !important;"></i>
+                  Medida
+                </a>
+                {% endif %}
+              </li>
+              {% endif %}
+
+              {% if session.modulos.get('presentacion') %}
+              <li class="submenu-item">
+                {% if empresa_configurada %}
+                <a href="{{ url_for('admin_index', ruta='presentacion') }}" class="submenu-link">
+                  <i class="bi bi-list-ul"></i>
+                  Presentación
+                </a>
+                {% else %}
+                <a href="#" data-href="{{ url_for('admin_index', ruta='presentacion') }}" data-empresa-bloqueado="true"
+                  class="submenu-link" style="color:#999 !important; pointer-events:none; cursor:not-allowed;">
+                  <i class="bi bi-list-ul" style="color:#999 !important;"></i>
+                  Presentación
+                </a>
+                {% endif %}
+              </li>
+              {% endif %}
+
+              {% if session.modulos.get('unidad') %}
+              <li class="submenu-item">
+                {% if empresa_configurada %}
+                <a href="{{ url_for('admin_index', ruta='unidad') }}" class="submenu-link">
+                  <i class="bi bi-rulers"></i>
+                  Unidad
+                </a>
+                {% else %}
+                <a href="#" data-href="{{ url_for('admin_index', ruta='unidad') }}" data-empresa-bloqueado="true"
+                  class="submenu-link" style="color:#999 !important; pointer-events:none; cursor:not-allowed;">
+                  <i class="bi bi-rulers" style="color:#999 !important;"></i>
+                  Unidad
+                </a>
+                {% endif %}
+              </li>
+              {% endif %}
+
+            </ul>
+          </li>
+          {% endif %}
+
+          {% if session.modulos.get('misdatos') %}
+          <li class="sidebar-item active">
+
+            {% if empresa_configurada %}
+            <a href="{{ url_for('admin_index', ruta='misdatos') }}" class="sidebar-link">
+              <i class="bi bi-people-fill"></i>
+              <span>Mis Datos</span>
+            </a>
+            {% else %}
+            <a href="#" data-href="{{ url_for('admin_index', ruta='misdatos') }}" data-empresa-bloqueado="true"
+              class="sidebar-link"
+              style="background:#d3d3d3 !important; color:#777 !important; pointer-events:none; cursor:not-allowed;">
+              <i class="bi bi-people-fill" style="color:#777 !important;"></i>
+              <span style="color:#777 !important;">Mis Datos</span>
+            </a>
+            {% endif %}
+
+          </li>
+          {% endif %}
+
+          {% if session.modulos.get('misreservas') %}
+          <li class="sidebar-item has-sub">
+
+            {% if empresa_configurada %}
+            <a href="#" class="sidebar-link" style="background:#1f5ceb; color:#fff;">
+              <i class="bi bi-calendar" style="color:#fff;"></i>
+              <span style="color:#fff;">Mis Reservas</span>
+            </a>
+            {% else %}
+            <a href="#" data-empresa-bloqueado="true" class="sidebar-link"
+              style="background:#d3d3d3 !important; color:#777 !important; pointer-events:none; cursor:not-allowed;">
+              <i class="bi bi-calendar" style="color:#777 !important;"></i>
+              <span style="color:#777 !important;">Mis Reservas</span>
+            </a>
+            {% endif %}
+
+            <ul class="submenu">
+
+              <li class="submenu-item">
+                {% if empresa_configurada %}
+                <a href="{{ url_for('admin_index', ruta='misreservas') }}" class="submenu-link">
+                  <i class="bi bi-calendar-check"></i>
+                  Historial de Reservas
+                </a>
+                {% else %}
+                <a href="#" data-href="{{ url_for('admin_index', ruta='misreservas') }}" data-empresa-bloqueado="true"
+                  class="submenu-link" style="color:#999 !important; pointer-events:none; cursor:not-allowed;">
+                  <i class="bi bi-calendar-check" style="color:#999 !important;"></i>
+                  Historial de Reservas
+                </a>
+                {% endif %}
+              </li>
+
+            </ul>
+          </li>
+          {% endif %}
+
+          {% if session.modulos.get('personal') %}
+          <li class="sidebar-item active">
+            {% if empresa_configurada %}
+            <a href="{{ url_for('admin_index', ruta='personal') }}" class="sidebar-link">
+              <i class="bi bi-person-badge-fill"></i>
+              <span>Personal</span>
+            </a>
+            {% else %}
+            <a href="#" data-href="{{ url_for('admin_index', ruta='personal') }}" data-empresa-bloqueado="true"
+              class="sidebar-link"
+              style="background:#d3d3d3 !important; color:#777 !important; pointer-events:none; cursor:not-allowed;">
+              <i class="bi bi-person-badge-fill" style="color:#777 !important;"></i>
+              <span style="color:#777 !important;">Personal</span>
+            </a>
+            {% endif %}
+          </li>
+          {% endif %}
+
+          {% if session.modulos.get('pagos') %}
+          <li class="sidebar-item active">
+            {% if empresa_configurada %}
+            <a href="{{ url_for('admin_index', ruta='pagos') }}" class="sidebar-link">
+              <i class="bi bi-credit-card-2-front-fill"></i>
+              <span>Pagos</span>
+            </a>
+            {% else %}
+            <a href="#" data-href="{{ url_for('admin_index', ruta='pagos') }}" data-empresa-bloqueado="true"
+              class="sidebar-link"
+              style="background:#d3d3d3 !important; color:#777 !important; pointer-events:none; cursor:not-allowed;">
+              <i class="bi bi-credit-card-2-front-fill" style="color:#777 !important;"></i>
+              <span style="color:#777 !important;">Pagos</span>
+            </a>
+            {% endif %}
+          </li>
+          {% endif %}
+
+          {% if session.modulos.get('pagospersonal') %}
+          <li class="sidebar-item active">
+            {% if empresa_configurada %}
+            <a href="{{ url_for('admin_index', ruta='pagospersonal') }}" class="sidebar-link">
+              <i class="bi bi-person-lines-fill"></i>
+              <span>Pagos Personal</span>
+            </a>
+            {% else %}
+            <a href="#" data-href="{{ url_for('admin_index', ruta='pagospersonal') }}" data-empresa-bloqueado="true"
+              class="sidebar-link"
+              style="background:#d3d3d3 !important; color:#777 !important; pointer-events:none; cursor:not-allowed;">
+              <i class="bi bi-person-lines-fill" style="color:#777 !important;"></i>
+              <span style="color:#777 !important;">Pagos Personal</span>
+            </a>
+            {% endif %}
+          </li>
+          {% endif %}
+
+          {% if session.modulos.get('reporte_cliente')
+          or session.modulos.get('reporte_reserva')
+          or session.modulos.get('reporte_pago')
+          or session.modulos.get('reporte_producto')
+          or session.modulos.get('rep-pagos-estadistico') %}
+
+          <li class="sidebar-item has-sub">
+
+            {% if empresa_configurada %}
+            <a href="#" class="sidebar-link" style="background:#1f5ceb; color:#fff;">
+              <i class="fas fa-chart-bar" style="color:#fff;"></i>
+              <span style="color:#fff;">Reportes</span>
+            </a>
+            {% else %}
+            <a href="#" data-empresa-bloqueado="true" class="sidebar-link"
+              style="background:#d3d3d3 !important; color:#777 !important; pointer-events:none; cursor:not-allowed;">
+              <i class="fas fa-chart-bar" style="color:#777 !important;"></i>
+              <span style="color:#777 !important;">Reportes</span>
+            </a>
+            {% endif %}
+
+            <ul class="submenu">
+
+              {% if session.modulos.get('reporte_cliente') %}
+              <li class="submenu-item">
+                {% if empresa_configurada %}
+                <a href="{{ url_for('admin_index', ruta='reporte_cliente') }}" class="submenu-link">
+                  <i class="fas fa-users"></i>
+                  Clientes
+                </a>
+                {% else %}
+                <a href="#" data-href="{{ url_for('admin_index', ruta='reporte_cliente') }}"
+                  data-empresa-bloqueado="true" class="submenu-link"
+                  style="color:#999 !important; pointer-events:none; cursor:not-allowed;">
+                  <i class="fas fa-users" style="color:#999 !important;"></i>
+                  Clientes
+                </a>
+                {% endif %}
+              </li>
+              {% endif %}
+
+              {% if session.modulos.get('reporte_reserva') %}
+              <li class="submenu-item">
+                {% if empresa_configurada %}
+                <a href="{{ url_for('admin_index', ruta='reporte_reserva') }}" class="submenu-link">
+                  <i class="bi bi-calendar"></i>
+                  Reservas
+                </a>
+                {% else %}
+                <a href="#" data-href="{{ url_for('admin_index', ruta='reporte_reserva') }}"
+                  data-empresa-bloqueado="true" class="submenu-link"
+                  style="color:#999 !important; pointer-events:none; cursor:not-allowed;">
+                  <i class="bi bi-calendar" style="color:#999 !important;"></i>
+                  Reservas
+                </a>
+                {% endif %}
+              </li>
+              {% endif %}
+
+              {% if session.modulos.get('reporte_producto') %}
+              <li class="submenu-item">
+                {% if empresa_configurada %}
+                <a href="{{ url_for('admin_index', ruta='reporte_producto') }}" class="submenu-link">
+                  <i class="fas fa-briefcase"></i>
+                  Inventario
+                </a>
+                {% else %}
+                <a href="#" data-href="{{ url_for('admin_index', ruta='reporte_producto') }}"
+                  data-empresa-bloqueado="true" class="submenu-link"
+                  style="color:#999 !important; pointer-events:none; cursor:not-allowed;">
+                  <i class="fas fa-briefcase" style="color:#999 !important;"></i>
+                  Inventario
+                </a>
+                {% endif %}
+              </li>
+              {% endif %}
+
+              {% if session.modulos.get('reporte_pago') %}
+              <li class="submenu-item">
+                {% if empresa_configurada %}
+                <a href="{{ url_for('admin_index', ruta='reporte_pago') }}" class="submenu-link">
+                  <i class="fas fa-money-bill-wave"></i>
+                  Pagos
+                </a>
+                {% else %}
+                <a href="#" data-href="{{ url_for('admin_index', ruta='reporte_pago') }}" data-empresa-bloqueado="true"
+                  class="submenu-link" style="color:#999 !important; pointer-events:none; cursor:not-allowed;">
+                  <i class="fas fa-money-bill-wave" style="color:#999 !important;"></i>
+                  Pagos
+                </a>
+                {% endif %}
+              </li>
+              {% endif %}
+
+              {% if session.modulos.get('rep-pagos-estadistico') %}
+              <li class="submenu-item">
+                {% if empresa_configurada %}
+                <a href="{{ url_for('admin_index', ruta='rep-pagos-estadistico') }}" class="submenu-link">
+                  <i class="fas fa-chart-line"></i>
+                  Estadísticas Pagos
+                </a>
+                {% else %}
+                <a href="#" data-href="{{ url_for('admin_index', ruta='rep-pagos-estadistico') }}"
+                  data-empresa-bloqueado="true" class="submenu-link"
+                  style="color:#999 !important; pointer-events:none; cursor:not-allowed;">
+                  <i class="fas fa-chart-line" style="color:#999 !important;"></i>
+                  Estadísticas Pagos
+                </a>
+                {% endif %}
+              </li>
+              {% endif %}
+
+            </ul>
+          </li>
+          {% endif %}
+
+          {% if session.modulos.get('empresa')
+          or session.modulos.get('usuarios')
+          or session.modulos.get('rol')
+          or session.modulos.get('permisos')
+          or session.modulos.get('especialidad')
+          or session.modulos.get('tipopagos')
+          or session.modulos.get('moneda')
+          or session.modulos.get('mantenimiento')
+          or session.modulos.get('bitacora') %}
+
+          <li class="sidebar-item has-sub">
+
+            <a href="#" class="sidebar-link" style="background:#1f5ceb; color:#fff;">
+              <i class="fas fa-cog" style="color:#fff;"></i>
+              <span style="color:#fff;">Configuración</span>
+            </a>
+
+            <ul class="submenu">
+
+              {% if session.modulos.get('empresa') %}
+              <li class="submenu-item">
+                <a href="{{ url_for('admin_index', ruta='empresa') }}" class="submenu-link">
+                  <i class="fas fa-building"></i>
+                  Empresa
+                </a>
+              </li>
+              {% endif %}
+
+              {% if session.modulos.get('usuarios') %}
+              <li class="submenu-item">
+                {% if empresa_configurada %}
+                <a href="{{ url_for('admin_index', ruta='usuarios') }}" class="submenu-link">
+                  <i class="fas fa-user"></i>
+                  Usuarios
+                </a>
+                {% else %}
+                <a href="#" data-href="{{ url_for('admin_index', ruta='usuarios') }}" data-empresa-bloqueado="true"
+                  class="submenu-link" style="color:#999 !important; pointer-events:none; cursor:not-allowed;">
+                  <i class="fas fa-user" style="color:#999 !important;"></i>
+                  Usuarios
+                </a>
+                {% endif %}
+              </li>
+              {% endif %}
+
+              {% if session.modulos.get('rol') %}
+              <li class="submenu-item">
+                {% if empresa_configurada %}
+                <a href="{{ url_for('admin_index', ruta='rol') }}" class="submenu-link">
+                  <i class="fas fa-user-cog"></i>
+                  Rol
+                </a>
+                {% else %}
+                <a href="#" data-href="{{ url_for('admin_index', ruta='rol') }}" data-empresa-bloqueado="true"
+                  class="submenu-link" style="color:#999 !important; pointer-events:none; cursor:not-allowed;">
+                  <i class="fas fa-user-cog" style="color:#999 !important;"></i>
+                  Rol
+                </a>
+                {% endif %}
+              </li>
+              {% endif %}
+
+              {% if session.modulos.get('permisos') %}
+              <li class="submenu-item">
+                {% if empresa_configurada %}
+                <a href="{{ url_for('admin_index', ruta='permisos') }}" class="submenu-link">
+                  <i class="bi bi-shield-check"></i>
+                  Permisos
+                </a>
+                {% else %}
+                <a href="#" data-href="{{ url_for('admin_index', ruta='permisos') }}" data-empresa-bloqueado="true"
+                  class="submenu-link" style="color:#999 !important; pointer-events:none; cursor:not-allowed;">
+                  <i class="bi bi-shield-check" style="color:#999 !important;"></i>
+                  Permisos
+                </a>
+                {% endif %}
+              </li>
+              {% endif %}
+
+              {% if session.modulos.get('especialidad') %}
+              <li class="submenu-item">
+                {% if empresa_configurada %}
+                <a href="{{ url_for('admin_index', ruta='especialidad') }}" class="submenu-link">
+                  <i class="fas fa-users"></i>
+                  Especialistas
+                </a>
+                {% else %}
+                <a href="#" data-href="{{ url_for('admin_index', ruta='especialidad') }}" data-empresa-bloqueado="true"
+                  class="submenu-link" style="color:#999 !important; pointer-events:none; cursor:not-allowed;">
+                  <i class="fas fa-users" style="color:#999 !important;"></i>
+                  Especialistas
+                </a>
+                {% endif %}
+              </li>
+              {% endif %}
+
+              {% if session.modulos.get('tipopagos') %}
+              <li class="submenu-item">
+                {% if empresa_configurada %}
+                <a href="{{ url_for('admin_index', ruta='tipopagos') }}" class="submenu-link">
+                  <i class="fas fa-dollar-sign"></i>
+                  Tipos de pagos
+                </a>
+                {% else %}
+                <a href="#" data-href="{{ url_for('admin_index', ruta='tipopagos') }}" data-empresa-bloqueado="true"
+                  class="submenu-link" style="color:#999 !important; pointer-events:none; cursor:not-allowed;">
+                  <i class="fas fa-dollar-sign" style="color:#999 !important;"></i>
+                  Tipos de pagos
+                </a>
+                {% endif %}
+              </li>
+              {% endif %}
+
+              {% if session.modulos.get('moneda') %}
+              <li class="submenu-item">
+                {% if empresa_configurada %}
+                <a href="{{ url_for('admin_index', ruta='moneda') }}" class="submenu-link">
+                  <i class="fas fa-coins"></i>
+                  Moneda
+                </a>
+                {% else %}
+                <a href="#" data-href="{{ url_for('admin_index', ruta='moneda') }}" data-empresa-bloqueado="true"
+                  class="submenu-link" style="color:#999 !important; pointer-events:none; cursor:not-allowed;">
+                  <i class="fas fa-coins" style="color:#999 !important;"></i>
+                  Moneda
+                </a>
+                {% endif %}
+              </li>
+              {% endif %}
+
+              {% if session.modulos.get('mantenimiento') %}
+              <li class="submenu-item">
+                {% if empresa_configurada %}
+                <a href="{{ url_for('admin_index', ruta='mantenimiento') }}" class="submenu-link">
+                  <i class="fas fa-cogs"></i>
+                  Mantenimiento
+                </a>
+                {% else %}
+                <a href="#" data-href="{{ url_for('admin_index', ruta='mantenimiento') }}" data-empresa-bloqueado="true"
+                  class="submenu-link" style="color:#999 !important; pointer-events:none; cursor:not-allowed;">
+                  <i class="fas fa-cogs" style="color:#999 !important;"></i>
+                  Mantenimiento
+                </a>
+                {% endif %}
+              </li>
+              {% endif %}
+
+              {% if session.modulos.get('bitacora') %}
+              <li class="submenu-item">
+                {% if empresa_configurada %}
+                <a href="{{ url_for('admin_index', ruta='bitacora') }}" class="submenu-link">
+                  <i class="fas fa-clipboard-list"></i>
+                  Bitácora
+                </a>
+                {% else %}
+                <a href="#" data-href="{{ url_for('admin_index', ruta='bitacora') }}" data-empresa-bloqueado="true"
+                  class="submenu-link" style="color:#999 !important; pointer-events:none; cursor:not-allowed;">
+                  <i class="fas fa-clipboard-list" style="color:#999 !important;"></i>
+                  Bitácora
+                </a>
+                {% endif %}
+              </li>
+              {% endif %}
+
+            </ul>
+          </li>
+
+          {% endif %}
+
+
+        </ul>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<script src="{{ url_for('static', filename='assets/js/modulos-js/panell.js') }}"></script>

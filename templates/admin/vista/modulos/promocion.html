@@ -1,0 +1,567 @@
+<div id="main">
+
+    <!-- ================= HEADER ================= -->
+    <div class="page-heading">
+        <div class="page-title">
+            <div class="row">
+
+                <div class="col-12 col-md-6 order-md-1 order-last">
+                    <h3>Promociones</h3>
+                </div>
+
+                <div class="col-12 col-md-6 order-md-2 order-first">
+                    <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"> <a href="/admin?ruta=inicio">Inicio</a></li>
+                            <li class="breadcrumb-item active">Promociones</li>
+                        </ol>
+                    </nav>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ================= TABLA ================= -->
+        <section class="section">
+            <div class="card">
+
+                <div class="card-header">
+                    <button class="btn btn-primary rounded-pill" data-bs-toggle="modal"
+                        data-bs-target="#modalRegistrarPromocion">
+                        Registrar Promoción
+                    </button>
+                </div>
+
+                <div class="card-body">
+
+                    <div class="table-responsive">
+
+                        <table class="table table-bordered mb-0" id="table1">
+
+                            <thead>
+                                <tr>
+                                    <th>Código</th>
+                                    <th>Nombre</th>
+                                    <th>Descuento</th>
+                                    <th>Desde</th>
+                                    <th>Hasta</th>
+                                    <th>Status</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+
+                                {% for datos in promociones %}
+                                {% if datos.status != 2 %}
+
+                                <tr>
+
+                                    <td>{{ datos.cod_promo }}</td>
+                                    <td>{{ datos.nombre_promo }}</td>
+                                    <td>{{ datos.descuento }}%</td>
+                                    <td>{{ datos.inicio_promo }}</td>
+                                    <td>{{ datos.fin_promo }}</td>
+
+                                    <td>
+                                        {% if datos.status == 1 %}
+                                        <span class="badge bg-success">Activo</span>
+                                        {% else %}
+                                        <span class="badge bg-danger">Inactivo</span>
+                                        {% endif %}
+                                    </td>
+
+                                    <td>
+                                        <div class="d-flex gap-2">
+
+                                            <!-- 👁 DETALLE -->
+                                            <button class="btn btn-info btn-sm" data-bs-toggle="modal"
+                                                data-bs-target="#modalVerPromocion"
+                                                data-nombre="{{ datos.nombre_promo }}"
+                                                data-descripcion="{{ datos.descripcion_promo }}"
+                                                data-imagen="{{ datos.imagen_promo }}">
+                                                <i class="bi bi-eye"></i>
+                                            </button>
+
+                                            <!-- ✏ EDITAR -->
+                                            <button class="btn btn-primary btn-sm" data-bs-toggle="modal"
+                                                data-bs-target="#modalEditarPromocion"
+                                                data-cod_promo="{{ datos.cod_promo }}"
+                                                data-nombre_promo="{{ datos.nombre_promo }}"
+                                                data-descripcion_promo="{{ datos.descripcion_promo }}"
+                                                data-descuento="{{ datos.descuento }}"
+                                                data-inicio_promo="{{ datos.inicio_promo }}"
+                                                data-fin_promo="{{ datos.fin_promo }}" data-status="{{ datos.status }}">
+                                                <i class="bi bi-pencil"></i>
+                                            </button>
+
+                                            <!-- 🗑 ELIMINAR -->
+                                            <button class="btn btn-danger btn-sm" data-bs-toggle="modal"
+                                                data-bs-target="#modalEliminarPromocion"
+                                                data-cod_promo="{{ datos.cod_promo }}">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+
+                                        </div>
+                                    </td>
+
+                                </tr>
+
+                                {% endif %}
+                                {% endfor %}
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- ================= MODAL REGISTRAR ================= -->
+    <!-- ============================= -->
+    <!-- MODAL REGISTRAR PROMOCIÓN -->
+    <!-- ============================= -->
+
+    <div class="modal fade text-left" id="modalRegistrarPromocion" tabindex="-1" role="dialog"
+        aria-labelledby="modalRegistrarPromocionLabel" aria-hidden="true">
+
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+
+            <div class="modal-content">
+
+                <!-- ================= HEADER ================= -->
+                <div class="modal-header bg-primary">
+
+                    <h5 class="modal-title text-white" id="modalRegistrarPromocionLabel">
+                        <i class="bi bi-megaphone"></i>
+                        Registrar Promoción
+                    </h5>
+
+                    <button type="button" class="close text-white" data-bs-dismiss="modal" aria-label="Close"
+                        id="btnClosePromocion">
+
+                        <i data-feather="x"></i>
+
+                    </button>
+
+                </div>
+
+
+                <!-- ================= FORMULARIO ================= -->
+
+                <form id="formRegistrarPromocion" method="POST" enctype="multipart/form-data" data-parsley-validate
+                    novalidate>
+
+                    <input type="hidden" name="registrar" value="1">
+
+
+                    <!-- ================= CUERPO ================= -->
+
+                    <div class="modal-body" style="
+                    max-height: 70vh;
+                    overflow-y: auto;
+                    overflow-x: hidden;
+                    scrollbar-width: thin;
+                    scrollbar-color: #007bff #f1f1f1;
+                    ">
+
+
+                        <!-- ================= NOMBRE ================= -->
+
+                        <div class="mb-3">
+
+                            <label for="nombre_promo" style="font-weight: bold;">
+
+                                <i class="bi bi-tag"></i>
+                                Nombre de la Promoción
+
+                                <span class="text-danger" style="font-size: 20px;">
+                                    *
+                                </span>
+
+                            </label>
+
+                            <button type="button" class="btn btn-xs" data-toggle="tooltip" data-placement="top"
+                                title="Ingrese el nombre de la promoción.">
+
+                                <i class="fas fa-info-circle"></i>
+
+                            </button>
+
+                            <input type="text" class="form-control" id="nombre_promo" name="nombre_promo"
+                                placeholder="Nombre de la promoción" maxlength="30" required
+                                data-parsley-required-message="Este campo es obligatorio.">
+
+                            <div class="invalid-feedback"></div>
+
+                        </div>
+
+
+                        <!-- ================= DESCRIPCIÓN ================= -->
+
+                        <div class="mb-3">
+
+                            <label for="descripcion_promo" style="font-weight: bold;">
+
+                                <i class="bi bi-card-text"></i>
+                                Descripción
+
+                            </label>
+
+                            <button type="button" class="btn btn-xs" data-toggle="tooltip" data-placement="top"
+                                title="Ingrese una descripción de la promoción.">
+
+                                <i class="fas fa-info-circle"></i>
+
+                            </button>
+
+                            <textarea class="form-control" id="descripcion_promo" name="descripcion_promo"
+                                placeholder="Descripción de la promoción" maxlength="100" rows="3"></textarea>
+
+                            <div class="invalid-feedback"></div>
+
+                        </div>
+
+
+                        <!-- ================= DESCUENTO ================= -->
+
+                        <div class="mb-3">
+
+                            <label for="descuento" style="font-weight: bold;">
+
+                                <i class="bi bi-percent"></i>
+                                Descuento
+
+                                <span class="text-danger" style="font-size: 20px;">
+                                    *
+                                </span>
+
+                            </label>
+
+                            <button type="button" class="btn btn-xs" data-toggle="tooltip" data-placement="top"
+                                title="Ingrese el porcentaje de descuento.">
+
+                                <i class="fas fa-info-circle"></i>
+
+                            </button>
+
+                            <input type="text" class="form-control" id="descuento" name="descuento"
+                                placeholder="Porcentaje de descuento" maxlength="3" inputmode="numeric" required
+                                data-parsley-required-message="Este campo es obligatorio.">
+
+                            <div class="invalid-feedback"></div>
+
+                        </div>
+
+
+                        <!-- ================= IMAGEN ================= -->
+
+                        <div class="mb-3">
+
+                            <label for="imagen_promo" style="font-weight: bold;">
+
+                                <i class="bi bi-image"></i>
+                                Imagen
+
+                            </label>
+
+                            <button type="button" class="btn btn-xs" data-toggle="tooltip" data-placement="top"
+                                title="Seleccione una imagen para la promoción.">
+
+                                <i class="fas fa-info-circle"></i>
+
+                            </button>
+
+                            <input type="file" class="form-control" id="imagen_promo" name="imagen_promo"
+                                accept=".jpg,.jpeg,.png,.webp">
+
+                            <div class="invalid-feedback"></div>
+
+                        </div>
+
+
+                        <!-- ================= FECHAS ================= -->
+
+                        <div class="row">
+
+
+                            <!-- FECHA INICIO -->
+
+                            <div class="col-md-6 mb-3">
+
+                                <label for="inicio_promo" style="font-weight: bold;">
+
+                                    <i class="bi bi-calendar-event"></i>
+                                    Fecha de Inicio
+
+                                    <span class="text-danger" style="font-size: 20px;">
+                                        *
+                                    </span>
+
+                                </label>
+
+                                <button type="button" class="btn btn-xs" data-toggle="tooltip" data-placement="top"
+                                    title="Seleccione la fecha de inicio de la promoción.">
+
+                                    <i class="fas fa-info-circle"></i>
+
+                                </button>
+
+                                <input type="date" class="form-control" id="inicio_promo" name="inicio_promo" required
+                                    data-parsley-required-message="Este campo es obligatorio.">
+
+                                <div class="invalid-feedback"></div>
+
+                            </div>
+
+
+                            <!-- FECHA FINAL -->
+
+                            <div class="col-md-6 mb-3">
+
+                                <label for="fin_promo" style="font-weight: bold;">
+
+                                    <i class="bi bi-calendar-check"></i>
+                                    Fecha de Fin
+                                </label>
+
+                                <button type="button" class="btn btn-xs" data-toggle="tooltip" data-placement="top"
+                                    title="Seleccione la fecha de finalización de la promoción.">
+
+                                    <i class="fas fa-info-circle"></i>
+
+                                </button>
+
+                                <input type="date" class="form-control" id="fin_promo" name="fin_promo" required
+                                    data-parsley-required-message="Este campo es obligatorio.">
+
+                                <div class="invalid-feedback"></div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- ================= AVISO ================= -->
+
+                    <div class="alert alert-light d-flex align-items-center mb-0" style="font-weight: bold;"
+                        role="alert">
+
+                        <i class="fas fa-exclamation-triangle mr-2"></i>
+
+                        <span>
+                            Todos los campos marcados con (*) son obligatorios
+                        </span>
+
+                    </div>
+
+
+                    <!-- ================= FOOTER ================= -->
+
+                    <div class="modal-footer" style="
+                    position: sticky;
+                    bottom: 0;
+                    background: #fff;
+                    z-index: 10;
+                    box-shadow: 0 -2px 8px rgba(0,0,0,0.1);
+                    ">
+
+                        <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal"
+                            id="btnCerrarModalPromocion">
+
+                            <i class="bx bx-x d-block d-sm-none"></i>
+
+                            Cerrar
+
+                        </button>
+
+
+                        <button type="submit" class="btn btn-primary">
+
+                            <i class="bx bx-check d-block d-sm-none"></i>
+
+                            Guardar
+
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ================= MODAL EDITAR ================= -->
+    <div class="modal fade" id="modalEditarPromocion" tabindex="-1">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title">Editar Promoción</h5>
+
+                    <!-- BOTÓN X -->
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar">
+                    </button>
+                </div>
+
+                <form id="formEditarPromocion" method="post" enctype="multipart/form-data">
+
+                    <input type="hidden" name="actualizar" value="1">
+                    <input type="hidden" name="cod_promo" id="edit_cod_promo">
+
+                    <div class="modal-body">
+                        <label for="nombre_promo" style="font-weight: bold;">
+
+                            <i class="bi bi-tag"></i>
+                            Nombre de la Promoción
+
+
+
+                        </label>
+                        <input class="form-control mb-2" name="nombre_promo" id="edit_nombre_promo">
+                        <label for="descripcion_promo" style="font-weight: bold;">
+
+                            <i class="bi bi-card-text"></i>
+                            Descripción
+
+                        </label>
+                        <textarea class="form-control mb-2" name="descripcion_promo"
+                            id="edit_descripcion_promo"></textarea>
+
+
+
+                        <label for="descuento" style="font-weight: bold;">
+
+                            <i class="bi bi-percent"></i>
+                            Descuento
+
+
+                        </label>
+                        <input type="number" class="form-control mb-2" name="descuento" id="edit_descuento">
+                        <label for="imagen_promo" style="font-weight: bold;">
+
+                            <i class="bi bi-image"></i>
+                            Imagen
+
+                        </label>
+                        <input type="file" class="form-control mb-2" name="imagen_promo" id="edit_imagen_promo">
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="inicio_promo" style="font-weight: bold;">
+
+                                    <i class="bi bi-calendar-event"></i>
+                                    Fecha de Inicio
+
+
+
+                                </label>
+                                <input type="date" class="form-control" name="inicio_promo" id="edit_inicio_promo">
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="fin_promo" style="font-weight: bold;">
+
+                                    <i class="bi bi-calendar-check"></i>
+                                    Fecha de Fin
+                                </label>
+                                <input type="date" class="form-control" name="fin_promo" id="edit_fin_promo">
+                            </div>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label>Estado</label>
+                            <select class="form-select mt-2" name="status" id="edit_status">
+
+                                <option value="1">Activo</option>
+                                <option value="0">Inactivo</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                            Cerrar
+                        </button>
+
+                        <button type="submit" class="btn btn-primary">
+                            Editar
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= MODAL DETALLE ================= -->
+    <div class="modal fade" id="modalVerPromocion" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title">Detalles de la Promoción</h5>
+                </div>
+
+                <div class="modal-body">
+
+                    <h4 id="nombre_promocion"></h4>
+
+                    <h6>Descripción:</h6>
+                    <p id="descripcion_promocion"></p>
+
+                    <img id="imagen_promocion" class="img-fluid mt-2" style="display:none; max-height:300px;">
+                </div>
+
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= MODAL ELIMINAR ================= -->
+    <div class="modal fade" id="modalEliminarPromocion" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title">Eliminar Promoción</h5>
+                </div>
+
+                <form id="formEliminarPromocion" method="post">
+
+                    <input type="hidden" name="eliminar" value="1">
+                    <input type="hidden" name="cod_promo" id="delete_cod_promo">
+
+                    <div class="modal-body">
+                        ¿Desea eliminar esta promoción?
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                        <button type="submit" class="btn btn-danger">Eliminar</button>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- JS -->
+    <script src="{{ url_for('static', filename='assets/js/modulos-js/promocion.js') }}"></script>
+
+</div>

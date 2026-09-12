@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+       <link rel="icon" type="image/png" href="{{ url_for('static', filename='imagenes/logo.png') }}">
+
+    <title> Quienes Somos Estudio De Belleza Guillermina</title>
+
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/stylo22.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap-/css/bootstrap.min.css') }}">
+    <script src="{{ url_for('static', filename='bootstrap-/js/bootstrap.bundle.min.js') }}"></script>
+
+
+</head>
+
+<body>
+
+
+    <!-- ================= NAVBAR MODERNA ================= -->
+
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top menu-principal">
+        <div class="container">
+
+            <!-- LOGO -->
+        <!-- LOGO -->
+            <a class="navbar-brand" href="{{ url_for('inicio') }}">
+                <img src="{{ url_for('static', filename='imagenes/logo.png') }}" class="logo" alt="Estudio MT">
+            </a>
+
+
+
+            <!-- BOTÓN MÓVIL -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menuPrincipal">
+
+                <span class="navbar-toggler-icon"></span>
+
+            </button>
+
+
+            <!-- OPCIONES -->
+            <div class="collapse navbar-collapse" id="menuPrincipal">
+
+                <ul class="navbar-nav ms-auto align-items-center">
+
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('inicio') }}">
+                            Inicio
+                        </a>
+                    </li>
+
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('quienesomos') }}">
+                            Nosotros
+                        </a>
+                    </li>
+
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('servicios') }}">
+                            Servicios
+                        </a>
+                    </li>
+
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('promociones') }}">
+                            Promociones
+                        </a>
+                    </li>
+
+
+                    <li class="nav-item ms-lg-3">
+
+                        <a class="btn-login" href="{{ url_for('acceder') }}">
+
+                            <i class="bi bi-person-circle"></i>
+                            Iniciar sesión
+
+                        </a>
+
+                    </li>
+
+
+                </ul>
+
+            </div>
+
+        </div>
+
+    </nav>
+
+    <!-- ================= HERO QUIENES SOMOS ================= -->
+    <section class="hero-nosotros">
+        <div class="hero-overlay"></div>
+
+        <div class="hero-nosotros-contenido">
+            <span>
+
+                ESTUDIO DE BELLEZA GUILLERMINA
+
+            </span>
+
+            <h1> ¿Quiénes somos? </h1>
+
+            <p>
+
+                Conoce nuestra historia,
+                experiencia y pasión por realzar
+                la belleza de cada persona.
+
+            </p>
+
+        </div>
+    </section>
+
+
+    <!-- ================= HISTORIA DEL ESTUDIO ================= -->
+    <section class="historia-mt">
+        <div class="container">
+
+            <div class="row align-items-center g-5">
+
+                <!-- IMAGEN -->
+                <div class="col-lg-6">
+
+
+                    <div class="historia-imagen">
+
+
+                        <img src="{{ url_for('static',
+                        filename='imagenes/peluquera.jpg') }}" alt="Estudio de Belleza Guillermina">
+                    </div>
+
+                </div>
+                <!-- CONTENIDO -->
+                <div class="col-lg-6">
+                    <div class="historia-contenido">
+                        <span>
+
+                            Nuestra historia
+
+                        </span>
+                        <h2>
+
+                            Un espacio creado
+                            con pasión y dedicación
+
+                        </h2>
+
+                        <p>
+
+                            Estudio de Belleza Guillermina nació como un proyecto
+                            basado en la pasión por la belleza y el cuidado personal.
+                            Desde sus inicios, Maryelis ha trabajado para crear
+                            un lugar donde cada cliente pueda sentirse especial.
+                        </p>
+
+                        <p>
+                            Más que un salón de belleza, somos un espacio donde
+                            la confianza, la atención personalizada y la calidad
+                            se convierten en una experiencia única.
+                        </p>
+
+                        <p>
+                            Cada servicio está realizado con dedicación,
+                            utilizando técnicas profesionales para resaltar
+                            la belleza natural de nuestros clientes.
+
+                        </p>
+                        <a href="{{ url_for('servicios') }}" class="btn-nosotros">
+
+                            CONOCER SERVICIOS
+
+                        </a>
+                    </div>
+
+
+                </div>
+
+            </div>
+        </div>
+
+
+    </section>
+    <!-- ================= MISION Y VISION ================= -->
+    <section class="mision-vision">
+        <div class="container">
+            <div class="row g-5 align-items-center">
+
+
+                <!-- MISION -->
+                <div class="col-lg-6">
+                    <div class="mv-card">
+
+                        <div class="mv-icon">
+                            <i class="bi bi-bullseye"></i>
+
+                        </div>
+
+                        <h2>
+
+                            Nuestra Misión
+
+                        </h2>
+
+                        <p>
+                            En Estudio de Belleza Guillermina tenemos como misión
+                            brindar un servicio profesional y personalizado,
+                            creando experiencias únicas donde cada cliente
+                            pueda sentirse cómodo, seguro y satisfecho.
+
+                        </p>
+
+                        <p>
+                            Trabajamos con productos de alta calidad,
+                            técnicas modernas y un equipo comprometido
+                            con ofrecer resultados que resalten la belleza
+                            natural de cada persona.
+
+                        </p>
+                    </div>
+                </div>
+
+                <!-- VISION -->
+                <div class="col-lg-6">
+
+                    <div class="mv-card">
+
+
+                        <div class="mv-icon">
+                            <i class="bi bi-eye"></i>
+                        </div>
+                        <h2>
+
+                            Nuestra Visión
+
+                        </h2>
+
+                        <p>
+                            Ser reconocidos como un estudio de belleza
+                            referente por nuestra calidad, innovación y
+                            atención personalizada.
+                        </p>
+
+                        <p>
+                            Aspiramos a seguir creciendo como una marca
+                            que inspire confianza, elegancia y bienestar,
+                            creando relaciones duraderas con nuestros clientes.
+
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- ================= VALORES ================= -->
+
+    <section class="valores-mt">
+        <div class="container">
+
+            <div class="titulo-seccion">
+
+                <span>
+
+                    Nuestros principios
+
+                </span>
+
+                <h2>
+
+                    Valores que nos representan
+
+                </h2>
+
+            </div>
+
+            <div class="row g-4">
+
+                <!-- VALOR 1 -->
+
+                <div class="col-lg-4 col-md-6">
+                    <div class="valor-card">
+
+                        <div class="valor-icon">
+                            <i class="bi bi-heart-fill"></i>
+                        </div>
+                        <h3>
+
+                            Pasión
+
+                        </h3>
+
+                        <p>
+                            Amamos lo que hacemos y trabajamos
+                            cada día para ofrecer resultados
+                            excepcionales.
+                        </p>
+                    </div>
+
+                </div>
+                <!-- VALOR 2 -->
+                <div class="col-lg-4 col-md-6">
+
+                    <div class="valor-card">
+                        <div class="valor-icon">
+
+
+                            <i class="bi bi-star-fill"></i>
+
+                        </div>
+
+                        <h3>
+
+                            Calidad
+
+                        </h3>
+                        <p>
+                            Utilizamos técnicas profesionales y
+                            productos seleccionados para garantizar
+                            el mejor servicio.
+
+                        </p>
+
+                    </div>
+                </div>
+                <!-- VALOR 3 -->
+                <div class="col-lg-4 col-md-6">
+
+                    <div class="valor-card">
+
+                        <div class="valor-icon">
+
+                            <i class="bi bi-people-fill"></i>
+
+                        </div>
+                        <h3>
+
+                            Confianza
+
+                        </h3>
+                        <p>
+
+                            Creamos un ambiente donde cada cliente
+                            recibe atención personalizada y cercana.
+
+
+                        </p>
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+    </section>
+    <!-- ================= TESTIMONIOS ================= -->
+
+
+    <section class="testimonios-mt">
+
+        <div class="container">
+
+            <div class="titulo-seccion">
+
+                <span>
+
+                    Opiniones
+
+                </span>
+
+                <h2>
+
+                    Lo que dicen nuestros clientes
+
+                </h2>
+            </div>
+            <div class="row g-4">
+
+                <!-- TESTIMONIO 1 -->
+
+
+                <div class="col-lg-4">
+
+
+                    <div class="testimonial-card">
+
+
+
+                        <div class="testimonial-icon">
+
+
+                            <i class="bi bi-chat-quote-fill"></i>
+
+
+                        </div>
+
+                        <p>
+
+                            "El Estudio de Belleza Guillermina ha cambiado
+                            mi forma de verme. Cada visita es una
+                            experiencia increíble, la atención y el
+                            resultado siempre superan mis expectativas."
+
+                        </p>
+
+                        <h4>
+
+                            Susana Smith
+
+                        </h4>
+                        <span>
+
+                            Cliente
+
+                        </span>
+
+                    </div>
+
+                </div>
+
+                <!-- TESTIMONIO 2 -->
+                <div class="col-lg-4">
+                    <div class="testimonial-card">
+
+                        <div class="testimonial-icon">
+
+                            <i class="bi bi-chat-quote-fill"></i>
+
+                        </div>
+                        <p>
+
+                            "La atención es excelente y el ambiente
+                            es muy agradable. Siempre salgo feliz
+                            con los resultados. Recomiendo totalmente
+                            Estudio de Belleza Guillermina."
+
+                        </p>
+                        <h4>
+
+                            Emma Juarez
+
+                        </h4>
+
+                        <span>
+
+                            Cliente
+
+                        </span>
+                    </div>
+                </div>
+                <!-- TESTIMONIO 3 -->
+
+
+                <div class="col-lg-4">
+
+                    <div class="testimonial-card">
+                        <div class="testimonial-icon">
+                            <i class="bi bi-chat-quote-fill"></i>
+                        </div>
+                        <p>
+                            "Guillermina tiene una gran dedicación
+                            y profesionalismo. Cada tratamiento
+                            es realizado con mucho cuidado y calidad."
+                        </p>
+
+                        <h4>
+
+                            Olivia López
+
+                        </h4>
+
+                        <span>
+
+                            Cliente
+
+                        </span>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= WHATSAPP FLOTANTE ================= -->
+
+    <a href="https://wa.me/584289236" target="_blank" class="whatsapp-flotante">
+
+        <i class="bi bi-whatsapp"></i>
+
+    </a>
+    <!-- ================= FOOTER MODERNO ================= -->
+
+
+    <footer class="footer-mt">
+
+
+        <div class="container">
+
+
+            <div class="row gy-5">
+
+                <!-- LOGO Y DESCRIPCIÓN -->
+
+                <div class="col-lg-4 col-md-6">
+
+
+                    <div class="footer-logo">
+
+
+                        <img src="{{ url_for('static',
+                    filename='imagenes/logo.png') }}" alt="Estudio Guillermina">
+
+
+                    </div>
+
+                    <p class="footer-text">
+
+                        Estudio de Belleza Guillermina, un espacio dedicado
+                        a resaltar tu belleza con servicios profesionales,
+                        calidad y atención personalizada.
+
+                    </p>
+
+                    <div class="copyright">
+
+                        © 2026 Estudio de Belleza Guillermina.
+                        Todos los derechos reservados.
+
+                    </div>
+                </div>
+                <!-- INFORMACIÓN -->
+
+                <div class="col-lg-3 col-md-6">
+
+                    <h4>
+                        Información
+                    </h4>
+
+                    <ul class="footer-links">
+
+
+                        <li>
+                            <a href="{{ url_for('inicio') }}">
+                                Inicio
+                            </a>
+                        </li>
+
+
+
+                        <li>
+                            <a href="{{ url_for('quienesomos') }}">
+                                Quiénes somos
+                            </a>
+                        </li>
+
+
+
+                        <li>
+                            <a href="{{ url_for('servicios') }}">
+                                Servicios
+                            </a>
+                        </li>
+
+
+
+                        <li>
+                            <a href="{{ url_for('promociones') }}">
+                                Promociones
+                            </a>
+                        </li>
+
+
+                    </ul>
+
+
+
+                </div>
+                <!-- HORARIOS -->
+
+
+                <div class="col-lg-2 col-md-6">
+
+
+                    <h4>
+                        Horarios
+                    </h4>
+
+                    <ul class="footer-info">
+
+
+                        <li>
+                            <i class="bi bi-calendar"></i>
+
+                            Lunes a Domingo
+
+                        </li>
+
+                        <li>
+                            <i class="bi bi-clock"></i>
+
+                            6:00 AM - 8:00 PM
+
+                        </li>
+
+                    </ul>
+
+
+                </div>
+
+
+                <!-- CONTACTO -->
+
+                <div class="col-lg-3 col-md-6">
+
+
+                    <h4>
+                        Contáctanos
+                    </h4>
+
+                    <ul class="footer-info">
+
+
+                        <li>
+
+                            <i class="bi bi-telephone"></i>
+
+                            +58 489339373
+
+                        </li>
+
+                        <li>
+
+                            <i class="bi bi-envelope"></i>
+
+                          Guillermina@gmail.com
+
+                        </li>
+
+                        <li>
+
+                            <i class="bi bi-geo-alt"></i>
+
+                            Estudio de Belleza Guillermina
+
+                        </li>
+
+
+                    </ul>
+
+
+                    <div class="redes-sociales">
+
+
+                        <a href="https://wa.me/584289236" target="_blank">
+
+                            <i class="bi bi-whatsapp"></i>
+
+                        </a>
+
+
+                        <a href="https://www.instagram.com/tu_usuario" target="_blank">
+
+                            <i class="bi bi-instagram"></i>
+
+                        </a>
+
+
+                    </div>
+
+
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+    </footer>
+
+    <!-- ================= SCRIPTS ================= -->
+
+    <script>
+
+
+        // Animación al aparecer elementos
+
+        const elementos =
+            document.querySelectorAll(".card-servicio, .experiencia-box");
+
+
+
+        const mostrarElementos = () => {
+
+
+            elementos.forEach(elemento => {
+
+
+                const posicion =
+                    elemento.getBoundingClientRect().top;
+
+
+
+                if (posicion < window.innerHeight - 80) {
+
+                    elemento.classList.add("mostrar");
+
+                }
+
+
+            });
+
+
+        };
+
+
+
+        window.addEventListener(
+            "scroll",
+            mostrarElementos
+        );
+
+
+
+        mostrarElementos();
+
+
+
+    </script>
+
+
+    <!-- Iconos Bootstrap -->
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+
+
+
+
+</body>
+
+</html>

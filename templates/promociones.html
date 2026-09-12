@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+       <link rel="icon" type="image/png" href="{{ url_for('static', filename='imagenes/logo.png') }}">
+
+    <title>Promociones Estudio de Belleza Guillermina</title>
+
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/stylo44.css') }}">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap-/css/bootstrap.min.css') }}">
+    <script src="{{ url_for('static', filename='bootstrap-/js/bootstrap.bundle.min.js') }}"></script>
+
+</head>
+
+<body>
+
+
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top menu-principal">
+        <div class="container">
+
+            <!-- LOGO -->
+         <!-- LOGO -->
+            <a class="navbar-brand" href="{{ url_for('inicio') }}">
+                <img src="{{ url_for('static', filename='imagenes/logo.png') }}" class="logo" alt="Estudio MT">
+            </a>
+
+
+
+            <!-- BOTÓN MÓVIL -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menuPrincipal">
+
+                <span class="navbar-toggler-icon"></span>
+
+            </button>
+
+
+            <!-- OPCIONES -->
+            <div class="collapse navbar-collapse" id="menuPrincipal">
+
+                <ul class="navbar-nav ms-auto align-items-center">
+
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('inicio') }}">
+                            Inicio
+                        </a>
+                    </li>
+
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('quienesomos') }}">
+                            Nosotros
+                        </a>
+                    </li>
+
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('servicios') }}">
+                            Servicios
+                        </a>
+                    </li>
+
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('promociones') }}">
+                            Promociones
+                        </a>
+                    </li>
+
+
+                    <li class="nav-item ms-lg-3">
+
+                        <a class="btn-login" href="{{ url_for('acceder') }}">
+
+                            <i class="bi bi-person-circle"></i>
+                            Iniciar sesión
+
+                        </a>
+
+                    </li>
+
+
+                </ul>
+
+            </div>
+
+        </div>
+
+    </nav>
+
+    <!-- HERO PROMOCIONES -->
+    <section class="hero-promociones">
+
+        <div class="hero-overlay"></div>
+
+        <div class="hero-promociones-contenido">
+
+            <span>Estudio de Belleza Guillermina</span>
+
+            <h1>Promociones Especiales</h1>
+
+            <p>
+                Renueva tu imagen con nuestras promociones exclusivas
+                diseñadas para resaltar tu belleza y estilo.
+            </p>
+
+            <div class="hero-botones">
+
+                <a href="{{ url_for('admin_index') }}" class="btn-dorado">
+                    Reservar cita
+                </a>
+
+                <a href="{{ url_for('servicios') }}" class="btn-negro">
+                    Ver servicios
+                </a>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- INTRO PROMOCIONES -->
+    <section class="intro-promociones">
+
+        <div class="container">
+
+            <div class="row align-items-center">
+
+                <div class="col-lg-6">
+
+                    <div class="intro-promo-imagen">
+
+                        <img src="{{ url_for('static', filename='imagenes/estudio1.jpg') }}" alt="Estudio de belleza">
+
+                    </div>
+
+                </div>
+
+                <div class="col-lg-6">
+
+                    <div class="intro-promo-texto">
+
+                        <span>
+                            Ofertas exclusivas
+                        </span>
+
+                        <h2>
+                            Dale un nuevo estilo a tu belleza
+                        </h2>
+
+                        <p>
+                            En Estudio de Belleza Guillermina creamos promociones
+                            especiales para que disfrutes servicios de calidad
+                            con beneficios únicos.
+                        </p>
+
+                        <p>
+                            Aprovecha nuestras ofertas en cabello, uñas,
+                            tratamientos y combos diseñados para ti.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- PROMOCIONES DESTACADAS -->
+    <section class="promociones-destacadas">
+
+        <div class="container">
+
+            <div class="titulo-seccion">
+
+                <span>Ofertas del mes</span>
+
+                <h2>Promociones destacadas</h2>
+
+            </div>
+            <div class="grid-promociones">
+
+                <article class="promo-card-premium">
+
+                    <div class="promo-imagen">
+
+                        <img src="{{ url_for('static', filename='imagenes/cortes.jpg') }}" alt="Corte y peinado">
+
+                        <span class="descuento">
+                            30% OFF
+                        </span>
+
+                    </div>
+
+                    <div class="promo-contenido">
+
+                        <h3>
+                            Corte + Peinado Premium
+                        </h3>
+
+                        <p>
+                            Renueva tu estilo con un corte moderno acompañado
+                            de un peinado profesional.
+                        </p>
+
+                        <div class="precios">
+
+                            <span class="precio-anterior">
+                                $20
+                            </span>
+
+                            <span class="precio-nuevo">
+                                $14
+                            </span>
+
+                        </div>
+
+                        <p class="fecha-promo">
+                            Disponible todo el mes
+                        </p>
+
+                        <a href="{{ url_for('admin_index') }}" class="btn-promo">
+                            Reservar ahora
+                        </a>
+
+                    </div>
+
+                </article>
+
+
+
+                <article class="promo-card-premium">
+
+                    <div class="promo-imagen">
+
+                        <img src="{{ url_for('static', filename='imagenes/francesa.jpg') }}" alt="Manicura">
+
+                        <span class="descuento">
+                            2X1
+                        </span>
+
+                    </div>
+
+                    <div class="promo-contenido">
+
+                        <h3>
+                            Diseño de uñas para amigas
+                        </h3>
+
+                        <p>
+                            Comparte un momento especial y disfruta diseños
+                            personalizados para ambas.
+                        </p>
+
+                        <div class="precios">
+
+                            <span class="precio-anterior">
+                                $20
+                            </span>
+
+                            <span class="precio-nuevo">
+                                $10
+                            </span>
+
+                        </div>
+
+                        <p class="fecha-promo">
+                            Oferta especial semanal
+                        </p>
+
+                        <a href="{{ url_for('admin_index') }}" class="btn-promo">
+                            Reservar ahora
+                        </a>
+
+                    </div>
+
+                </article>
+
+
+
+                <article class="promo-card-premium">
+
+                    <div class="promo-imagen">
+
+                        <img src="{{ url_for('static', filename='imagenes/tratamientos.jpg') }}" alt="Tratamiento">
+
+                        <span class="descuento">
+                            OFERTA
+                        </span>
+
+                    </div>
+
+                    <div class="promo-contenido">
+
+                        <h3>
+                            Coloración + Hidratación
+                        </h3>
+
+                        <p>
+                            Dale vida a tu cabello con color profesional
+                            y tratamiento hidratante.
+                        </p>
+
+                        <div class="precios">
+
+                            <span class="precio-anterior">
+                                $60
+                            </span>
+
+                            <span class="precio-nuevo">
+                                $45
+                            </span>
+
+                        </div>
+
+                        <p class="fecha-promo">
+                            Cupos disponibles
+                        </p>
+
+                        <a href="{{ url_for('admin_index') }}" class="btn-promo">
+                            Reservar ahora
+                        </a>
+
+                    </div>
+
+                </article>
+
+
+
+                <article class="promo-card-premium">
+
+                    <div class="promo-imagen">
+
+                        <img src="{{ url_for('static', filename='imagenes/polygel.jpeg') }}" alt="Uñas">
+
+                        <span class="descuento">
+                            ESPECIAL
+                        </span>
+
+                    </div>
+
+                    <div class="promo-contenido">
+
+                        <h3>
+                            Manicure Profesional
+                        </h3>
+
+                        <p>
+                            Diseños elegantes y personalizados para lucir
+                            unas manos increíbles.
+                        </p>
+
+                        <div class="precios">
+
+                            <span class="precio-anterior">
+                                $25
+                            </span>
+
+                            <span class="precio-nuevo">
+                                $18
+                            </span>
+
+                        </div>
+
+                        <p class="fecha-promo">
+                            Promoción limitada
+                        </p>
+
+                        <a href="{{ url_for('admin_index') }}" class="btn-promo">
+                            Reservar ahora
+                        </a>
+
+                    </div>
+
+                </article>
+
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- BENEFICIOS -->
+
+    <section class="beneficios-promociones">
+
+        <div class="container">
+
+            <div class="titulo-seccion">
+
+                <span>
+                    ¿Por qué elegirnos?
+                </span>
+
+                <h2>
+                    Una experiencia diferente
+                </h2>
+
+            </div>
+
+
+            <div class="grid-beneficios">
+
+
+                <div class="beneficio-card">
+
+                    <i class="bi bi-award"></i>
+
+                    <h3>
+                        Especialistas certificados
+                    </h3>
+
+                    <p>
+                        Profesionales preparados para ofrecer resultados
+                        de calidad y confianza.
+                    </p>
+
+                </div>
+
+
+
+                <div class="beneficio-card">
+
+                    <i class="bi bi-heart"></i>
+
+                    <h3>
+                        Atención personalizada
+                    </h3>
+
+                    <p>
+                        Cada cliente recibe un servicio adaptado
+                        a su estilo y personalidad.
+                    </p>
+
+                </div>
+
+
+
+                <div class="beneficio-card">
+
+                    <i class="bi bi-gift"></i>
+
+                    <h3>
+                        Promociones semanales
+                    </h3>
+
+                    <p>
+                        Disfruta ofertas especiales creadas para
+                        premiar tu fidelidad.
+                    </p>
+
+                </div>
+
+
+
+                <div class="beneficio-card">
+
+                    <i class="bi bi-star"></i>
+
+                    <h3>
+                        Experiencia y calidad
+                    </h3>
+
+                    <p>
+                        Más de 27 años brindando belleza,
+                        confianza y satisfacción.
+                    </p>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+    </section>
+    <!-- ================= BANNER MOTIVACIONAL ================= -->
+
+    <section class="banner-promocional">
+
+        <div class="banner-overlay"></div>
+
+        <div class="banner-contenido">
+
+            <span>ESTILO & ELEGANCIA</span>
+
+            <h2>
+                Tu belleza merece una experiencia única
+            </h2>
+
+            <p>
+                Déjate consentir por nuestros especialistas
+                y disfruta servicios diseñados para resaltar
+                tu mejor versión.
+            </p>
+
+            <a href="{{ url_for('admin_index') }}" class="btn-dorado">
+                Reservar cita
+            </a>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= CTA FINAL ================= -->
+
+    <section class="cta-final">
+
+        <div class="cta-imagen"></div>
+
+        <div class="cta-contenido">
+
+            <h2>
+                Agenda tu próxima transformación
+            </h2>
+
+            <p>
+                En Estudio de Belleza MT estamos preparados
+                para brindarte una atención personalizada,
+                elegante y profesional.
+            </p>
+
+
+            <a href="{{ url_for('admin_index') }}" class="btn-reserva-final">
+                Reservar ahora
+            </a>
+
+        </div>
+
+    </section>
+
+    <!-- ================= WHATSAPP FLOTANTE ================= -->
+
+    <a href="https://wa.me/584289236" target="_blank" class="whatsapp-flotante">
+
+        <i class="bi bi-whatsapp"></i>
+
+    </a>
+    <!-- ================= FOOTER MODERNO ================= -->
+
+
+    <footer class="footer-mt">
+
+
+        <div class="container">
+
+
+            <div class="row gy-5">
+
+                <!-- LOGO Y DESCRIPCIÓN -->
+
+                <div class="col-lg-4 col-md-6">
+
+
+                    <div class="footer-logo">
+
+
+                        <img src="{{ url_for('static',
+                    filename='imagenes/logo.png') }}" alt="Estudio Guillermina">
+
+
+                    </div>
+
+                    <p class="footer-text">
+
+                        Estudio de Belleza Guillermina, un espacio dedicado
+                        a resaltar tu belleza con servicios profesionales,
+                        calidad y atención personalizada.
+
+                    </p>
+
+                    <div class="copyright">
+
+                        © 2026 Estudio de Belleza Guillermina.
+                        Todos los derechos reservados.
+
+                    </div>
+                </div>
+                <!-- INFORMACIÓN -->
+
+                <div class="col-lg-3 col-md-6">
+
+                    <h4>
+                        Información
+                    </h4>
+
+                    <ul class="footer-links">
+
+
+                        <li>
+                            <a href="{{ url_for('inicio') }}">
+                                Inicio
+                            </a>
+                        </li>
+
+
+
+                        <li>
+                            <a href="{{ url_for('quienesomos') }}">
+                                Quiénes somos
+                            </a>
+                        </li>
+
+
+
+                        <li>
+                            <a href="{{ url_for('servicios') }}">
+                                Servicios
+                            </a>
+                        </li>
+
+
+
+                        <li>
+                            <a href="{{ url_for('promociones') }}">
+                                Promociones
+                            </a>
+                        </li>
+
+
+                    </ul>
+
+
+
+                </div>
+                <!-- HORARIOS -->
+
+
+                <div class="col-lg-2 col-md-6">
+
+
+                    <h4>
+                        Horarios
+                    </h4>
+
+                    <ul class="footer-info">
+
+
+                        <li>
+                            <i class="bi bi-calendar"></i>
+
+                            Lunes a Domingo
+
+                        </li>
+
+                        <li>
+                            <i class="bi bi-clock"></i>
+
+                            6:00 AM - 8:00 PM
+
+                        </li>
+
+                    </ul>
+
+
+                </div>
+
+
+                <!-- CONTACTO -->
+
+                <div class="col-lg-3 col-md-6">
+
+
+                    <h4>
+                        Contáctanos
+                    </h4>
+
+                    <ul class="footer-info">
+
+
+                        <li>
+
+                            <i class="bi bi-telephone"></i>
+
+                            +58 489339373
+
+                        </li>
+
+                        <li>
+
+                            <i class="bi bi-envelope"></i>
+
+                            Guillermina@gmail.com
+
+                        </li>
+
+                        <li>
+
+                            <i class="bi bi-geo-alt"></i>
+
+                            Estudio de Belleza Guillermina
+
+                        </li>
+
+
+                    </ul>
+
+
+                    <div class="redes-sociales">
+
+
+                        <a href="https://wa.me/584289236" target="_blank">
+
+                            <i class="bi bi-whatsapp"></i>
+
+                        </a>
+
+
+                        <a href="https://www.instagram.com/tu_usuario" target="_blank">
+
+                            <i class="bi bi-instagram"></i>
+
+                        </a>
+
+
+                    </div>
+
+
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+    </footer>
+
+    <!-- ================= SCRIPTS ================= -->
+
+    <script>
+
+
+        // Animación al aparecer elementos
+
+        const elementos =
+            document.querySelectorAll(".card-servicio, .experiencia-box");
+
+
+
+        const mostrarElementos = () => {
+
+
+            elementos.forEach(elemento => {
+
+
+                const posicion =
+                    elemento.getBoundingClientRect().top;
+
+
+
+                if (posicion < window.innerHeight - 80) {
+
+                    elemento.classList.add("mostrar");
+
+                }
+
+
+            });
+
+
+        };
+
+
+
+        window.addEventListener(
+            "scroll",
+            mostrarElementos
+        );
+
+
+
+        mostrarElementos();
+
+
+
+    </script>
+
+
+    <!-- Iconos Bootstrap -->
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+
+</body>
+
+</html>

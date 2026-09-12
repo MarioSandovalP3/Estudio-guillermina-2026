@@ -1,0 +1,23 @@
+<div class="d-flex align-items-center justify-content-center min-vh-100 bg-light bg-gradient">
+    <div class="text-center bg-white p-5 rounded-4 shadow-lg mx-3 contenedor-error">
+        <!-- Ícono grande -->
+        <i id="errorIcon" class="bi bi-exclamation-triangle-fill text-danger mb-5 d-block"
+            style="font-size: clamp(120px, 22vw, 300px); transition: transform 0.4s ease, filter 0.4s ease;"></i>
+
+        <!-- Titular grande -->
+        <h1 class="display-1 fw-bold text-danger mb-3" style="font-size: clamp(3rem, 7vw, 6rem); letter-spacing: 1px;">
+            Error 404</h1>
+
+        <!-- Texto explicativo grande -->
+        <p class="fs-2 text-secondary mb-1" style="font-size: clamp(1rem, 2.5vw, 2rem);">
+            La página que buscas <strong>no existe</strong>
+
+            <br>
+            <br>
+            <br>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/headerysidebar.css') }}">

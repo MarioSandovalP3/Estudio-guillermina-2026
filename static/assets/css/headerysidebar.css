@@ -1,0 +1,171 @@
+
+      #contenedorAlertaCancelacion,
+      #contenedorCancelacionesHoy {
+        position: fixed;
+        top: 85px;
+        right: 25px;
+        z-index: 99999;
+      }
+
+      #contenedorCancelacionesHoy {
+        top: 190px;
+      }
+
+      .alerta-cancelacion-reserva {
+        width: 390px;
+        max-width: calc(100vw - 30px);
+        background: #fff;
+        border-left: 5px solid #dc3545;
+        border-radius: 10px;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, .18);
+        padding: 16px;
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        opacity: 0;
+        transform: translateX(120%);
+        transition: all .4s ease;
+      }
+
+      .alerta-cancelacion-reserva.mostrar-alerta-cancelacion {
+        opacity: 1;
+        transform: translateX(0);
+      }
+
+      .alerta-cancelacion-reserva.ocultar-alerta-cancelacion {
+        opacity: 0;
+        transform: translateX(120%);
+      }
+
+      .alerta-cancelacion-icono,
+      .cancelaciones-hoy-icono {
+        width: 45px;
+        height: 45px;
+        min-width: 45px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #f8d7da;
+        color: #dc3545;
+        font-size: 21px;
+      }
+
+      .alerta-cancelacion-contenido,
+      .cancelaciones-hoy-contenido {
+        flex: 1;
+      }
+
+      .alerta-cancelacion-contenido strong,
+      .cancelaciones-hoy-contenido strong {
+        display: block;
+        font-size: 15px;
+        margin-bottom: 4px;
+      }
+
+      .alerta-cancelacion-contenido span,
+      .cancelaciones-hoy-contenido span {
+        display: block;
+        color: #6c757d;
+        font-size: 13px;
+        line-height: 1.5;
+      }
+
+      .alerta-cancelaciones-hoy {
+        width: 390px;
+        max-width: calc(100vw - 30px);
+        background: #fff;
+        border-left: 5px solid #6f42c1;
+        border-radius: 10px;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, .18);
+        padding: 16px;
+        display: flex;
+        align-items: center;
+        gap: 14px;
+      }
+
+      .alerta-cancelaciones-hoy .cancelaciones-hoy-icono {
+        background: #e2d9f3;
+        color: #6f42c1;
+      }
+
+      .btn-eliminar-cancelaciones-hoy {
+        border: 0;
+        background: transparent;
+        color: #dc3545;
+        font-size: 18px;
+        cursor: pointer;
+        padding: 5px;
+      }
+
+      .btn-eliminar-cancelaciones-hoy:hover {
+        color: #a71d2a;
+      }
+
+
+
+
+
+
+
+    /* Contenedor principal más grande */
+    .contenedor-error {
+        max-width: 1300px;
+        width: 97%;
+        overflow: hidden;
+        border: 1px solid rgba(220, 53, 69, 0.15);
+    }
+
+    /* Animación del ícono */
+    #errorIcon:hover {
+        transform: scale(1.1) rotate(-5deg);
+        filter: drop-shadow(0 10px 30px rgba(220, 53, 69, 0.6));
+    }
+
+    /* Fondo degradado */
+    body {
+        background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
+    }
+
+    /* Botón elegante */
+    .btn-danger {
+        background: linear-gradient(90deg, #dc3545, #b02a37);
+        border: none;
+        transition: all 0.3s ease;
+    }
+
+    .btn-danger:hover {
+        transform: scale(1.05);
+        box-shadow: 0 10px 25px rgba(220, 53, 69, 0.4);
+    }
+
+    /* Sombras suaves */
+    .shadow-lg {
+        box-shadow: 0 15px 50px rgba(0, 0, 0, 0.2) !important;
+    }
+
+    /* Ajustes responsivos */
+    @media (max-width: 992px) {
+        .p-5 {
+            padding: 2rem !important;
+        }
+    }
+
+    @media (max-width: 576px) {
+        #errorIcon {
+            font-size: clamp(100px, 30vw, 180px) !important;
+        }
+        .display-1 {
+            font-size: clamp(2.5rem, 8vw, 3.5rem) !important;
+        }
+        .fs-2 {
+            font-size: clamp(1rem, 5vw, 1.4rem) !important;
+        }
+        .btn {
+            font-size: clamp(0.9rem, 4vw, 1rem) !important;
+            padding: 10px 25px !important;
+        }
+    }

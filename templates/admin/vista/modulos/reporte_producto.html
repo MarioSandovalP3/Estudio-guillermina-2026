@@ -1,0 +1,245 @@
+<div id="main">
+    <div class="page-heading">
+        <div class="page-title">
+            <div class="row">
+                <div class="col-12 col-md-6 order-md-1 order-last">
+                    <h3>Reporte de Productos</h3>
+                    <p class="text-muted">Inventario detallado con valoración, existencias y control de vencimientos.</p>
+                </div>
+                <div class="col-12 col-md-6 order-md-2 text-md-end mt-3 mt-md-0">
+
+                    {% if registro and registro|length > 0 %}
+
+                    <a href="{{ url_for('admin_index', ruta='reporte_producto_estadistico') }}"
+                        class="btn btn-outline-primary btn-sm">
+                        <i class="fas fa-chart-line"></i> Ir a estadísticas
+                    </a>
+
+                    {% else %}
+
+                    <button type="button" class="btn btn-outline-primary btn-sm" disabled>
+                        <i class="fas fa-chart-line"></i> Ir a estadísticas
+                    </button>
+
+                    {% endif %}
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="section">
+        <div class="card">
+            <div
+                class="card-header d-flex flex-column flex-md-row justify-content-between gap-2 align-items-start align-items-md-center">
+                <div class="d-flex gap-2 flex-wrap align-items-center">
+                    <form id="formPDF" action="/admin?ruta=reporte_producto" method="post" target="_blank"
+                        class="d-flex gap-2 align-items-center">
+                        <input type="hidden" name="pdf" value="1">
+                        <input type="hidden" name="cod_categoria" id="pdf_cod_categoria"
+                            value="{{ filtros.cod_categoria }}">
+                        <input type="hidden" name="cod_marca" id="pdf_cod_marca" value="{{ filtros.cod_marca }}">
+                        <input type="hidden" name="status" id="pdf_status" value="{{ filtros.status }}">
+                        <input type="hidden" name="vencimiento" id="pdf_vencimiento" value="{{ filtros.vencimiento }}">
+                        <input type="hidden" name="stock" id="pdf_stock" value="{{ filtros.stock }}">
+                        <button type="submit" class="btn btn-danger btn-sm"><i class="bi bi-file-earmark-pdf"></i>
+                            Generar PDF</button>
+                    </form>
+                    <form id="formExcel" action="/admin?ruta=reporte_producto" method="post"
+                        class="d-flex gap-2 align-items-center">
+                        <input type="hidden" name="excel" value="1">
+                        <input type="hidden" name="cod_categoria" id="excel_cod_categoria"
+                            value="{{ filtros.cod_categoria }}">
+                        <input type="hidden" name="cod_marca" id="excel_cod_marca" value="{{ filtros.cod_marca }}">
+                        <input type="hidden" name="status" id="excel_status" value="{{ filtros.status }}">
+                        <input type="hidden" name="vencimiento" id="excel_vencimiento" value="{{ filtros.vencimiento }}">
+                        <input type="hidden" name="stock" id="excel_stock" value="{{ filtros.stock }}">
+                        <button type="submit" class="btn btn-success btn-sm"><i class="bi bi-file-earmark-excel"></i>
+                            Generar Excel</button>
+                    </form>
+                </div>
+                <button id="btnLimpiar" type="button" class="btn btn-secondary btn-sm">Limpiar filtros</button>
+            </div>
+
+            <div class="card-body">
+                <form id="formFiltros" method="get" action="{{ url_for('admin_index', ruta='reporte_producto') }}"
+                    class="row g-3 mb-4">
+                    <input type="hidden" name="ruta" value="reporte_producto">
+                    <div class="col-12 col-md-2">
+                        <label for="cod_categoria" class="form-label">Categoría</label>
+                        <select id="cod_categoria" name="cod_categoria" class="form-select form-select-sm">
+                            <option value="0" {% if filtros.cod_categoria==0 %}selected{% endif %}>Todas</option>
+                            {% for categoria in categorias %}
+                            <option value="{{ categoria.cod_categoria }}" {% if
+                                categoria.cod_categoria==filtros.cod_categoria %}selected{% endif %}>{{
+                                categoria.nombre_categoria }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-12 col-md-2">
+                        <label for="cod_marca" class="form-label">Marca</label>
+                        <select id="cod_marca" name="cod_marca" class="form-select form-select-sm">
+                            <option value="0" {% if filtros.cod_marca==0 %}selected{% endif %}>Todas</option>
+                            {% for marca in marcas %}
+                            <option value="{{ marca.cod_marca }}" {% if marca.cod_marca==filtros.cod_marca %}selected{%
+                                endif %}>{{ marca.nombre_marca }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-12 col-md-2">
+                        <label for="status" class="form-label">Estado</label>
+                        <select id="status" name="status" class="form-select form-select-sm">
+                            <option value="all" {% if filtros.status=='all' %}selected{% endif %}>Todos</option>
+                            <option value="active" {% if filtros.status=='active' %}selected{% endif %}>Activos</option>
+                            <option value="inactive" {% if filtros.status=='inactive' %}selected{% endif %}>Inactivos
+                            </option>
+                        </select>
+                    </div>
+                    <div class="col-12 col-md-2">
+                        <label for="vencimiento" class="form-label">Vencimiento</label>
+                        <select id="vencimiento" name="vencimiento" class="form-select form-select-sm">
+                            <option value="all" {% if filtros.vencimiento=='all' %}selected{% endif %}>Todas las fechas</option>
+                            <option value="expired" {% if filtros.vencimiento=='expired' %}selected{% endif %}>Vencidos</option>
+                            <option value="next_30" {% if filtros.vencimiento=='next_30' %}selected{% endif %}>Próximos 30 días</option>
+                            <option value="after_30" {% if filtros.vencimiento=='after_30' %}selected{% endif %}>Después de 30 días</option>
+                            <option value="without_date" {% if filtros.vencimiento=='without_date' %}selected{% endif %}>Sin fecha</option>
+                        </select>
+                    </div>
+                    <div class="col-12 col-md-2">
+                        <label for="stock" class="form-label">Cantidad de stock</label>
+                        <select id="stock" name="stock" class="form-select form-select-sm">
+                            <option value="all" {% if filtros.stock=='all' %}selected{% endif %}>Todas las cantidades</option>
+                            <option value="empty" {% if filtros.stock=='empty' %}selected{% endif %}>Agotado (0)</option>
+                            <option value="low" {% if filtros.stock=='low' %}selected{% endif %}>Bajo (1 a 5)</option>
+                            <option value="available" {% if filtros.stock=='available' %}selected{% endif %}>Disponible (más de 5)</option>
+                        </select>
+                    </div>
+                    <div class="col-12 col-md-2 d-flex align-items-end gap-2">
+                        <button type="submit" class="btn btn-primary btn-sm">Filtrar</button>
+                    </div>
+                </form>
+
+                <div class="row gy-3 mb-4">
+                    <div class="col-12 col-md-6 col-xl-3">
+                        <div class="card border-start border-primary border-4 h-100 p-3">
+                            <small class="text-muted">Productos filtrados</small>
+                            <strong class="fs-4">{{ resumen.total_productos or 0 }}</strong>
+                            <span class="small text-muted">{{ resumen.activos or 0 }} activos</span>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 col-xl-3">
+                        <div class="card border-start border-success border-4 h-100 p-3">
+                            <small class="text-muted">Unidades en inventario</small>
+                            <strong class="fs-4">{{ resumen.stock_total or 0 }}</strong>
+                            <span class="small text-muted">Valor: {{ "%.2f"|format(resumen.valor_inventario or 0) }}</span>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 col-xl-3">
+                        <div class="card border-start border-warning border-4 h-100 p-3">
+                            <small class="text-muted">Alertas de stock</small>
+                            <strong class="fs-4">{{ (resumen.agotados or 0) + (resumen.stock_bajo or 0) }}</strong>
+                            <span class="small text-muted">{{ resumen.agotados or 0 }} agotados, {{ resumen.stock_bajo or 0 }} bajos</span>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 col-xl-3">
+                        <div class="card border-start border-danger border-4 h-100 p-3">
+                            <small class="text-muted">Vencen en 30 días</small>
+                            <strong class="fs-4">{{ resumen.vencen_30_dias or 0 }}</strong>
+                            <span class="small text-muted">Precio promedio: {{ "%.2f"|format(resumen.precio_promedio or 0) }}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table-responsive mt-3">
+                    <table class="table table-bordered mb-0" id="table1">
+                        <thead>
+                            <tr>
+                                <th>Código</th>
+                                <th>Producto</th>
+                                <th>Categoría</th>
+                                <th>Marca</th>
+                                <th>Unidad</th>
+                                <th>Presentación</th>
+                                <th>Medida</th>
+                                <th>Tipo</th>
+                                <th class="text-end">Stock</th>
+                                <th class="text-end">Precio</th>
+                                <th class="text-end">Valor inventario</th>
+                                <th>Nivel</th>
+                                <th>Vencimiento</th>
+                                <th class="text-end">Días</th>
+                                <th>Estado</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for producto in registro %}
+                            <tr>
+                                <td>{{ producto.cod_producto }}</td>
+                                <td>{{ producto.nombre_producto }}</td>
+                                <td>{{ producto.nombre_categoria or 'N/A' }}</td>
+                                <td>{{ producto.nombre_marca or 'N/A' }}</td>
+                                <td>{{ producto.nombre_unidad or 'N/A' }}</td>
+                                <td>{{ producto.nombre_presentacion or 'N/A' }}</td>
+                                <td>{{ producto.nombre_medida or 'N/A' }}</td>
+                                <td>{{ producto.nombre_tipo_producto or 'Sin tipo' }}</td>
+                                <td class="text-end">{{ producto.stock }}</td>
+                                <td class="text-end">{{ "%.2f"|format(producto.precio_producto) }}</td>
+                                <td class="text-end">{{ "%.2f"|format(producto.valor_inventario or 0) }}</td>
+                                <td>
+                                    {% if producto.nivel_stock == 'Agotado' %}<span class="badge bg-danger">Agotado</span>
+                                    {% elif producto.nivel_stock == 'Stock bajo' %}<span class="badge bg-warning text-dark">Stock bajo</span>
+                                    {% else %}<span class="badge bg-success">Disponible</span>{% endif %}
+                                </td>
+                                <td>{{ producto.fecha_vencimiento or 'N/A' }}</td>
+                                <td class="text-end">{{ producto.dias_para_vencer if producto.dias_para_vencer is not none else 'N/A' }}</td>
+                                <td>
+                                    {% if producto.status == 1 %}
+                                    <span class="badge bg-success">Activo</span>
+                                    {% else %}
+                                    <span class="badge bg-danger">Inactivo</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                            {% if registro|length == 0 %}
+                            <tr>
+                                <td colspan="15" class="text-center">Sin datos</td>
+                            </tr>
+                            {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<script>
+    const updateHiddenFields = () => {
+        const values = {
+            cod_categoria: document.getElementById('cod_categoria').value,
+            cod_marca: document.getElementById('cod_marca').value,
+            status: document.getElementById('status').value,
+            vencimiento: document.getElementById('vencimiento').value,
+            stock: document.getElementById('stock').value,
+        };
+
+        document.getElementById('pdf_cod_categoria').value = values.cod_categoria;
+        document.getElementById('pdf_cod_marca').value = values.cod_marca;
+        document.getElementById('pdf_status').value = values.status;
+        document.getElementById('pdf_vencimiento').value = values.vencimiento;
+        document.getElementById('pdf_stock').value = values.stock;
+
+        document.getElementById('excel_cod_categoria').value = values.cod_categoria;
+        document.getElementById('excel_cod_marca').value = values.cod_marca;
+        document.getElementById('excel_status').value = values.status;
+        document.getElementById('excel_vencimiento').value = values.vencimiento;
+        document.getElementById('excel_stock').value = values.stock;
+    };
+
+    document.getElementById('formPDF').addEventListener('submit', updateHiddenFields);
+    document.getElementById('formExcel').addEventListener('submit', updateHiddenFields);
+    document.getElementById('btnLimpiar').addEventListener('click', function () {
+        window.location = '{{ url_for("admin_index", ruta="reporte_producto") }}';
+    });
+</script>
