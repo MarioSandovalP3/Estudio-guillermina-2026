@@ -9,10 +9,12 @@ from admin.modelo.notificaciones import NotificacionesModelo
 
 import threading
 import time
+import os
 
 from admin.modelo.inicio import InicioModelo
+from admin.config.config import FLASK_DEBUG, SECRET_KEY, SESSION_COOKIE_SECURE
 app = Flask(__name__)
-app.secret_key = "tu_clave_secreta"
+app.secret_key = SECRET_KEY
 
 # Mantener sesión aunque cierre navegador
 app.config["SESSION_PERMANENT"] = True
@@ -21,6 +23,7 @@ app.config["PERMANENT_SESSION_LIFETIME"] = timedelta(days=1)
 
 app.config["SESSION_COOKIE_HTTPONLY"] = True
 app.config["SESSION_COOKIE_SAMESITE"] = "Lax"
+app.config["SESSION_COOKIE_SECURE"] = SESSION_COOKIE_SECURE
 
 
 # ==============================
@@ -297,4 +300,8 @@ if __name__ == "__main__":
         daemon=True
     ).start()
 
-    app.run(debug=True)
+    app.run(
+        host="0.0.0.0",
+        port=int(os.getenv("PORT", "5000")),
+        debug=FLASK_DEBUG,
+    )

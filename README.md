@@ -102,9 +102,15 @@ Sistema web para la administracion de un estudio de belleza. Permite gestionar c
 
    ```env
    DB_HOST=localhost
+   DB_PORT=3306
    DB_USER=root
    DB_PASS=
    DB_NAME=sac
+   DB_SECURITY_NAME=seguridad
+   DB_SSL_MODE=DISABLED
+   SECRET_KEY=replace-with-a-long-random-secret
+   SESSION_COOKIE_SECURE=0
+   FLASK_DEBUG=0
    ```
 
    Ajusta los valores a tu instalacion. No publiques este archivo si contiene credenciales reales.
@@ -126,6 +132,15 @@ http://127.0.0.1:5000
 ## Configuracion de base de datos
 
 La aplicacion lee `DB_HOST`, `DB_USER`, `DB_PASS` y `DB_NAME` desde `.env`. La base `seguridad` se consulta mediante nombres de tabla calificados, mientras que `DB_NAME` normalmente debe ser `sac`.
+
+## Despliegue en Render
+
+Configura un Web Service conectado al repositorio y usa:
+
+- Build Command: `pip install -r requirements.txt`
+- Start Command: `gunicorn --bind 0.0.0.0:$PORT app:app`
+
+En Environment Variables define `DB_HOST`, `DB_PORT`, `DB_USER`, `DB_PASS`, `DB_NAME=sac`, `DB_SECURITY_NAME=seguridad`, `DB_SSL_MODE=REQUIRED`, `SECRET_KEY`, `SESSION_COOKIE_SECURE=1` y `FLASK_DEBUG=0`. La base de datos debe estar disponible desde Render, por ejemplo en Aiven, y los esquemas `sac` y `seguridad` deben existir en ese mismo servidor.
 
 Los archivos SQL contienen procedimientos, funciones, vistas, triggers, datos iniciales y relaciones entre tablas. Se recomienda importar los dumps en bases nuevas para evitar conflictos con tablas u objetos existentes.
 
