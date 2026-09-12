@@ -79,7 +79,7 @@ Sistema web para la administracion de un estudio de belleza. Permite gestionar c
 
    ```bash
    python -m pip install --upgrade pip
-   pip install Flask mysql-connector-python bcrypt python-dotenv
+   pip install -r requirements.txt
    ```
 
 4. Crea la base de datos y selecciona cada una antes de importar su dump:
